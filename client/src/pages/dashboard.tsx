@@ -74,15 +74,6 @@ export default function Dashboard() {
             </div>
             
             <div className="flex items-center space-x-3">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                className="h-8 w-8 p-0 hidden md:flex"
-              >
-                {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-              </Button>
-              
               <div className="hidden sm:flex items-center space-x-3">
                 <div className="text-right">
                   <div className="text-sm font-semibold text-foreground">
@@ -116,8 +107,16 @@ export default function Dashboard() {
       <main className="flex-1 flex">
         {/* Left Navigation Sidebar - Hidden on mobile */}
         <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block`}>
-          <div className="mb-4">
+          <div className="flex items-center justify-between mb-4">
             {!sidebarCollapsed && <div className="text-xs font-medium text-muted-foreground">Navigation</div>}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="h-8 w-8 p-0 ml-auto"
+            >
+              {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            </Button>
           </div>
           
           <nav className="space-y-1">
