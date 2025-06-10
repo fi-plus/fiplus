@@ -9,16 +9,9 @@ import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
-const SUPPORTED_CURRENCIES = [
-  { code: "USD", name: "US Dollar", flag: "🇺🇸", stablecoin: "USDC" },
-  { code: "EUR", name: "Euro", flag: "🇪🇺", stablecoin: "EURC" },
-  { code: "GBP", name: "British Pound", flag: "🇬🇧", stablecoin: "GBPC" },
-  { code: "INR", name: "Indian Rupee", flag: "🇮🇳", stablecoin: "INRC" },
-  { code: "NGN", name: "Nigerian Naira", flag: "🇳🇬", stablecoin: "NGNC" },
-  { code: "KES", name: "Kenyan Shilling", flag: "🇰🇪", stablecoin: "KESC" },
-];
+import { SUPPORTED_CURRENCIES, getExchangeRate, WALLET_ASSETS } from "@/lib/constants";
 
-const MOCK_BALANCES = {
+const WALLET_BALANCES = {
   USDC: "1,250.00",
   EURC: "890.50", 
   XLM: "100.00"
@@ -161,11 +154,11 @@ export default function Dashboard() {
                     <div className="flex justify-between items-center">
                       <span className="text-green-700 font-medium">Recipient will receive:</span>
                       <span className="text-2xl font-bold text-green-800">
-                        {(parseFloat(sendAmount) * 83.12).toLocaleString()} {toCurrency}
+                        {(parseFloat(sendAmount) * getExchangeRate(fromCurrency, toCurrency)).toLocaleString()} {toCurrency}
                       </span>
                     </div>
                     <div className="text-sm text-green-600 mt-1">
-                      Rate: 1 {fromCurrency} = 83.12 {toCurrency} • Updated now
+                      Rate: 1 {fromCurrency} = {getExchangeRate(fromCurrency, toCurrency)} {toCurrency} • Updated now
                     </div>
                   </div>
                 )}
@@ -211,7 +204,7 @@ export default function Dashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-5">
-                {Object.entries(MOCK_BALANCES).map(([asset, balance]) => (
+                {Object.entries(WALLET_BALANCES).map(([asset, balance]) => (
                   <div key={asset} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-sm">

@@ -9,22 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Star, Send, Clock, DollarSign, Users, CheckCircle2, MessageSquare, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const CURRENCIES = [
-  { code: 'USD', name: 'US Dollar', flag: '🇺🇸', stablecoin: 'USDC' },
-  { code: 'EUR', name: 'Euro', flag: '🇪🇺', stablecoin: 'EURC' },
-  { code: 'GBP', name: 'British Pound', flag: '🇬🇧', stablecoin: 'GBPC' },
-  { code: 'INR', name: 'Indian Rupee', flag: '🇮🇳', stablecoin: 'INRC' },
-  { code: 'NGN', name: 'Nigerian Naira', flag: '🇳🇬', stablecoin: 'NGNC' },
-  { code: 'KES', name: 'Kenyan Shilling', flag: '🇰🇪', stablecoin: 'KESC' },
-];
-
-const EXCHANGE_RATES = {
-  'USD-INR': 83.12,
-  'USD-NGN': 1580.50,
-  'USD-KES': 129.75,
-  'EUR-USD': 1.09,
-  'GBP-USD': 1.26
-};
+import { SUPPORTED_CURRENCIES, getExchangeRate, calculateFee } from "@/lib/constants";
 
 export default function SendMoney() {
   const { user } = useAuth();
