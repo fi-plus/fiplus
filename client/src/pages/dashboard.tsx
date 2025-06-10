@@ -200,25 +200,34 @@ export default function Dashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-5">
-                {Object.entries(walletService.getAllBalances()).map(([asset, balance]) => (
-                  <div key={asset} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-sm">
-                        <span className="text-sm font-bold text-white">{asset}</span>
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-800">{asset}</div>
-                        <div className="text-xs text-gray-500">
-                          {asset === 'USDC' ? 'USD Coin' : asset === 'EURC' ? 'Euro Coin' : 'Stellar Lumens'}
+                {Object.entries(walletService.getAllBalances()).map(([asset, balance]) => {
+                  // Map crypto assets to user-friendly currency display
+                  const currencyMap = {
+                    'XLM': { display: 'USD', symbol: '$', name: 'US Dollar Balance' },
+                    'USDC': { display: 'USD', symbol: '$', name: 'US Dollar Balance' },
+                    'EURC': { display: 'EUR', symbol: '€', name: 'Euro Balance' }
+                  };
+                  
+                  const currency = currencyMap[asset as keyof typeof currencyMap] || { display: asset, symbol: '', name: asset };
+                  
+                  return (
+                    <div key={asset} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-sm">
+                          <span className="text-sm font-bold text-white">{currency.symbol || currency.display}</span>
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-800">{currency.display}</div>
+                          <div className="text-xs text-gray-500">{currency.name}</div>
                         </div>
                       </div>
+                      <div className="text-right">
+                        <div className="font-bold text-lg text-gray-800">{currency.symbol}{balance}</div>
+                        <div className="text-xs text-gray-500">{currency.display}</div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-bold text-lg text-gray-800">{balance}</div>
-                      <div className="text-xs text-gray-500">{asset}</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
                 <div className="grid grid-cols-2 gap-3 mt-4">
                   <Link href="/add-money">
                     <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3 rounded-lg shadow-md">
@@ -282,7 +291,7 @@ export default function Dashboard() {
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-semibold text-gray-800">Received</div>
-                      <div className="text-xs text-gray-600">+$500.00 USDC</div>
+                      <div className="text-xs text-gray-600">+$500.00 USD</div>
                       <div className="text-xs text-green-600 font-medium">From Maria Garcia</div>
                     </div>
                     <div className="text-xs text-gray-500 font-medium">2h ago</div>
