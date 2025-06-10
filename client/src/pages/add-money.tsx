@@ -35,12 +35,7 @@ const PAYMENT_METHODS = {
   }
 };
 
-const CURRENCIES = [
-  { code: 'USD', name: 'US Dollar', flag: '🇺🇸', stablecoin: 'USDC' },
-  { code: 'EUR', name: 'Euro', flag: '🇪🇺', stablecoin: 'EURC' },
-  { code: 'GBP', name: 'British Pound', flag: '🇬🇧', stablecoin: 'GBPC' },
-  { code: 'INR', name: 'Indian Rupee', flag: '🇮🇳', stablecoin: 'INRC' },
-];
+import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
 
 export default function AddMoney() {
   const { user } = useAuth();

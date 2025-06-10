@@ -35,8 +35,7 @@ export default function SendMoney() {
   }, []);
 
   const calculateExchangeRate = () => {
-    const key = `${fromCurrency}-${toCurrency}`;
-    return EXCHANGE_RATES[key as keyof typeof EXCHANGE_RATES] || 1;
+    return getExchangeRate(fromCurrency, toCurrency);
   };
 
   const getConvertedAmount = () => {
@@ -45,7 +44,7 @@ export default function SendMoney() {
   };
 
   const getFee = () => {
-    return 0.000005; // Stellar network fee
+    return calculateFee(parseFloat(amount) || 0, 'stellar');
   };
 
   const getDeliveryTime = () => {
@@ -289,7 +288,7 @@ export default function SendMoney() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {CURRENCIES.map((curr) => (
+                    {SUPPORTED_CURRENCIES.map((curr) => (
                       <SelectItem key={curr.code} value={curr.code}>
                         <span className="flex items-center space-x-2">
                           <span>{curr.flag}</span>
@@ -307,7 +306,7 @@ export default function SendMoney() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {CURRENCIES.map((curr) => (
+                    {SUPPORTED_CURRENCIES.map((curr) => (
                       <SelectItem key={curr.code} value={curr.code}>
                         <span className="flex items-center space-x-2">
                           <span>{curr.flag}</span>
