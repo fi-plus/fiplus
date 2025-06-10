@@ -7,6 +7,7 @@ interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(insertUser: InsertUser): Promise<User>;
+  updateUserStellarWallet(userId: number, stellarPublicKey: string): Promise<User>;
 
   // Wallet methods
   getUserWallets(userId: number): Promise<Wallet[]>;
@@ -78,6 +79,18 @@ export class DatabaseStorage implements IStorage {
       })
       .returning();
     return rate;
+  }
+
+  async updateUserStellarWallet(userId: number, stellarPublicKey: string): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({
+        stellarPublicKey,
+        stellarWalletCreated: true,
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return user;
   }
 }
 

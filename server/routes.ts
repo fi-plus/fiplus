@@ -147,11 +147,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // In production, this would call Onramp.money API to create actual wallet
       const stellarPublicKey = `GCEXAMPLE${userId}STELLARKEY`;
       
-      // Update user with Stellar wallet info using SQL
-      await storage.db.execute({
-        sql: `UPDATE users SET stellar_public_key = $1, stellar_wallet_created = TRUE WHERE id = $2`,
-        args: [stellarPublicKey, userId]
-      });
+      // Update user with Stellar wallet info
+      await storage.updateUserStellarWallet(userId, stellarPublicKey);
 
       res.json({
         success: true,

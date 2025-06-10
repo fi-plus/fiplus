@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { onrampStellar } from "@/lib/onramp-stellar";
 import { useAuth } from "./useAuth";
 import { useToast } from "./use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export function useStellarWallet() {
   const { user } = useAuth();
@@ -38,15 +39,18 @@ export function useStellarWallet() {
   const createWalletMutation = useMutation({
     mutationFn: async () => {
       if (!user?.id) throw new Error("User not authenticated");
-      // For demo purposes, we'll simulate wallet creation
-      // In production, this would call the actual Onramp API
-      return {
-        publicKey: "GCEXAMPLE" + user.id + "STELLARKEY",
-        balance: { USDC: "0", EURC: "0", XLM: "10" },
-        trustlines: ["USDC", "EURC"]
-      };
+      
+      const response = await apiRequest("/api/stellar/wallet/create", {
+        method: "POST",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to create Stellar wallet");
+      }
+      
+      return await response.json();
     },
-    onSuccess: (wallet) => {
+    onSuccess: (result) => {
       toast({
         title: "Stellar Wallet Created",
         description: "Your wallet supports USDC, EURC, and XLM transfers.",
