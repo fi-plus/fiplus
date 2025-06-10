@@ -326,62 +326,6 @@ export class OnrampWhitelabel {
     } catch (error) {
       throw new Error(`API call failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-
-    if (endpoint === '/offramp/quote') {
-      return {
-        fiatAmount: data.cryptoAmount / 7.2, // Convert XLM to fiat
-        exchangeRate: 0.139, // 1 XLM = 0.139 USD (inverse of 7.2)
-        fees: { 
-          total: (data.cryptoAmount / 7.2) * 0.025, 
-          breakdown: [{ type: 'offramp_fee', amount: (data.cryptoAmount / 7.2) * 0.025 }] 
-        },
-        estimatedTime: '5-15 minutes'
-      };
-    }
-
-    if (endpoint === '/offramp/transaction') {
-      return {
-        transactionId: `tx_${Date.now()}`,
-        status: 'pending',
-        estimatedCompletion: new Date(Date.now() + 15 * 60 * 1000).toISOString()
-      };
-    }
-
-    if (endpoint.startsWith('/offramp/transaction/')) {
-      return {
-        transactionId: endpoint.split('/').pop(),
-        status: 'completed',
-        fiatAmount: 100,
-        cryptoAmount: 720,
-        fees: { total: 2.5 },
-        completedAt: new Date().toISOString()
-      };
-    }
-
-    if (endpoint === '/offramp/transactions/user') {
-      return {
-        transactions: [],
-        total: 0,
-        page: 1,
-        limit: 10
-      };
-    }
-
-    if (endpoint === '/offramp/transactions') {
-      return {
-        transactions: [],
-        total: 0,
-        page: data.page || 1,
-        limit: data.limit || 10
-      };
-    }
-    
-    // Default session response
-    return {
-      sessionId: `session_${Date.now()}`,
-      url: `${baseUrl}/widget?session=${Date.now()}`,
-      status: 'created'
-    };
   }
 
   // Get supported currencies for whitelabel
