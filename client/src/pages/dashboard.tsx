@@ -202,11 +202,11 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-4 pb-20 md:pb-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="flex-1 p-6 pb-20 md:pb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Main Send Money Card */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 space-y-6">
               <Card className="minimal-card overflow-hidden">
               <div className="gradient-primary p-4 text-white">
                 <CardTitle className="text-lg sm:text-xl font-semibold mb-1">Send Money Globally</CardTitle>
@@ -310,18 +310,18 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            {/* Recent Transactions Card */}
-            <Card className="minimal-card mt-4">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Recent Transactions</span>
-                  <Link href="/history">
-                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-7 text-xs">
-                      View All
-                    </Button>
-                  </Link>
-                </CardTitle>
-              </CardHeader>
+              {/* Recent Transactions Card */}
+              <Card className="minimal-card">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-foreground">Recent Transactions</span>
+                    <Link href="/history">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-7 text-xs">
+                        View All
+                      </Button>
+                    </Link>
+                  </CardTitle>
+                </CardHeader>
               <CardContent className="pt-0">
                 {transactions.isLoading ? (
                   <div className="flex items-center justify-center py-6">
@@ -344,14 +344,14 @@ export default function Dashboard() {
                           <div>
                             <div className="text-sm font-medium text-foreground capitalize">{transaction.type}</div>
                             <div className="text-xs text-muted-foreground">
-                              {transaction.fromAmount} {transaction.fromCurrency}
+                              {parseFloat(transaction.fromAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transaction.fromCurrency}
                               {transaction.toCurrency && ` → ${transaction.toCurrency}`}
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium text-foreground">
-                            {transaction.fromAmount} {transaction.fromCurrency}
+                            {parseFloat(transaction.fromAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transaction.fromCurrency}
                           </div>
                           <div className="text-xs text-muted-foreground">
                             {new Date(transaction.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -368,12 +368,10 @@ export default function Dashboard() {
                 )}
               </CardContent>
             </Card>
-            
-
-          </div>
+            </div>
 
             {/* Right Sidebar - Stacked on mobile */}
-            <div className="space-y-3 lg:block">
+            <div className="space-y-4">
               {/* Connected Bank Accounts */}
               <Card className="minimal-card">
                 <CardHeader className="pb-2">
@@ -455,7 +453,7 @@ export default function Dashboard() {
                         <div className="flex justify-between items-center">
                           <span className="text-xs text-muted-foreground">Latest Amount</span>
                           <span className="text-xs font-medium text-foreground">
-                            {transactions.data[0]?.fromAmount} {transactions.data[0]?.fromCurrency}
+                            {parseFloat(transactions.data[0]?.fromAmount || '0').toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transactions.data[0]?.fromCurrency}
                           </span>
                         </div>
                       </div>
