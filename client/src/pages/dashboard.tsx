@@ -56,7 +56,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-card backdrop-blur-md border-b border-border sticky top-0 z-50">
         <div className="px-6 md:px-8 lg:px-10">
@@ -116,55 +116,54 @@ export default function Dashboard() {
 
 
 
-      <main className="flex-1 flex">
-        {/* Left Navigation Sidebar - Hidden on mobile */}
-        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40`}>
-          <div className="flex items-center justify-end mb-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="h-8 w-8 p-0 flex items-center justify-center"
-            >
-              {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+      {/* Left Navigation Sidebar - Hidden on mobile */}
+      <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40`}>
+        <div className="flex items-center justify-end mb-4">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="h-8 w-8 p-0 flex items-center justify-center"
+          >
+            {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          </Button>
+        </div>
+        
+        <nav className="space-y-1">
+          <Link href="/">
+            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left bg-muted text-foreground text-sm`}>
+              <Home className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+              {!sidebarCollapsed && "Home"}
             </Button>
-          </div>
-          
-          <nav className="space-y-1">
-            <Link href="/">
-              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left bg-muted text-foreground text-sm`}>
-                <Home className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-                {!sidebarCollapsed && "Home"}
-              </Button>
-            </Link>
-            <Link href="/send">
-              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-                <Send className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-                {!sidebarCollapsed && "Send Money"}
-              </Button>
-            </Link>
-            <Link href="/history">
-              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-                <History className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-                {!sidebarCollapsed && "History"}
-              </Button>
-            </Link>
-            <Link href="/contacts">
-              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-                <Users className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-                {!sidebarCollapsed && "Contacts"}
-              </Button>
-            </Link>
-            <Link href="/settings">
-              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-                <Settings className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-                {!sidebarCollapsed && "Settings"}
-              </Button>
-            </Link>
-          </nav>
-          
-          
-        </aside>
+          </Link>
+          <Link href="/send">
+            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+              <Send className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+              {!sidebarCollapsed && "Send Money"}
+            </Button>
+          </Link>
+          <Link href="/history">
+            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+              <History className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+              {!sidebarCollapsed && "History"}
+            </Button>
+          </Link>
+          <Link href="/contacts">
+            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+              <Users className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+              {!sidebarCollapsed && "Contacts"}
+            </Button>
+          </Link>
+          <Link href="/settings">
+            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+              <Settings className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+              {!sidebarCollapsed && "Settings"}
+            </Button>
+          </Link>
+        </nav>
+      </aside>
+
+      <main className="flex-1">
 
         {/* Mobile Bottom Navigation */}
         <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-2 md:hidden">
@@ -203,7 +202,7 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className={`flex-1 p-4 md:p-6 pb-20 md:pb-6 overflow-auto ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-48'} transition-all duration-300 ease-in-out`}>
+        <div className={`p-4 md:p-6 pb-20 md:pb-6 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-48'} transition-all duration-300 ease-in-out`}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}
