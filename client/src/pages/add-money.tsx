@@ -152,22 +152,40 @@ export default function AddMoney() {
     setStep('processing');
     
     try {
-      // Create Onramp widget session for real payment processing
-      const session = await onrampWhitelabel.createOnrampSession({
+      // Step 1: Create KYC URL for user verification
+      const kycResult = await onrampWhitelabel.createKycUrl({
+        userEmail: 'user@fiplus.com', // Get from auth context
+        phoneNumber: '+1-555-123-4567', // Get from user profile
+        clientCustomerId: `fiplus-user-${Date.now()}`
+      });
+      
+      // Step 2: Get quote for the transaction
+      const quote = await onrampWhitelabel.getOnrampQuote({
         fiatCurrency: currency,
         fiatAmount: parseFloat(amount),
         cryptoCurrency: 'XLM',
-        walletAddress: 'user-wallet-address', // This will be managed by Onramp
-        userEmail: 'user@example.com', // Get from auth context
-        redirectUrl: `${window.location.origin}/add-money?success=true`
+        paymentMethod: paymentMethod
       });
       
-      // Redirect to Onramp payment widget
-      window.location.href = session.url;
+      // Step 3: Create transaction
+      const transaction = await onrampWhitelabel.createOnrampTransaction({
+        customerId: kycResult.customerId,
+        clientCustomerId: kycResult.clientCustomerId,
+        depositAddress: 'STELLAR_WALLET_ADDRESS', // This will be user's wallet
+        fiatCurrency: currency,
+        cryptoCurrency: 'XLM',
+        fiatAmount: parseFloat(amount),
+        cryptoAmount: quote.cryptoAmount,
+        rate: quote.exchangeRate,
+        paymentMethod: paymentMethod
+      });
+      
+      // Redirect to KYC verification first, then payment
+      window.location.href = kycResult.kycUrl;
     } catch (error) {
       toast({
         title: "Payment Setup Failed",
-        description: "Unable to initialize payment. Please try again.",
+        description: error instanceof Error ? error.message : "Unable to initialize payment. Please try again.",
         variant: "destructive"
       });
       setStep('select');

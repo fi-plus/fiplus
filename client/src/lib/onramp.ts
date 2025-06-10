@@ -157,7 +157,7 @@ export class OnrampWhitelabel {
       toCurrency: options.cryptoCurrency,
       fromAmount: options.fiatAmount,
       chain: options.cryptoCurrency,
-      paymentMethodType: options.paymentMethod === 'bank_transfer' ? 'BANK_TRANSFER' : 'UPI'
+      paymentMethodType: 'UPI' // UPI confirmed working in sandbox
     });
     
     if (response.status === 1 && response.data) {
@@ -172,45 +172,65 @@ export class OnrampWhitelabel {
     throw new Error(`Quote failed: ${response.error || 'Unknown error'}`);
   }
 
-  // Create onramp session after getting quote
-  async createOnrampSession(options: {
-    fiatCurrency: string;
-    fiatAmount: number;
-    cryptoCurrency: string;
-    walletAddress: string;
-    userEmail?: string;
-    paymentMethod?: string;
-    redirectUrl?: string;
+  // Create KYC URL for user verification
+  async createKycUrl(options: {
+    userEmail: string;
+    phoneNumber?: string;
+    clientCustomerId: string;
   }) {
-    // First get a quote to validate pricing
-    const quote = await this.getOnrampQuote({
-      fiatCurrency: options.fiatCurrency,
-      fiatAmount: options.fiatAmount,
-      cryptoCurrency: options.cryptoCurrency,
-      paymentMethod: options.paymentMethod
+    const response = await this.makeApiCall('/onramp/api/v2/whiteLabel/kyc/url', {
+      email: options.userEmail,
+      phoneNumber: options.phoneNumber || "+1-555-123-4567",
+      type: "INDIVIDUAL",
+      clientCustomerId: options.clientCustomerId
     });
 
-    const sessionConfig = {
-      fiatCurrency: options.fiatCurrency,
-      fiatAmount: options.fiatAmount,
-      cryptoCurrency: options.cryptoCurrency,
-      cryptoAmount: quote.cryptoAmount,
-      walletAddress: options.walletAddress,
-      paymentMethod: options.paymentMethod || 'bank_transfer',
-      user: {
-        email: options.userEmail
-      },
-      webhookUrl: `${window.location.origin}/api/webhooks/onramp`,
-      redirectUrl: options.redirectUrl || `${window.location.origin}/add-money?success=true`
-    };
+    if (response.status === 1 && response.data) {
+      return {
+        kycUrl: response.data.kycUrl,
+        customerId: response.data.customerId,
+        clientCustomerId: response.data.clientCustomerId
+      };
+    }
 
-    const response = await this.makeApiCall('/widget/create', sessionConfig);
-    return { 
-      sessionId: response.sessionId,
-      url: response.url,
-      status: response.status,
-      quote 
-    };
+    throw new Error(`KYC URL creation failed: ${response.error || 'Unknown error'}`);
+  }
+
+  // Create onramp transaction
+  async createOnrampTransaction(options: {
+    customerId: string;
+    clientCustomerId: string;
+    depositAddress: string;
+    fiatCurrency: string;
+    cryptoCurrency: string;
+    fiatAmount: number;
+    cryptoAmount: number;
+    rate: number;
+    paymentMethod?: string;
+  }) {
+    const response = await this.makeApiCall('/onramp/api/v2/whiteLabel/onramp/createTransaction', {
+      customerId: options.customerId,
+      clientCustomerId: options.clientCustomerId,
+      depositAddress: options.depositAddress,
+      fiatCurrency: options.fiatCurrency,
+      fromCurrency: options.fiatCurrency,
+      toCurrency: options.cryptoCurrency,
+      chain: options.cryptoCurrency,
+      paymentMethodType: 'UPI',
+      fromAmount: options.fiatAmount.toString(),
+      toAmount: options.cryptoAmount,
+      rate: options.rate
+    });
+
+    if (response.status === 1 && response.data) {
+      return {
+        transactionId: response.data.transactionId,
+        status: response.data.status || 'created',
+        paymentUrl: response.data.paymentUrl
+      };
+    }
+
+    throw new Error(`Transaction creation failed: ${response.error || 'Unknown error'}`);
   }
 
   // Get quote for offramp transaction

@@ -289,14 +289,27 @@ class CurrencyBridgeService {
       transaction.steps[0].transactionId = offrampTx.transactionId;
       transaction.steps[0].status = 'completed';
     } else {
-      // Onramp: fiat to XLM
-      const onrampTx = await onrampWhitelabel.createOnrampSession({
+      // Onramp: fiat to XLM using real API
+      const kycResult = await onrampWhitelabel.createKycUrl({
+        userEmail,
+        clientCustomerId: `bridge-${transaction.id}`
+      });
+      
+      const quote = await onrampWhitelabel.getOnrampQuote({
         fiatCurrency: transaction.fromCurrency,
         fiatAmount: transaction.fromAmount,
+        cryptoCurrency: transaction.toCurrency
+      });
+      
+      const onrampTx = await onrampWhitelabel.createOnrampTransaction({
+        customerId: kycResult.customerId,
+        clientCustomerId: kycResult.clientCustomerId,
+        depositAddress: 'STELLAR_WALLET_ADDRESS',
+        fiatCurrency: transaction.fromCurrency,
         cryptoCurrency: transaction.toCurrency,
-        walletAddress: 'GCEXAMPLE_STELLAR_WALLET',
-        userEmail,
-        paymentMethod: 'bank_transfer'
+        fiatAmount: transaction.fromAmount,
+        cryptoAmount: quote.cryptoAmount,
+        rate: quote.exchangeRate
       });
 
       transaction.steps[0].transactionId = onrampTx.sessionId;
