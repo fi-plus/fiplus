@@ -34,8 +34,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-sm minimal-card">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8">
+      <Card className="w-full max-w-md minimal-card">
         <CardHeader className="text-center pb-4">
           <div className="mx-auto mb-3">
             <h1 className="text-2xl font-semibold text-foreground">fi.plus</h1>

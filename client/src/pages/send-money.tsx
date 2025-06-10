@@ -247,7 +247,7 @@ export default function SendMoney() {
           </div>
         </header>
 
-        <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
           <Card>
             <CardHeader>
               <CardTitle>Confirm Transfer</CardTitle>

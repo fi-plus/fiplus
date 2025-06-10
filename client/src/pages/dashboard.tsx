@@ -91,8 +91,8 @@ export default function Dashboard() {
       </header>
 
       <main className="flex-1 flex">
-        {/* Left Navigation Sidebar */}
-        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out`}>
+        {/* Left Navigation Sidebar - Hidden on mobile */}
+        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block`}>
           <div className="flex items-center justify-between mb-4">
             {!sidebarCollapsed && <div className="text-xs font-medium text-muted-foreground">Navigation</div>}
             <Button 
@@ -160,19 +160,55 @@ export default function Dashboard() {
           )}
         </aside>
 
+        {/* Mobile Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-2 md:hidden">
+          <nav className="flex justify-around items-center">
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
+                <DollarSign className="w-4 h-4" />
+                <span className="text-xs">Dashboard</span>
+              </Button>
+            </Link>
+            <Link href="/send">
+              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
+                <Send className="w-4 h-4" />
+                <span className="text-xs">Send</span>
+              </Button>
+            </Link>
+            <Link href="/history">
+              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
+                <History className="w-4 h-4" />
+                <span className="text-xs">History</span>
+              </Button>
+            </Link>
+            <Link href="/contacts">
+              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
+                <Users className="w-4 h-4" />
+                <span className="text-xs">Contacts</span>
+              </Button>
+            </Link>
+            <Link href="/settings">
+              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
+                <Settings className="w-4 h-4" />
+                <span className="text-xs">Settings</span>
+              </Button>
+            </Link>
+          </nav>
+        </div>
+
         {/* Main Content Area */}
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-4 pb-20 md:pb-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             
             {/* Main Send Money Card */}
             <div className="lg:col-span-2">
               <Card className="minimal-card overflow-hidden">
               <div className="gradient-primary p-4 text-white">
-                <CardTitle className="text-xl font-semibold mb-1">Send Money Globally</CardTitle>
+                <CardTitle className="text-lg sm:text-xl font-semibold mb-1">Send Money Globally</CardTitle>
                 <p className="text-white/80 text-sm">Fast, secure cross-border payments via Stellar network</p>
               </div>
               <CardContent className="p-4 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-foreground mb-2 block">From</label>
                     <Select value={fromCurrency} onValueChange={setFromCurrency}>
@@ -221,7 +257,7 @@ export default function Dashboard() {
                       placeholder="0.00"
                       value={sendAmount}
                       onChange={(e) => setSendAmount(e.target.value)}
-                      className="h-12 text-xl font-semibold minimal-input pr-16"
+                      className="h-12 text-lg sm:text-xl font-semibold minimal-input pr-16"
                     />
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-medium text-muted-foreground">
                       {fromCurrency}
@@ -252,17 +288,17 @@ export default function Dashboard() {
                   Send Money
                 </Button>
 
-                <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
                   <div className="flex flex-col items-center">
-                    <div className="text-base font-semibold text-green-400">$0.000005</div>
+                    <div className="text-sm sm:text-base font-semibold text-green-400">$0.000005</div>
                     <div className="text-xs text-muted-foreground">Network Fee</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="text-base font-semibold text-primary">3-5s</div>
+                    <div className="text-sm sm:text-base font-semibold text-primary">3-5s</div>
                     <div className="text-xs text-muted-foreground">Settlement</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="text-base font-semibold text-purple-400">24/7</div>
+                    <div className="text-sm sm:text-base font-semibold text-purple-400">24/7</div>
                     <div className="text-xs text-muted-foreground">Available</div>
                   </div>
                 </div>
@@ -331,8 +367,8 @@ export default function Dashboard() {
 
           </div>
 
-            {/* Right Sidebar */}
-            <div className="space-y-3">
+            {/* Right Sidebar - Stacked on mobile */}
+            <div className="space-y-3 lg:block">
               {/* Connected Bank Accounts */}
               <Card className="minimal-card">
                 <CardHeader className="pb-2">
