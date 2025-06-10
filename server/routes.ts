@@ -330,19 +330,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Onramp quote endpoint
+  // Onramp quote endpoint (handles both onramp and offramp)
   app.post("/api/onramp/quote", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const { fiatCurrency, fiatAmount, cryptoCurrency } = req.body;
+      const { fiatCurrency, fiatAmount, cryptoCurrency, cryptoAmount, type } = req.body;
       
-      const quoteData = {
-        fiatCurrency,
-        fiatAmount,
-        cryptoCurrency,
-        clientCustomerId: `fiplus-${req.user?.id}-${Date.now()}`
-      };
+      let quoteData;
+      let endpoint;
       
-      const quote = await callOnrampAPI('/onramp/quote', quoteData, 'POST');
+      if (type === 'offramp') {
+        quoteData = {
+          cryptoCurrency,
+          cryptoAmount,
+          fiatCurrency,
+          clientCustomerId: `fiplus-${req.user?.id}-${Date.now()}`
+        };
+        endpoint = '/offramp/quote';
+      } else {
+        quoteData = {
+          fiatCurrency,
+          fiatAmount,
+          cryptoCurrency,
+          clientCustomerId: `fiplus-${req.user?.id}-${Date.now()}`
+        };
+        endpoint = '/onramp/quote';
+      }
+      
+      const quote = await callOnrampAPI(endpoint, quoteData, 'POST');
       res.json(quote);
     } catch (error) {
       console.error("Onramp quote error:", error);
@@ -366,6 +380,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Onramp KYC error:", error);
       res.status(500).json({ message: "Failed to create KYC URL" });
+    }
+  });
+
+  // Onramp Offramp transaction endpoint
+  app.post("/api/onramp/offramp", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { cryptoCurrency, cryptoAmount, fiatCurrency, fiatAmount, walletAddress, userEmail, bankDetails } = req.body;
+      
+      const offrampData = {
+        cryptoCurrency,
+        cryptoAmount,
+        fiatCurrency,
+        fiatAmount,
+        walletAddress,
+        userEmail: userEmail || req.user?.email,
+        bankDetails,
+        clientCustomerId: `fiplus-${req.user?.id}-${Date.now()}`
+      };
+      
+      const offrampResult = await callOnrampAPI('/offramp/transaction', offrampData, 'POST');
+      res.json(offrampResult);
+    } catch (error) {
+      console.error("Onramp offramp error:", error);
+      res.status(500).json({ message: "Failed to create offramp transaction" });
     }
   });
 

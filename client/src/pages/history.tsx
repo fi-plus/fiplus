@@ -88,7 +88,7 @@ export default function History() {
   };
 
   const getTotalTransactions = () => {
-    return transactions.filter(tx => tx.status === 'completed').length;
+    return transactions.filter((tx: any) => tx.status === 'completed').length;
   };
 
   const getTransactionIcon = (type: string) => {
@@ -158,7 +158,7 @@ export default function History() {
               </CardContent>
             </Card>
           ) : (
-            transactions.map((transaction) => (
+            transactions.map((transaction: any) => (
               <Card key={transaction.id} className="overflow-hidden">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
