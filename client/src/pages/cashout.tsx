@@ -58,12 +58,22 @@ export default function Cashout() {
     
     setIsLoadingQuote(true);
     try {
-      const quote = await onrampWhitelabel.getOfframpQuote({
-        cryptoCurrency: fromAsset,
-        cryptoAmount: parseFloat(amount),
-        fiatCurrency: toCurrency,
-        paymentMethod: 'bank_transfer'
+      const response = await fetch('/api/onramp/quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          type: 'offramp',
+          cryptoCurrency: fromAsset,
+          cryptoAmount: parseFloat(amount),
+          fiatCurrency: toCurrency
+        })
       });
+      
+      if (!response.ok) throw new Error('Quote request failed');
+      const quote = await response.json();
       setOfframpQuote(quote);
     } catch (error) {
       console.error('Failed to fetch offramp quote:', error);
@@ -150,29 +160,49 @@ export default function Cashout() {
     try {
       if (cashoutMethod === 'onramp_offramp') {
         // Create Onramp offramp transaction
-        const offrampTransaction = await onrampWhitelabel.createOfframpTransaction({
-          cryptoCurrency: fromAsset,
-          cryptoAmount: parseFloat(amount),
-          fiatCurrency: toCurrency,
-          fiatAmount: offrampQuote?.fiatAmount || calculateReceiveAmount(),
-          walletAddress: `GCEXAMPLE${user?.id}STELLARWALLET`,
-          userEmail: user?.email || '',
-          bankDetails: {
-            accountNumber: bankDetails.accountNumber,
-            routingNumber: bankDetails.routingNumber,
-            bankName: bankDetails.bankName,
-            accountHolderName: bankDetails.accountName
+        const response = await fetch('/api/onramp/offramp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           },
-          paymentMethod: 'bank_transfer'
+          body: JSON.stringify({
+            cryptoCurrency: fromAsset,
+            cryptoAmount: parseFloat(amount),
+            fiatCurrency: toCurrency,
+            fiatAmount: offrampQuote?.fiatAmount || calculateReceiveAmount(),
+            walletAddress: `GCEXAMPLE${user?.id}STELLARWALLET`,
+            userEmail: user?.email || '',
+            bankDetails: {
+              accountNumber: bankDetails.accountNumber,
+              routingNumber: bankDetails.routingNumber,
+              bankName: bankDetails.bankName,
+              accountHolderName: bankDetails.accountName
+            },
+            paymentMethod: 'bank_transfer'
+          })
         });
+        
+        if (!response.ok) throw new Error('Offramp transaction failed');
+        const offrampTransaction = await response.json();
 
-        // Record transaction in local service
-        const transaction = transactionService.cashOut(
-          fromAsset,
-          toCurrency,
-          parseFloat(amount),
-          cashoutMethod
-        );
+        // Record transaction in backend
+        await fetch('/api/transactions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            type: 'cashout',
+            fromCurrency: fromAsset,
+            toCurrency: toCurrency,
+            amount: parseFloat(amount),
+            method: cashoutMethod,
+            status: 'pending',
+            externalId: offrampTransaction.transactionId
+          })
+        });
 
         setTimeout(() => {
           setStep('success');
