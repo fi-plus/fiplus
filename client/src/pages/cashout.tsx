@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Building2, Smartphone, Wallet, Clock, DollarSign, Star, CheckCircle2, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SUPPORTED_CURRENCIES, calculateFee, WALLET_ASSETS } from "@/lib/constants";
 
 const CASHOUT_METHODS = {
   'bank_transfer': {
@@ -45,17 +46,6 @@ const WALLET_BALANCES = {
   'EURC': '890.50',
   'XLM': '2,500.00'
 };
-
-const CURRENCIES = [
-  { code: 'USD', name: 'US Dollar', flag: '🇺🇸' },
-  { code: 'EUR', name: 'Euro', flag: '🇪🇺' },
-  { code: 'GBP', name: 'British Pound', flag: '🇬🇧' },
-  { code: 'INR', name: 'Indian Rupee', flag: '🇮🇳' },
-  { code: 'NGN', name: 'Nigerian Naira', flag: '🇳🇬' },
-  { code: 'KES', name: 'Kenyan Shilling', flag: '🇰🇪' },
-  { code: 'PHP', name: 'Philippine Peso', flag: '🇵🇭' },
-  { code: 'UGX', name: 'Ugandan Shilling', flag: '🇺🇬' },
-];
 
 export default function Cashout() {
   const { user } = useAuth();
@@ -240,7 +230,7 @@ export default function Cashout() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {CURRENCIES.map((currency) => (
+                        {SUPPORTED_CURRENCIES.map((currency) => (
                           <SelectItem key={currency.code} value={currency.code}>
                             <span className="flex items-center space-x-2">
                               <span>{currency.flag}</span>

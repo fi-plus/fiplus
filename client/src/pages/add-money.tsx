@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { CreditCard, Smartphone, Building2, ArrowRight, DollarSign, Star, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
 
 const PAYMENT_METHODS = {
   'upi': {
@@ -35,8 +36,6 @@ const PAYMENT_METHODS = {
   }
 };
 
-import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
-
 export default function AddMoney() {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -45,7 +44,7 @@ export default function AddMoney() {
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [step, setStep] = useState<'select' | 'payment' | 'processing' | 'success'>('select');
 
-  const selectedCurrency = CURRENCIES.find(c => c.code === currency);
+  const selectedCurrency = SUPPORTED_CURRENCIES.find(c => c.code === currency);
   const availableMethods = Object.entries(PAYMENT_METHODS).filter(([key, method]) => 
     method.available.includes(currency)
   );
@@ -310,7 +309,7 @@ export default function AddMoney() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {CURRENCIES.map((curr) => (
+                    {SUPPORTED_CURRENCIES.map((curr) => (
                       <SelectItem key={curr.code} value={curr.code}>
                         <span className="flex items-center space-x-2">
                           <span>{curr.flag}</span>
