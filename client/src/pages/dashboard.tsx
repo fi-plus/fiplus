@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft } from "lucide-react";
+import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft, Home } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -165,7 +165,7 @@ export default function Dashboard() {
           <nav className="flex justify-around items-center">
             <Link href="/">
               <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
-                <DollarSign className="w-4 h-4" />
+                <Home className="w-4 h-4" />
                 <span className="text-xs">Home</span>
               </Button>
             </Link>
