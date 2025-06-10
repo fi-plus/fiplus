@@ -149,9 +149,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const userId = req.user.id;
       
-      // Update user record to mark Stellar wallet as created
-      // In production, this would call Onramp.money API to create actual wallet
-      const stellarPublicKey = `GCEXAMPLE${userId}STELLARKEY`;
+      // Create real Stellar keypair
+      const { Keypair } = await import('@stellar/stellar-sdk');
+      const keypair = Keypair.random();
+      const stellarPublicKey = keypair.publicKey();
+      
+      // In production, store the secret key securely (encrypted)
+      // For now, we'll just store the public key
       
       // Update user with Stellar wallet info
       await storage.updateUserStellarWallet(userId, stellarPublicKey);
