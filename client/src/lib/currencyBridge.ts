@@ -312,7 +312,7 @@ class CurrencyBridgeService {
         rate: quote.exchangeRate
       });
 
-      transaction.steps[0].transactionId = onrampTx.sessionId;
+      transaction.steps[0].transactionId = onrampTx.transactionId;
       transaction.steps[0].status = 'completed';
     }
 
@@ -330,18 +330,32 @@ class CurrencyBridgeService {
   ): Promise<void> {
     transaction.status = 'processing';
 
-    // Step 1: Convert to XLM
+    // Step 1: Convert to XLM using real API
     transaction.steps[0].status = 'pending';
-    const onrampTx = await onrampWhitelabel.createOnrampSession({
+    
+    const kycResult = await onrampWhitelabel.createKycUrl({
+      userEmail,
+      clientCustomerId: `bridge-step1-${transaction.id}`
+    });
+    
+    const quote = await onrampWhitelabel.getOnrampQuote({
       fiatCurrency: transaction.fromCurrency,
       fiatAmount: transaction.fromAmount,
+      cryptoCurrency: 'XLM'
+    });
+    
+    const onrampTx = await onrampWhitelabel.createOnrampTransaction({
+      customerId: kycResult.customerId,
+      clientCustomerId: kycResult.clientCustomerId,
+      depositAddress: 'STELLAR_WALLET_ADDRESS',
+      fiatCurrency: transaction.fromCurrency,
       cryptoCurrency: 'XLM',
-      walletAddress: 'GCEXAMPLE_STELLAR_WALLET',
-      userEmail,
-      paymentMethod: 'bank_transfer'
+      fiatAmount: transaction.fromAmount,
+      cryptoAmount: quote.cryptoAmount,
+      rate: quote.exchangeRate
     });
 
-    transaction.steps[0].transactionId = onrampTx.sessionId;
+    transaction.steps[0].transactionId = onrampTx.transactionId;
     transaction.steps[0].status = 'completed';
 
     // Step 2: Convert XLM to target currency

@@ -152,35 +152,31 @@ export default function AddMoney() {
     setStep('processing');
     
     try {
-      // Step 1: Create KYC URL for user verification
+      // Get real quote from Onramp API
+      const quote = await onrampWhitelabel.getOnrampQuote({
+        fiatCurrency: currency === 'USD' ? 'INR' : currency, // Use INR for sandbox
+        fiatAmount: parseFloat(amount),
+        cryptoCurrency: 'XLM'
+      });
+      
+      // Create KYC URL for user verification
       const kycResult = await onrampWhitelabel.createKycUrl({
-        userEmail: 'user@fiplus.com', // Get from auth context
-        phoneNumber: '+1-555-123-4567', // Get from user profile
+        userEmail: 'user@fiplus.com',
+        phoneNumber: '+91-9999999999',
         clientCustomerId: `fiplus-user-${Date.now()}`
       });
       
-      // Step 2: Get quote for the transaction
-      const quote = await onrampWhitelabel.getOnrampQuote({
-        fiatCurrency: currency,
-        fiatAmount: parseFloat(amount),
-        cryptoCurrency: 'XLM',
-        paymentMethod: paymentMethod
-      });
-      
-      // Step 3: Create transaction
-      const transaction = await onrampWhitelabel.createOnrampTransaction({
-        customerId: kycResult.customerId,
-        clientCustomerId: kycResult.clientCustomerId,
-        depositAddress: 'STELLAR_WALLET_ADDRESS', // This will be user's wallet
-        fiatCurrency: currency,
-        cryptoCurrency: 'XLM',
-        fiatAmount: parseFloat(amount),
+      // Store transaction details locally
+      localStorage.setItem('pendingTransaction', JSON.stringify({
+        amount: parseFloat(amount),
+        currency: currency === 'USD' ? 'INR' : currency,
         cryptoAmount: quote.cryptoAmount,
         rate: quote.exchangeRate,
-        paymentMethod: paymentMethod
-      });
+        customerId: kycResult.customerId,
+        kycUrl: kycResult.kycUrl
+      }));
       
-      // Redirect to KYC verification first, then payment
+      // Redirect to KYC verification
       window.location.href = kycResult.kycUrl;
     } catch (error) {
       toast({
