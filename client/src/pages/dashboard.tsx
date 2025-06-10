@@ -113,7 +113,7 @@ export default function Dashboard() {
               variant="ghost" 
               size="sm" 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="h-8 w-8 p-0 ml-auto"
+              className="h-8 w-8 p-0 ml-auto flex items-center justify-center"
             >
               {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
             </Button>
