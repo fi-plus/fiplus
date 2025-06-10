@@ -5,36 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { CreditCard, Smartphone, Building2, ArrowRight, DollarSign, Star, CheckCircle2 } from "lucide-react";
+import { CreditCard, Smartphone, Building2, ArrowRight, DollarSign, Star, CheckCircle2, Wallet } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
 import { walletService } from "@/lib/walletService";
 import { transactionService } from "@/lib/transactionService";
 
-const PAYMENT_METHODS = {
-  'upi': {
-    name: 'UPI',
-    icon: Smartphone,
-    description: 'Instant payment via UPI',
-    fee: '0%',
-    time: 'Instant',
-    available: ['INR']
+const FUNDING_METHODS = {
+  'stellar_wallet': {
+    name: 'Stellar Wallet',
+    icon: Wallet,
+    description: 'Transfer XLM from your Stellar wallet',
+    fee: '0.00001 XLM',
+    time: '3-5 seconds',
+    available: ['XLM']
   },
-  'bank_transfer': {
-    name: 'Bank Transfer',
-    icon: Building2,
-    description: 'Direct bank transfer',
-    fee: '0.5%',
-    time: '1-3 hours',
-    available: ['USD', 'EUR', 'GBP', 'INR']
-  },
-  'debit_card': {
-    name: 'Debit Card',
+  'usdc_wallet': {
+    name: 'USDC Wallet',
     icon: CreditCard,
-    description: 'Instant payment via card',
-    fee: '2.9%',
-    time: 'Instant',
-    available: ['USD', 'EUR', 'GBP']
+    description: 'Transfer USDC from external wallet',
+    fee: '0.00001 XLM',
+    time: '3-5 seconds',
+    available: ['USDC']
+  },
+  'onramp_deposit': {
+    name: 'Onramp Deposit',
+    icon: Building2,
+    description: 'Fiat to XLM via Onramp.money',
+    fee: 'Variable',
+    time: '5-15 minutes',
+    available: ['USD', 'EUR', 'GBP', 'INR', 'NGN', 'KES']
   }
 };
 
@@ -47,13 +47,13 @@ export default function AddMoney() {
   const [step, setStep] = useState<'select' | 'payment' | 'processing' | 'success'>('select');
 
   const selectedCurrency = SUPPORTED_CURRENCIES.find(c => c.code === currency);
-  const availableMethods = Object.entries(PAYMENT_METHODS).filter(([key, method]) => 
+  const availableMethods = Object.entries(FUNDING_METHODS).filter(([key, method]) => 
     method.available.includes(currency)
   );
 
   const calculateFee = () => {
     if (!paymentMethod || !amount) return 0;
-    const method = PAYMENT_METHODS[paymentMethod as keyof typeof PAYMENT_METHODS];
+    const method = FUNDING_METHODS[paymentMethod as keyof typeof FUNDING_METHODS];
     const feePercent = parseFloat(method.fee.replace('%', '')) / 100;
     return parseFloat(amount) * feePercent;
   };
@@ -152,7 +152,7 @@ export default function AddMoney() {
   }
 
   if (step === 'payment') {
-    const method = PAYMENT_METHODS[paymentMethod as keyof typeof PAYMENT_METHODS];
+    const method = FUNDING_METHODS[paymentMethod as keyof typeof FUNDING_METHODS];
     
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -201,53 +201,61 @@ export default function AddMoney() {
                 </div>
               </div>
 
-              {paymentMethod === 'upi' && (
+              {paymentMethod === 'stellar_wallet' && (
                 <div className="text-center">
-                  <div className="w-32 h-32 bg-gray-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                    <div className="text-xs text-gray-500">QR Code</div>
+                  <div className="w-48 h-48 bg-gray-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                    <div className="text-xs text-gray-500">Stellar Wallet QR Code</div>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
-                    Scan this QR code with your UPI app to complete the payment
+                    Send XLM to this address from your Stellar wallet
                   </p>
+                  <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                    <div className="text-xs text-gray-500 mb-1">Stellar Address:</div>
+                    <div className="font-mono text-sm break-all">
+                      GCEXAMPLE{user?.id}STELLARWALLETADDRESS
+                    </div>
+                  </div>
                   <div className="text-xs text-gray-500">
-                    UPI ID: fiplus@paytm
+                    Memo: FP{user?.id}DEP{Date.now()}
                   </div>
                 </div>
               )}
 
-              {paymentMethod === 'bank_transfer' && (
+              {paymentMethod === 'usdc_wallet' && (
                 <div className="space-y-4">
-                  <h3 className="font-medium">Bank Transfer Details</h3>
+                  <h3 className="font-medium">USDC Wallet Transfer</h3>
                   <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>Bank Name:</span>
-                      <span>Fi.Plus Bank Ltd</span>
+                      <span>Network:</span>
+                      <span>Stellar</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Account Number:</span>
-                      <span>1234567890</span>
+                      <span>Asset:</span>
+                      <span>USDC</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>SWIFT/IFSC:</span>
-                      <span>FIPL0001234</span>
+                      <span>Address:</span>
+                      <span className="font-mono">GCEXAMPLE{user?.id}USDC</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Reference:</span>
-                      <span className="font-mono">FP{user?.id}TX{Date.now()}</span>
+                      <span>Memo:</span>
+                      <span className="font-mono">FP{user?.id}USDC{Date.now()}</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              {paymentMethod === 'debit_card' && (
+              {paymentMethod === 'onramp_deposit' && (
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Card Number</label>
-                    <Input placeholder="1234 5678 9012 3456" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Expiry Date</label>
+                  <h3 className="font-medium">Onramp.money Integration</h3>
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <p className="text-sm text-blue-700 mb-3">
+                      This will redirect you to Onramp.money to convert your {currency} to XLM
+                    </p>
+                    <div className="text-xs text-blue-600">
+                      • Secure KYC verification required
+                      • Real-time exchange rates
+                      • Direct XLM delivery to your fi.plus wallet
                       <Input placeholder="MM/YY" />
                     </div>
                     <div>
@@ -335,7 +343,7 @@ export default function AddMoney() {
             {amount && (
               <div className="bg-blue-50 rounded-lg p-4">
                 <div className="text-sm text-blue-700">
-                  You'll receive: <span className="font-bold">{amount} {selectedCurrency?.stablecoin}</span>
+                  You'll receive: <span className="font-bold">{amount} XLM</span>
                 </div>
               </div>
             )}
