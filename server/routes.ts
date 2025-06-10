@@ -316,6 +316,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Onramp webhook endpoint for transaction updates
+  app.post("/api/webhooks/onramp", async (req: Request, res: Response) => {
+    try {
+      const { transactionId, status, amount, currency, userId, type } = req.body;
+      
+      // Verify webhook signature for security
+      const signature = req.headers['x-onramp-signature'] as string;
+      // TODO: Implement signature verification based on Onramp documentation
+      
+      // Process different webhook types
+      switch (type) {
+        case 'transaction.completed':
+          // Create transaction record in our database
+          if (userId) {
+            await storage.createTransaction({
+              userId: parseInt(userId),
+              type: 'deposit',
+              amount: parseFloat(amount),
+              currency,
+              status: 'completed',
+              externalTransactionId: transactionId,
+              fee: 0 // Get from webhook data
+            });
+          }
+          break;
+          
+        case 'transaction.failed':
+          console.log(`Transaction ${transactionId} failed: ${req.body.reason}`);
+          break;
+          
+        case 'kyc.approved':
+          console.log(`KYC approved for user ${userId}`);
+          break;
+          
+        default:
+          console.log(`Unknown webhook type: ${type}`);
+      }
+      
+      res.status(200).json({ received: true });
+    } catch (error) {
+      console.error('Onramp webhook error:', error);
+      res.status(500).json({ error: 'Webhook processing failed' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

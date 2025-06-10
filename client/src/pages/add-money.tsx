@@ -156,8 +156,10 @@ export default function AddMoney() {
       const session = await onrampWhitelabel.createOnrampSession({
         fiatCurrency: currency,
         fiatAmount: parseFloat(amount),
+        cryptoCurrency: 'XLM',
+        walletAddress: 'user-wallet-address', // This will be managed by Onramp
         userEmail: 'user@example.com', // Get from auth context
-        redirectURL: `${window.location.origin}/add-money?success=true`
+        redirectUrl: `${window.location.origin}/add-money?success=true`
       });
       
       // Redirect to Onramp payment widget
@@ -168,7 +170,7 @@ export default function AddMoney() {
         description: "Unable to initialize payment. Please try again.",
         variant: "destructive"
       });
-      setStep('form');
+      setStep('select');
     }
   };
 

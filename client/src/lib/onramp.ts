@@ -204,11 +204,11 @@ export class OnrampWhitelabel {
       redirectUrl: options.redirectUrl || `${window.location.origin}/add-money?success=true`
     };
 
-    const response = await this.makeApiCall('/onramp/session', sessionConfig);
+    const response = await this.makeApiCall('/widget/create', sessionConfig);
     return { 
-      sessionId: response.sessionId || 'mock_session_id',
-      url: response.url || `${window.location.origin}/add-money?onramp=true`,
-      status: response.status || 'created',
+      sessionId: response.sessionId,
+      url: response.url,
+      status: response.status,
       quote 
     };
   }
