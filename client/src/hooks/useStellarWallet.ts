@@ -40,8 +40,13 @@ export function useStellarWallet() {
     mutationFn: async () => {
       if (!user?.id) throw new Error("User not authenticated");
       
-      const response = await apiRequest("/api/stellar/wallet/create", {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/stellar/wallet/create", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
       });
       
       if (!response.ok) {
