@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe } from "lucide-react";
+import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -202,50 +202,78 @@ export default function Dashboard() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Send Money Features */}
+            {/* Connected Bank Accounts */}
             <Card className="shadow-lg border-0">
               <CardHeader className="bg-gradient-to-r from-gray-50 to-blue-50 border-b">
-                <CardTitle className="text-lg font-bold text-gray-800">Global Money Transfer</CardTitle>
+                <CardTitle className="flex items-center justify-between">
+                  <span className="text-lg font-bold text-gray-800">Connected Accounts</span>
+                  <Link href="/add-bank-account">
+                    <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                      <Plus className="w-4 h-4 mr-1" />
+                      Add Account
+                    </Button>
+                  </Link>
+                </CardTitle>
               </CardHeader>
-              <CardContent className="p-6 space-y-6">
-                {/* Enhanced features display */}
-                <div className="relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-2xl"></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
-                  <div className="relative p-6 text-white">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="space-y-1">
-                        <div className="text-sm font-medium text-blue-100">Ready to Send</div>
-                        <div className="text-2xl font-bold tracking-tight">
-                          Pay as you send
-                        </div>
-                        <div className="text-xs text-blue-200">No wallet funding required</div>
+              <CardContent className="p-6 space-y-4">
+                {/* Indian Bank Account */}
+                <div className="border border-gray-200 rounded-lg p-4 bg-white">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                        <Building2 className="w-5 h-5 text-white" />
                       </div>
-                      <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <Send className="w-6 h-6 text-white" />
+                      <div>
+                        <div className="font-semibold text-gray-900">HDFC Bank</div>
+                        <div className="text-sm text-gray-600">••••5678 (Primary)</div>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-2 text-sm">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-green-200">Direct payment • Real-time conversion</span>
+                    <Badge variant="secondary" className="bg-green-100 text-green-800">Connected</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-2xl font-bold text-gray-900">₹2,45,000</div>
+                      <div className="text-sm text-gray-600">Available balance</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-medium text-gray-700">INR</div>
+                      <div className="text-xs text-gray-500">Indian Rupee</div>
                     </div>
                   </div>
                 </div>
-                
-                {/* Enhanced multi-currency support card */}
-                <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
-                      <Globe className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-emerald-800">Global Reach</div>
-                      <div className="text-sm text-emerald-700">Send to 150+ countries in local currencies</div>
-                      <div className="text-xs text-emerald-600 mt-1">
-                        Bank transfer • Live rates • Instant processing
+
+                {/* US Bank Account */}
+                <div className="border border-gray-200 rounded-lg p-4 bg-white">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+                        <Building2 className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-gray-900">Chase Bank</div>
+                        <div className="text-sm text-gray-600">••••1234 (Checking)</div>
                       </div>
                     </div>
+                    <Badge variant="secondary" className="bg-green-100 text-green-800">Connected</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-2xl font-bold text-gray-900">$3,200.00</div>
+                      <div className="text-sm text-gray-600">Available balance</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-medium text-gray-700">USD</div>
+                      <div className="text-xs text-gray-500">US Dollar</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Add Account Prompt */}
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-gray-50">
+                  <div className="text-gray-600">
+                    <Plus className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                    <div className="font-medium mb-1">Add Another Bank Account</div>
+                    <div className="text-sm">Connect accounts from 50+ countries</div>
                   </div>
                 </div>
 

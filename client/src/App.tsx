@@ -16,6 +16,7 @@ import KYCVerification from "@/pages/kyc-verification";
 
 import SendMoney from "@/pages/send-money";
 import Claim from "@/pages/claim";
+import AddBankAccount from "@/pages/add-bank-account";
 
 import UniversalConvert from "@/pages/universal-convert";
 import { useAuth } from "@/hooks/useAuth";
@@ -83,6 +84,11 @@ function Router() {
       <Route path="/send">
         <ProtectedRoute>
           <SendMoney />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/add-bank-account">
+        <ProtectedRoute>
+          <AddBankAccount />
         </ProtectedRoute>
       </Route>
       <Route path="/claim" component={Claim} />
