@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Building2, Smartphone, Wallet, Clock, DollarSign, Star, CheckCircle2, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, WALLET_ASSETS } from "@/lib/constants";
+import { walletService } from "@/lib/walletService";
+import { transactionService } from "@/lib/transactionService";
 
 const CASHOUT_METHODS = {
   'bank_transfer': {
@@ -41,18 +43,14 @@ const CASHOUT_METHODS = {
   }
 };
 
-const WALLET_BALANCES = {
-  'USDC': '1,250.00',
-  'EURC': '890.50',
-  'XLM': '2,500.00'
-};
+
 
 export default function Cashout() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [step, setStep] = useState<'select' | 'details' | 'confirm' | 'processing' | 'success'>('select');
   const [amount, setAmount] = useState("");
-  const [fromAsset, setFromAsset] = useState("USDC");
+  const [fromAsset, setFromAsset] = useState("XLM");
   const [toCurrency, setToCurrency] = useState("USD");
   const [cashoutMethod, setCashoutMethod] = useState<string>("");
   const [bankDetails, setBankDetails] = useState({
@@ -121,12 +119,19 @@ export default function Cashout() {
   const handleConfirm = () => {
     setStep('processing');
     
-    // Simulate processing
+    // Process the cashout transaction
+    const transaction = transactionService.cashOut(
+      fromAsset,
+      toCurrency,
+      parseFloat(amount),
+      cashoutMethod
+    );
+    
     setTimeout(() => {
       setStep('success');
       toast({
         title: "Cashout Initiated",
-        description: `Your ${toCurrency} ${calculateReceiveAmount().toFixed(2)} withdrawal is being processed.`,
+        description: `Your ${toCurrency} ${calculateReceiveAmount().toFixed(2)} withdrawal is being processed. Transaction ID: ${transaction.id}`,
       });
     }, 3000);
   };
@@ -178,7 +183,7 @@ export default function Cashout() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {Object.entries(WALLET_BALANCES).map(([asset, balance]) => (
+                  {Object.entries(walletService.getAllBalances()).map(([asset, balance]) => (
                     <div key={asset} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
@@ -214,9 +219,9 @@ export default function Cashout() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {Object.keys(WALLET_BALANCES).map((asset) => (
+                        {WALLET_ASSETS.map((asset) => (
                           <SelectItem key={asset} value={asset}>
-                            {asset} - {WALLET_BALANCES[asset as keyof typeof WALLET_BALANCES]}
+                            {asset} - {walletService.getBalance(asset).toLocaleString()}
                           </SelectItem>
                         ))}
                       </SelectContent>
