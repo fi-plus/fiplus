@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { CreditCard, Smartphone, Building2, ArrowRight, DollarSign, Star, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
+import { walletService } from "@/lib/walletService";
+import { transactionService } from "@/lib/transactionService";
 
 const PAYMENT_METHODS = {
   'upi': {
@@ -77,11 +79,19 @@ export default function AddMoney() {
 
   const processPayment = () => {
     setStep('processing');
+    
+    // Process the deposit transaction
+    const transaction = transactionService.addMoney(
+      currency,
+      parseFloat(amount),
+      paymentMethod
+    );
+    
     setTimeout(() => {
       setStep('success');
       toast({
         title: "Money Added Successfully",
-        description: `${selectedCurrency?.stablecoin} balance updated in your wallet.`,
+        description: `XLM balance updated in your wallet. Transaction ID: ${transaction.id}`,
       });
     }, 3000);
   };
