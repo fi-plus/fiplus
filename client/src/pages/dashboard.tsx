@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft, Home, LogOut, Bell, Search } from "lucide-react";
+import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Home, LogOut, Bell, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [sendAmount, setSendAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("INR");
   const [toCurrency, setToCurrency] = useState("USD");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
 
   // Fetch real transaction data from database
   const transactions = useQuery({
@@ -117,47 +117,36 @@ export default function Dashboard() {
 
 
       {/* Left Navigation Sidebar - Hidden on mobile */}
-      <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40`}>
-        <div className="flex items-center justify-end mb-4">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="h-8 w-8 p-0 flex items-center justify-center"
-          >
-            {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-          </Button>
-        </div>
-        
+      <aside className="w-48 bg-card border-r border-border p-4 hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40">
         <nav className="space-y-1">
           <Link href="/">
-            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left bg-muted text-foreground text-sm`}>
-              <Home className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-              {!sidebarCollapsed && "Home"}
+            <Button variant="ghost" className="w-full justify-start h-9 text-left bg-muted text-foreground text-sm">
+              <Home className="w-4 h-4 mr-2" />
+              Home
             </Button>
           </Link>
           <Link href="/send">
-            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-              <Send className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-              {!sidebarCollapsed && "Send Money"}
+            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+              <Send className="w-4 h-4 mr-2" />
+              Send Money
             </Button>
           </Link>
           <Link href="/history">
-            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-              <History className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-              {!sidebarCollapsed && "History"}
+            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+              <History className="w-4 h-4 mr-2" />
+              History
             </Button>
           </Link>
           <Link href="/contacts">
-            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-              <Users className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-              {!sidebarCollapsed && "Contacts"}
+            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+              <Users className="w-4 h-4 mr-2" />
+              Contacts
             </Button>
           </Link>
           <Link href="/settings">
-            <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
-              <Settings className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-              {!sidebarCollapsed && "Settings"}
+            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
             </Button>
           </Link>
         </nav>
@@ -202,7 +191,7 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className={`p-4 md:p-6 pb-20 md:pb-6 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-48'} transition-all duration-300 ease-in-out`}>
+        <div className="p-4 md:p-6 pb-20 md:pb-6 md:ml-48">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}
