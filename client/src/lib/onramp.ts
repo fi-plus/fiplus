@@ -73,9 +73,9 @@ export class OnrampWidget {
   // Create Onramp widget for fiat to crypto
   static createOnrampWidget(elementId: string, options: Partial<OnrampWidgetConfig>) {
     const config: OnrampWidgetConfig = {
-      apiKey: import.meta.env.VITE_ONRAMP_API_KEY || 'sandbox_key',
+      apiKey: import.meta.env.VITE_ONRAMP_API_KEY || '',
       environment: 'sandbox',
-      partnerId: 'fiplus',
+      partnerId: import.meta.env.VITE_ONRAMP_APP_ID || '1596446',
       element: elementId,
       type: 'onramp',
       fiatCurrency: options.fiatCurrency || 'USD',
