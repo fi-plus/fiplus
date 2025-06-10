@@ -152,24 +152,24 @@ export class OnrampWhitelabel {
     fees: { total: number; breakdown: any[] };
     estimatedTime: string;
   }> {
-    try {
-      const response = await this.makeApiCall('/onramp/quote', {
-        fiatCurrency: options.fiatCurrency,
-        fiatAmount: options.fiatAmount,
-        cryptoCurrency: options.cryptoCurrency,
-        paymentMethod: options.paymentMethod || 'bank_transfer'
-      });
-      
-      // Return structured quote data from Onramp API
+    const response = await this.makeApiCall('/onramp/api/v2/whiteLabel/onramp/quote', {
+      fromCurrency: options.fiatCurrency,
+      toCurrency: options.cryptoCurrency,
+      fromAmount: options.fiatAmount,
+      chain: options.cryptoCurrency,
+      paymentMethodType: options.paymentMethod === 'bank_transfer' ? 'BANK_TRANSFER' : 'UPI'
+    });
+    
+    if (response.status === 1 && response.data) {
       return {
-        cryptoAmount: response.cryptoAmount || 0,
-        exchangeRate: response.exchangeRate || 0,
-        fees: response.fees || { total: 0, breakdown: [] },
-        estimatedTime: response.estimatedTime || 'Unknown'
+        cryptoAmount: response.data.toAmount || 0,
+        exchangeRate: response.data.rate || 0,
+        fees: { total: response.data.fee || 0, breakdown: [] },
+        estimatedTime: '2-5 minutes'
       };
-    } catch (error) {
-      throw new Error(`Failed to get quote: ${error}`);
     }
+    
+    throw new Error(`Quote failed: ${response.error || 'Unknown error'}`);
   }
 
   // Create onramp session after getting quote
@@ -340,27 +340,58 @@ export class OnrampWhitelabel {
       };
     }
 
-    // Attempt actual API call with proper authentication
+    // Use Onramp's HMAC-SHA512 signature authentication
     try {
+      const timestamp = Date.now().toString();
+      const payload = {
+        body: data || {},
+        timestamp
+      };
+      
+      const payloadString = JSON.stringify(payload);
+      const payloadBase64 = btoa(payloadString);
+      
+      // Generate HMAC-SHA512 signature using Web Crypto API
+      const encoder = new TextEncoder();
+      const keyData = encoder.encode(apiSecret);
+      const messageData = encoder.encode(payloadBase64);
+      
+      const cryptoKey = await crypto.subtle.importKey(
+        'raw',
+        keyData,
+        { name: 'HMAC', hash: 'SHA-512' },
+        false,
+        ['sign']
+      );
+      
+      const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData);
+      const signatureHex = Array.from(new Uint8Array(signature))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+
+      const headers = {
+        'Content-Type': 'application/json',
+        'app-id': appId,
+        'apikey': apiKey,
+        'payload': payloadBase64,
+        'signature': signatureHex,
+        'timestamp': timestamp
+      };
+
       const response = await fetch(`${baseUrl}${endpoint}`, {
         method: data && Object.keys(data).length > 0 ? 'POST' : 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-          'X-API-Key': apiKey,
-          'X-API-Secret': apiSecret,
-          'X-App-ID': appId
-        },
+        headers,
         body: data && Object.keys(data).length > 0 ? JSON.stringify(data) : undefined
       });
 
       if (!response.ok) {
-        throw new Error(`API error: ${response.status} ${response.statusText}`);
+        const errorText = await response.text();
+        throw new Error(`API error: ${response.status} ${response.statusText} - ${errorText}`);
       }
 
       return await response.json();
     } catch (error) {
-      throw new Error(`Onramp API call failed: ${error instanceof Error ? error.message : 'Unknown error'} - Contact Onramp support for API documentation`);
+      throw new Error(`Onramp API call failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 

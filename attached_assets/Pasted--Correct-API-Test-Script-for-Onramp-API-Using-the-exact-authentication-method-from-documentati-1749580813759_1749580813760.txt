@@ -1,0 +1,213 @@
+// Correct API Test Script for Onramp API
+// Using the exact authentication method from documentation
+// Run with: node test-api-correct.js
+const axios = require('axios');
+const crypto = require('crypto');
+// Load environment variables based on NODE_ENV (default to 'test')
+const env = process.env.NODE_ENV || 'test';
+require('dotenv').config({
+  path: `.env.${env}`
+});
+
+// API Configuration
+const config = {
+  baseUrl: process.env.ONRAMP_BASE_URL,
+  appId: process.env.ONRAMP_APP_ID,
+  apiKey: process.env.ONRAMP_API_KEY,
+  secret: process.env.ONRAMP_API_SECRET
+};
+
+// Test customer ID
+const testCustomerId = 'sandbox-test-user-123';
+
+// Correctly generate payload and signature following Onramp docs
+async function generatePayloadAndSignature(body = {}) {
+  const timestamp = Date.now().toString();
+  const obj = {
+    body,
+    timestamp
+  };
+  
+  // Convert payload to JSON string, then to buffer, then to base64
+  const payloadString = JSON.stringify(obj);
+  const payloadBuffer = Buffer.from(payloadString, 'utf-8');
+  const payload = payloadBuffer.toString('base64');
+  
+  // Generate HMAC-SHA512 signature using the payload and secret key
+  const hmac = crypto.createHmac('sha512', config.secret);
+  hmac.update(payload);
+  const signature = hmac.digest('hex');
+  
+  return { payload, signature, timestamp };
+}
+
+// Make an authenticated request to Onramp API
+async function makeRequest(method, path, body = {}) {
+  try {
+    console.log(`\n=== Making ${method} request to ${path} ===`);
+    
+    // Generate payload and signature
+    const { payload, signature, timestamp } = await generatePayloadAndSignature(body);
+    
+    console.log('Auth Headers:', {
+      appId: config.appId,
+      timestamp: timestamp,
+      payload: payload.substring(0, 20) + '...',
+      signature: signature.substring(0, 10) + '...'
+    });
+    
+    if (Object.keys(body).length > 0) {
+      console.log('Request Body:', JSON.stringify(body, null, 2));
+    }
+    
+    // Create request headers as documented
+    const headers = {
+      'Content-Type': 'application/json',
+      'app-id': config.appId,
+      'apikey': config.apiKey,
+      'payload': payload,
+      'signature': signature,
+      'timestamp': timestamp
+    };
+    // Log full headers to debug authentication
+    console.log('Request Headers:', headers);
+    
+    // Make the request
+    const response = await axios({
+      method: method,
+      url: `${config.baseUrl}${path}`,
+      data: method !== 'GET' ? body : undefined,
+      headers: headers,
+      timeout: 30000
+    });
+    
+    console.log(`Response Status: ${response.status}`);
+    console.log('Response Data:', JSON.stringify(response.data, null, 2));
+    return response.data;
+  } catch (error) {
+    console.error('Request Failed:');
+    if (error.response) {
+      console.error(`Status: ${error.response.status}`);
+      console.error('Response Data:', JSON.stringify(error.response.data, null, 2));
+      console.error('Response Headers:', JSON.stringify(error.response.headers, null, 2));
+      return error.response.data;
+    } else if (error.request) {
+      console.error('No response received:', error.message);
+      return { error: error.message };
+    } else {
+      console.error('Error setting up request:', error.message);
+      return { error: error.message };
+    }
+  }
+}
+
+// add this helper above runTests
+async function getKycUrl(data) {
+  const res = await makeRequest('POST', '/onramp/api/v2/whiteLabel/kyc/url', data);
+  // if phone number already linked, retry by customerId
+  if (res.status === 0 && res.customerId) {
+    console.log('Existing customer detected, retrying KYC URL with customerId');
+    return makeRequest('POST', '/onramp/api/v2/whiteLabel/kyc/url', { customerId: res.customerId });
+  }
+  return res;
+}
+
+// Test various API endpoints
+async function runTests() {
+  console.log('=== Testing Onramp API with Correct Authentication ===');
+  const testResults = [];
+  try {
+    // 1. Test KYC URL endpoint - requires login details
+    const kycUrlData = {
+      email: "test@example.com",
+      phoneNumber: "+91-9999999999",
+      type: "INDIVIDUAL",
+      clientCustomerId: "test-client-001"
+    };
+    const kycResult = await getKycUrl(kycUrlData);
+    testResults.push({ name: 'KYC URL', status: kycResult.status === 1 ? 'Passed' : 'Failed' });
+
+    // Determine active customerId from result or fallback to testCustomerId
+    let activeCustomerId = testCustomerId;
+    if (kycResult.customerId) {
+      activeCustomerId = kycResult.customerId;
+    } else if (kycResult.data && kycResult.data.customerId) {
+      activeCustomerId = kycResult.data.customerId;
+    }
+    console.log('Using customerId:', activeCustomerId);
+    
+    // 2. Test KYC Status endpoint
+    const kycStatusResult = await makeRequest('POST', '/onramp/api/v2/whiteLabel/kyc/status', { customerId: activeCustomerId });
+    testResults.push({ name: 'KYC Status', status: kycStatusResult.status === 1 ? 'Passed' : 'Failed' });
+    
+    // 3. Test Onramp Quote
+    const quoteData = {
+      fromCurrency:      'INR',
+      toCurrency:        'XLM',
+      fromAmount:        1000,
+      chain:             'XLM',
+      paymentMethodType: 'UPI'   // Required in sandbox quote
+    };
+    const quoteResult = await makeRequest('POST', '/onramp/api/v2/whiteLabel/onramp/quote', quoteData);
+    testResults.push({ name: 'Onramp Quote', status: quoteResult.status === 1 ? 'Passed' : 'Failed' });
+
+    // Log the raw quoteResult.data to inspect its structure and values
+    console.log('Raw quoteResult.data:', JSON.stringify(quoteResult?.data, null, 2));
+
+    // 4. Create Onramp Transaction
+    if (quoteResult?.data) {
+      const { toAmount: cryptoAmount, rate } = quoteResult.data;
+
+      // Construct createTransaction payload per Onramp docs
+      // The API is explicitly asking for customerId, despite the example payload omitting it.
+      const createOnrampData = {
+        customerId:       activeCustomerId,            // Onramp's customer ID from KYC
+        clientCustomerId: "test-client-001",         // Your platform's customer ID
+        depositAddress:   process.env.STELLAR_PUBLIC_KEY,
+        fiatCurrency:     'INR',
+        fromCurrency:     'INR',
+        toCurrency:       'XLM',
+        chain:            'XLM',
+        paymentMethodType: 'UPI',
+        fromAmount:       String(1000),
+        toAmount:         cryptoAmount,
+        rate:             rate
+      };
+      // Call the official createTransaction endpoint
+      const txResult = await makeRequest('POST', '/onramp/api/v2/whiteLabel/onramp/createTransaction', createOnrampData);
+      testResults.push({ name: 'Create Onramp Transaction', status: txResult.status === 1 ? 'Passed' : 'Failed' });
+
+      // If transactionId returned, fetch transaction details
+      let transactionIdToFetch = txResult?.data?.transactionId || txResult.transactionId;
+      if (transactionIdToFetch) {
+        console.log(`Fetching transaction details for ID: ${transactionIdToFetch}`);
+        await makeRequest('POST', '/onramp/api/v2/whiteLabel/onramp/transaction', {
+          transactionId: transactionIdToFetch,
+          customerId:    activeCustomerId
+        });
+      } else {
+        console.log('No transactionId obtained from createTransaction step.');
+      }
+    }
+
+    // 5. Test Offramp Quote (documented REST payload)
+    const offrampQuoteData = {
+      fromCurrency: 'XLM',      // Source crypto currency
+      toCurrency:   'INR',      // Target fiat currency
+      fromAmount:   100,        // Amount of crypto to off-ramp (ensure it meets sandbox minimums)
+      // toAmount:     0,       // API might calculate this, or it might be required. Start by omitting.
+      chain:        'XLM'       // Blockchain network
+    };
+    const offrampQuoteResult = await makeRequest('POST', '/onramp/api/v2/whiteLabel/offramp/quote', offrampQuoteData);
+    testResults.push({ name: 'Offramp Quote', status: offrampQuoteResult.status === 1 ? 'Passed' : 'Failed' });
+    
+    console.log('\n=== All tests completed ===');
+    console.log('\n=== Test Summary ===');
+    testResults.forEach(tr => console.log(`${tr.name}: ${tr.status}`));
+  } catch (error) {
+    console.error('Error running tests:', error);
+  }
+}
+
+// Run all tests
+runTests();
