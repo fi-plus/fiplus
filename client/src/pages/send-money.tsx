@@ -115,6 +115,28 @@ export default function SendMoney() {
               </div>
             </div>
 
+            {/* Recipient Experience Status */}
+            <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
+              <h3 className="font-semibold text-blue-900 mb-2">Recipient Notification:</h3>
+              {recipient.includes('@') ? (
+                <div className="flex items-center space-x-2 text-blue-700 text-sm">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Push notification sent to existing fi.plus user</span>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 text-blue-700 text-sm">
+                    <MessageSquare className="w-4 h-4" />
+                    <span>SMS with claim link sent to {recipient}</span>
+                  </div>
+                  <div className="text-xs text-blue-600 italic bg-blue-100 p-2 rounded">
+                    "You've received {getConvertedAmount()} {toCurrency} from {user?.firstName}. 
+                    Claim at: fi.plus/claim?id=ABC123"
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div className="grid grid-cols-2 gap-3 mb-6">
               <Button variant="outline" className="flex items-center space-x-2">
                 <MessageSquare className="w-4 h-4" />
