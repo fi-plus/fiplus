@@ -56,12 +56,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="bg-card backdrop-blur-md border-b border-border sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="px-4 md:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3 ml-2">
+            <div className="flex items-center space-x-3">
               <div className="relative">
                 <div className="w-10 h-10 bg-gradient-to-br from-primary via-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Star className="w-5 h-5 text-white" />
@@ -116,9 +116,9 @@ export default function Dashboard() {
 
 
 
-      <main className="flex-1 flex">
+      <main className="flex-1 flex overflow-hidden">
         {/* Left Navigation Sidebar - Hidden on mobile */}
-        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block`}>
+        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0`}>
           <div className="flex items-center justify-between mb-4">
             {!sidebarCollapsed && <div className="text-xs font-medium text-muted-foreground">Navigation</div>}
             <Button 
@@ -204,8 +204,8 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-6 pb-20 md:pb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="flex-1 p-4 md:p-6 pb-20 md:pb-6 overflow-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}
             <div className="lg:col-span-2 space-y-6">
