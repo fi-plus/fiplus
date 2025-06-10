@@ -110,7 +110,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; 2024 fi.plus. All rights reserved. | Powered by Stellar Network & Onramp.money | Licensed Money Transmitter</p>
+            <p>&copy; 2024 fi.plus. All rights reserved. | Powered by Stellar Blockchain & Onramp.money Whitelabel | USDC/EURC Stablecoins | SEP-24/31 Compliant</p>
           </div>
         </div>
       </footer>
