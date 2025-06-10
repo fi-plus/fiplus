@@ -414,7 +414,7 @@ export default function AddMoney() {
                   type="number"
                   placeholder="0.00"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => handleAmountChange(e.target.value)}
                   className="text-2xl font-bold"
                 />
               </div>
@@ -438,11 +438,52 @@ export default function AddMoney() {
               </div>
             </div>
 
-            {amount && (
+            {amount && paymentMethod !== 'onramp_deposit' && (
               <div className="bg-blue-50 rounded-lg p-4">
                 <div className="text-sm text-blue-700">
                   You'll receive: <span className="font-bold">{amount} XLM</span>
                 </div>
+              </div>
+            )}
+
+            {paymentMethod === 'onramp_deposit' && amount && (
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border border-blue-200">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-medium text-blue-900">Real-time Onramp Quote</h3>
+                  {isLoadingQuote && (
+                    <div className="animate-spin w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+                  )}
+                </div>
+                
+                {quote && !isLoadingQuote && (
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">You pay:</span>
+                      <span className="font-medium">{amount} {currency}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Exchange rate:</span>
+                      <span>1 {currency} = {quote.exchangeRate} XLM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Onramp fee:</span>
+                      <span>{quote.fees.total.toFixed(2)} {currency}</span>
+                    </div>
+                    <div className="flex justify-between font-medium text-green-600 border-t pt-2">
+                      <span>You receive:</span>
+                      <span>{quote.cryptoAmount.toFixed(2)} XLM</span>
+                    </div>
+                    <div className="text-xs text-blue-600 mt-2">
+                      Processing time: {quote.estimatedTime}
+                    </div>
+                  </div>
+                )}
+                
+                {!quote && !isLoadingQuote && (
+                  <div className="text-sm text-gray-500">
+                    Enter amount to see live pricing
+                  </div>
+                )}
               </div>
             )}
 
