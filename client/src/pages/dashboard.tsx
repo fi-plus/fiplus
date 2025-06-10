@@ -89,12 +89,69 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <main className="flex-1 flex">
+        {/* Left Navigation Sidebar */}
+        <aside className="w-64 bg-card border-r border-border p-6">
+          <nav className="space-y-2">
+            <Link href="/">
+              <Button variant="ghost" className="w-full justify-start h-10 text-left bg-muted text-foreground">
+                <DollarSign className="w-4 h-4 mr-3" />
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/send">
+              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
+                <Send className="w-4 h-4 mr-3" />
+                Send Money
+              </Button>
+            </Link>
+            <Link href="/history">
+              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
+                <History className="w-4 h-4 mr-3" />
+                History
+              </Button>
+            </Link>
+            <Link href="/contacts">
+              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
+                <Users className="w-4 h-4 mr-3" />
+                Contacts
+              </Button>
+            </Link>
+            <Link href="/settings">
+              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
+                <Settings className="w-4 h-4 mr-3" />
+                Settings
+              </Button>
+            </Link>
+          </nav>
           
-          {/* Main Send Money Card */}
-          <div className="lg:col-span-2">
-            <Card className="minimal-card overflow-hidden">
+          {/* Quick Stats in Sidebar */}
+          <div className="mt-8">
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">Quick Stats</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">This Month</span>
+                <span className="text-xs font-medium text-foreground">₹45,000</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Total Transfers</span>
+                <span className="text-xs font-medium text-foreground">23</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Saved in Fees</span>
+                <span className="text-xs font-medium text-green-400">₹2,340</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <div className="flex-1 p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* Main Send Money Card */}
+            <div className="lg:col-span-2">
+              <Card className="minimal-card overflow-hidden">
               <div className="gradient-primary p-6 text-white">
                 <CardTitle className="text-2xl font-semibold mb-1">Send Money Globally</CardTitle>
                 <p className="text-white/80">Fast, secure cross-border payments via Stellar network</p>
@@ -198,22 +255,22 @@ export default function Dashboard() {
             </Card>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-4">
-            {/* Connected Bank Accounts */}
-            <Card className="minimal-card">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center justify-between">
-                  <span className="text-base font-medium text-foreground">Connected Accounts</span>
-                  <Link href="/add-bank-account">
-                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-8">
-                      <Plus className="w-3 h-3 mr-1" />
-                      Add
-                    </Button>
-                  </Link>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0 space-y-3">
+            {/* Right Sidebar */}
+            <div className="space-y-4">
+              {/* Connected Bank Accounts */}
+              <Card className="minimal-card">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="text-base font-medium text-foreground">Connected Accounts</span>
+                    <Link href="/add-bank-account">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-8">
+                        <Plus className="w-3 h-3 mr-1" />
+                        Add
+                      </Button>
+                    </Link>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-3">
                 {/* Indian Bank Account */}
                 <div className="border border-border rounded-lg p-3 bg-card">
                   <div className="flex items-center justify-between mb-2">
@@ -264,99 +321,71 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Add Account Prompt */}
-                <div className="border-2 border-dashed border-border rounded-lg p-3 text-center bg-muted">
-                  <div className="text-muted-foreground">
-                    <Plus className="w-6 h-6 mx-auto mb-2" />
-                    <div className="font-medium mb-1 text-sm">Add Bank Account</div>
-                    <div className="text-xs">50+ countries supported</div>
+                  {/* Add Account Prompt */}
+                  <div className="border-2 border-dashed border-border rounded-lg p-3 text-center bg-muted">
+                    <div className="text-muted-foreground">
+                      <Plus className="w-6 h-6 mx-auto mb-2" />
+                      <div className="font-medium mb-1 text-sm">Add Bank Account</div>
+                      <div className="text-xs">50+ countries supported</div>
+                    </div>
                   </div>
-                </div>
 
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
 
-            {/* Quick Stats */}
-            <Card className="minimal-card">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-medium text-foreground">Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0 space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">This Month</span>
-                  <span className="text-sm font-medium text-foreground">₹45,000 sent</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Total Transfers</span>
-                  <span className="text-sm font-medium text-foreground">23 completed</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Avg. Rate</span>
-                  <span className="text-sm font-medium text-green-400">₹82.45/USD</span>
-                </div>
-                <div className="pt-2 border-t border-border">
+              {/* Recent Activity */}
+              <Card className="minimal-card">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-medium text-foreground">Recent Activity</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  {transactions.isLoading ? (
+                    <div className="flex items-center justify-center py-6">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                    </div>
+                  ) : transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 ? (
+                    <div className="space-y-2">
+                      {transactions.data.slice(0, 3).map((transaction: any) => (
+                        <div key={transaction.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                            transaction.type === 'deposit' ? 'bg-green-500' : 'bg-primary'
+                          }`}>
+                            {transaction.type === 'deposit' ? (
+                              <ArrowDownLeft className="w-3 h-3 text-white" />
+                            ) : (
+                              <ArrowUpRight className="w-3 h-3 text-white" />
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-medium text-foreground capitalize">{transaction.type}</div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {transaction.fromAmount} {transaction.fromCurrency}
+                              {transaction.toCurrency && ` → ${transaction.toAmount} ${transaction.toCurrency}`}
+                            </div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {transaction.recipientName || transaction.status}
+                            </div>
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {new Date(transaction.createdAt).toLocaleDateString()}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-6 text-muted-foreground">
+                      <div className="text-sm">No transactions yet</div>
+                      <div className="text-xs mt-1">Start sending money to see activity</div>
+                    </div>
+                  )}
                   <Link href="/history">
-                    <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted transition-colors">
-                      <History className="w-4 h-4 mr-2 text-muted-foreground" />
-                      <span className="text-sm">View All History</span>
+                    <Button variant="outline" className="w-full mt-3 text-sm h-8">
+                      View All Transactions
                     </Button>
                   </Link>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Recent Activity */}
-            <Card className="minimal-card">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-medium text-foreground">Recent Activity</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                {transactions.isLoading ? (
-                  <div className="flex items-center justify-center py-6">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                  </div>
-                ) : transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 ? (
-                  <div className="space-y-2">
-                    {transactions.data.slice(0, 3).map((transaction: any) => (
-                      <div key={transaction.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                          transaction.type === 'deposit' ? 'bg-green-500' : 'bg-primary'
-                        }`}>
-                          {transaction.type === 'deposit' ? (
-                            <ArrowDownLeft className="w-3 h-3 text-white" />
-                          ) : (
-                            <ArrowUpRight className="w-3 h-3 text-white" />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-xs font-medium text-foreground capitalize">{transaction.type}</div>
-                          <div className="text-xs text-muted-foreground truncate">
-                            {transaction.fromAmount} {transaction.fromCurrency}
-                            {transaction.toCurrency && ` → ${transaction.toAmount} ${transaction.toCurrency}`}
-                          </div>
-                          <div className="text-xs text-muted-foreground truncate">
-                            {transaction.recipientName || transaction.status}
-                          </div>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {new Date(transaction.createdAt).toLocaleDateString()}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-6 text-muted-foreground">
-                    <div className="text-sm">No transactions yet</div>
-                    <div className="text-xs mt-1">Start sending money to see activity</div>
-                  </div>
-                )}
-                <Link href="/history">
-                  <Button variant="outline" className="w-full mt-3 text-sm h-8">
-                    View All Transactions
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </main>
