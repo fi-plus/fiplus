@@ -253,14 +253,9 @@ export default function AddMoney() {
                       This will redirect you to Onramp.money to convert your {currency} to XLM
                     </p>
                     <div className="text-xs text-blue-600">
-                      • Secure KYC verification required
-                      • Real-time exchange rates
+                      • Secure KYC verification required<br/>
+                      • Real-time exchange rates<br/>
                       • Direct XLM delivery to your fi.plus wallet
-                      <Input placeholder="MM/YY" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">CVV</label>
-                      <Input placeholder="123" />
                     </div>
                   </div>
                 </div>
@@ -271,7 +266,7 @@ export default function AddMoney() {
                 className="w-full bg-blue-600 hover:bg-blue-700"
                 size="lg"
               >
-                {paymentMethod === 'upi' ? 'I have paid' : paymentMethod === 'bank_transfer' ? 'I have sent the transfer' : 'Pay Now'}
+                {paymentMethod === 'stellar_wallet' ? 'I have sent XLM' : paymentMethod === 'usdc_wallet' ? 'I have sent USDC' : paymentMethod === 'onramp_deposit' ? 'Continue with Onramp' : 'Complete Deposit'}
               </Button>
             </CardContent>
           </Card>
