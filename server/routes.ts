@@ -238,9 +238,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/exchange-rates", async (req, res) => {
     try {
       const rateResponse = await callOnrampAPI('/rates/current');
+      const rates = rateResponse?.rates || [];
       
       // Save rates to database
-      for (const rate of rateResponse.rates) {
+      for (const rate of rates) {
         await storage.upsertExchangeRate({
           fromCurrency: rate.from,
           toCurrency: rate.to,
@@ -249,8 +250,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      const rates = await storage.getAllExchangeRates();
-      res.json(rates);
+      const allRates = await storage.getAllExchangeRates();
+      res.json(allRates);
     } catch (error) {
       console.error("Get exchange rates error:", error);
       res.status(500).json({ message: "Failed to get exchange rates" });
