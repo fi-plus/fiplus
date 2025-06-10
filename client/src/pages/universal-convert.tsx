@@ -8,9 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { ArrowRightLeft, ArrowRight, Loader2, TrendingUp, Clock, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { currencyBridge, type BridgeQuote } from "@/lib/currencyBridge";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
-import { walletService } from "@/lib/walletService";
 
 const CRYPTO_ASSETS = [
   { code: 'XLM', name: 'Stellar Lumens', balance: () => walletService.getBalance('XLM') },

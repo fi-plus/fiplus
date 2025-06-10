@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, AlertCircle, Download, Share2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { transactionService } from "@/lib/transactionService";
+// Service removed - using direct API calls
 
 export default function History() {
   const { toast } = useToast();

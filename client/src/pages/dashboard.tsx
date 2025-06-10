@@ -11,8 +11,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
-import { walletService } from "@/lib/walletService";
-import { transactionService } from "@/lib/transactionService";
+// Services removed - using direct API calls
 
 export default function Dashboard() {
   const { user, logout } = useAuth();

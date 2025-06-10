@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowRightLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
-import { walletService } from "@/lib/walletService";
+// Service removed - using direct API calls
 
 export default function Convert() {
   const [fromCurrency, setFromCurrency] = useState("USD");
