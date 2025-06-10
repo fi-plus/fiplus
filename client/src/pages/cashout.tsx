@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, WALLET_ASSETS } from "@/lib/constants";
 import { walletService } from "@/lib/walletService";
 import { transactionService } from "@/lib/transactionService";
+import { onrampWhitelabel } from "@/lib/onramp";
 
 const CASHOUT_METHODS = {
   'onramp_offramp': {
@@ -63,21 +64,72 @@ export default function Cashout() {
     phoneNumber: "",
     provider: ""
   });
+  const [offrampQuote, setOfframpQuote] = useState<any>(null);
+  const [isLoadingQuote, setIsLoadingQuote] = useState(false);
 
   const selectedMethod = cashoutMethod ? CASHOUT_METHODS[cashoutMethod as keyof typeof CASHOUT_METHODS] : null;
   const availableMethods = Object.entries(CASHOUT_METHODS).filter(([, method]) => 
     method.available.includes(toCurrency)
   );
 
+  // Fetch real-time offramp quote from Onramp
+  const fetchOfframpQuote = async () => {
+    if (!amount || !toCurrency || cashoutMethod !== 'onramp_offramp') return;
+    
+    setIsLoadingQuote(true);
+    try {
+      const quote = await onrampWhitelabel.getOfframpQuote({
+        cryptoCurrency: fromAsset,
+        cryptoAmount: parseFloat(amount),
+        fiatCurrency: toCurrency,
+        paymentMethod: 'bank_transfer'
+      });
+      setOfframpQuote(quote);
+    } catch (error) {
+      console.error('Failed to fetch offramp quote:', error);
+      toast({
+        title: "Quote Error",
+        description: "Unable to fetch current rates. Please try again.",
+        variant: "destructive"
+      });
+      setOfframpQuote(null);
+    } finally {
+      setIsLoadingQuote(false);
+    }
+  };
+
   const calculateFee = () => {
+    if (cashoutMethod === 'onramp_offramp' && offrampQuote) {
+      return offrampQuote.fees.total;
+    }
     if (!selectedMethod || !amount) return 0;
     const feePercent = parseFloat(selectedMethod.fee.replace('%', '')) / 100;
     return parseFloat(amount) * feePercent;
   };
 
   const calculateReceiveAmount = () => {
+    if (cashoutMethod === 'onramp_offramp' && offrampQuote) {
+      return offrampQuote.fiatAmount;
+    }
     if (!amount) return 0;
     return parseFloat(amount) - calculateFee();
+  };
+
+  // Auto-fetch quote when parameters change for Onramp
+  const handleAmountChange = (value: string) => {
+    setAmount(value);
+    if (cashoutMethod === 'onramp_offramp' && value && parseFloat(value) > 0) {
+      setTimeout(fetchOfframpQuote, 500); // Debounce
+    }
+  };
+
+  const handleMethodChange = (method: string) => {
+    setCashoutMethod(method);
+    if (method === 'onramp_offramp' && amount && parseFloat(amount) > 0) {
+      fetchOfframpQuote();
+    } else {
+      setOfframpQuote(null);
+    }
   };
 
   const handleMethodSelect = (method: string) => {
@@ -116,24 +168,69 @@ export default function Cashout() {
     setStep('confirm');
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setStep('processing');
     
-    // Process the cashout transaction
-    const transaction = transactionService.cashOut(
-      fromAsset,
-      toCurrency,
-      parseFloat(amount),
-      cashoutMethod
-    );
-    
-    setTimeout(() => {
-      setStep('success');
+    try {
+      if (cashoutMethod === 'onramp_offramp') {
+        // Create Onramp offramp transaction
+        const offrampTransaction = await onrampWhitelabel.createOfframpTransaction({
+          cryptoCurrency: fromAsset,
+          cryptoAmount: parseFloat(amount),
+          fiatCurrency: toCurrency,
+          fiatAmount: offrampQuote?.fiatAmount || calculateReceiveAmount(),
+          walletAddress: `GCEXAMPLE${user?.id}STELLARWALLET`,
+          userEmail: user?.email || '',
+          bankDetails: {
+            accountNumber: bankDetails.accountNumber,
+            routingNumber: bankDetails.routingNumber,
+            bankName: bankDetails.bankName,
+            accountHolderName: bankDetails.accountName
+          },
+          paymentMethod: 'bank_transfer'
+        });
+
+        // Record transaction in local service
+        const transaction = transactionService.cashOut(
+          fromAsset,
+          toCurrency,
+          parseFloat(amount),
+          cashoutMethod
+        );
+
+        setTimeout(() => {
+          setStep('success');
+          toast({
+            title: "Onramp Offramp Initiated",
+            description: `Your ${toCurrency} ${calculateReceiveAmount().toFixed(2)} withdrawal is being processed via Onramp. Transaction ID: ${offrampTransaction.transactionId}`,
+          });
+        }, 2000);
+      } else {
+        // Process traditional cashout transaction
+        const transaction = transactionService.cashOut(
+          fromAsset,
+          toCurrency,
+          parseFloat(amount),
+          cashoutMethod
+        );
+        
+        setTimeout(() => {
+          setStep('success');
+          toast({
+            title: "Cashout Initiated",
+            description: `Your ${toCurrency} ${calculateReceiveAmount().toFixed(2)} withdrawal is being processed. Transaction ID: ${transaction.id}`,
+          });
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Cashout error:', error);
       toast({
-        title: "Cashout Initiated",
-        description: `Your ${toCurrency} ${calculateReceiveAmount().toFixed(2)} withdrawal is being processed. Transaction ID: ${transaction.id}`,
+        title: "Cashout Failed",
+        description: "Unable to process withdrawal. Please try again.",
+        variant: "destructive"
       });
-    }, 3000);
+      setStep('confirm');
+    }
   };
 
   return (

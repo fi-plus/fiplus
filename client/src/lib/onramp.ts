@@ -213,43 +213,85 @@ export class OnrampWhitelabel {
     };
   }
 
-  // Initialize Offramp Whitelabel Widget
-  async createOfframpSession(options: {
+  // Get quote for offramp transaction
+  async getOfframpQuote(options: {
     cryptoCurrency: string;
     cryptoAmount: number;
     fiatCurrency: string;
+    paymentMethod?: string;
+  }): Promise<{
+    fiatAmount: number;
+    exchangeRate: number;
+    fees: { total: number; breakdown: any[] };
+    estimatedTime: string;
+  }> {
+    const response = await this.makeApiCall('/offramp/quote', {
+      cryptoCurrency: options.cryptoCurrency,
+      cryptoAmount: options.cryptoAmount,
+      fiatCurrency: options.fiatCurrency,
+      paymentMethod: options.paymentMethod || 'bank_transfer'
+    });
+    
+    return {
+      fiatAmount: response.fiatAmount || 0,
+      exchangeRate: response.exchangeRate || 0,
+      fees: response.fees || { total: 0, breakdown: [] },
+      estimatedTime: response.estimatedTime || 'Unknown'
+    };
+  }
+
+  // Create offramp transaction
+  async createOfframpTransaction(options: {
+    cryptoCurrency: string;
+    cryptoAmount: number;
+    fiatCurrency: string;
+    fiatAmount: number;
     walletAddress: string;
-    bankDetails?: any;
-    userEmail?: string;
-    redirectUrl?: string;
+    userEmail: string;
+    bankDetails: {
+      accountNumber: string;
+      routingNumber?: string;
+      bankName: string;
+      accountHolderName: string;
+      iban?: string;
+      swiftCode?: string;
+    };
+    paymentMethod?: string;
   }) {
-    const sessionConfig = {
-      apiKey: this.config.apiKey,
-      environment: this.config.environment,
-      type: 'offramp',
-      partner: {
-        name: this.config.partnerName,
-        brandColor: this.config.brandColor,
-        logoUrl: this.config.logoUrl
-      },
-      transaction: {
-        cryptoCurrency: options.cryptoCurrency,
-        cryptoAmount: options.cryptoAmount,
-        fiatCurrency: options.fiatCurrency,
-        walletAddress: options.walletAddress,
-        bankDetails: options.bankDetails
-      },
+    return this.makeApiCall('/offramp/transaction', {
+      cryptoCurrency: options.cryptoCurrency,
+      cryptoAmount: options.cryptoAmount,
+      fiatCurrency: options.fiatCurrency,
+      fiatAmount: options.fiatAmount,
+      walletAddress: options.walletAddress,
+      paymentMethod: options.paymentMethod || 'bank_transfer',
       user: {
         email: options.userEmail
       },
-      callbacks: {
-        redirectUrl: options.redirectUrl || `${window.location.origin}/cashout?success=true`,
-        webhookUrl: `${window.location.origin}/api/onramp/webhook`
-      }
-    };
+      bankDetails: options.bankDetails,
+      webhookUrl: `${window.location.origin}/api/onramp/webhook`
+    });
+  }
 
-    const response = await this.makeApiCall('/sessions', sessionConfig);
-    return response;
+  // Get specific transaction details
+  async getTransaction(transactionId: string) {
+    return this.makeApiCall(`/offramp/transaction/${transactionId}`, {});
+  }
+
+  // Get all transactions for a user
+  async getUserTransactions(userEmail: string) {
+    return this.makeApiCall('/offramp/transactions/user', { userEmail });
+  }
+
+  // Get all transactions (admin)
+  async getAllTransactions(params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+  }) {
+    return this.makeApiCall('/offramp/transactions', params || {});
   }
 
   private async makeApiCall(endpoint: string, data: any): Promise<any> {
@@ -262,13 +304,62 @@ export class OnrampWhitelabel {
     // Return appropriate response structure based on endpoint
     if (endpoint === '/onramp/quote') {
       return {
-        cryptoAmount: data.fiatAmount * 7.2, // XLM conversion rate
+        cryptoAmount: data.fiatAmount * 7.2,
         exchangeRate: 7.2,
         fees: { 
           total: data.fiatAmount * 0.025, 
           breakdown: [{ type: 'onramp_fee', amount: data.fiatAmount * 0.025 }] 
         },
         estimatedTime: '5-15 minutes'
+      };
+    }
+
+    if (endpoint === '/offramp/quote') {
+      return {
+        fiatAmount: data.cryptoAmount / 7.2, // Convert XLM to fiat
+        exchangeRate: 0.139, // 1 XLM = 0.139 USD (inverse of 7.2)
+        fees: { 
+          total: (data.cryptoAmount / 7.2) * 0.025, 
+          breakdown: [{ type: 'offramp_fee', amount: (data.cryptoAmount / 7.2) * 0.025 }] 
+        },
+        estimatedTime: '5-15 minutes'
+      };
+    }
+
+    if (endpoint === '/offramp/transaction') {
+      return {
+        transactionId: `tx_${Date.now()}`,
+        status: 'pending',
+        estimatedCompletion: new Date(Date.now() + 15 * 60 * 1000).toISOString()
+      };
+    }
+
+    if (endpoint.startsWith('/offramp/transaction/')) {
+      return {
+        transactionId: endpoint.split('/').pop(),
+        status: 'completed',
+        fiatAmount: 100,
+        cryptoAmount: 720,
+        fees: { total: 2.5 },
+        completedAt: new Date().toISOString()
+      };
+    }
+
+    if (endpoint === '/offramp/transactions/user') {
+      return {
+        transactions: [],
+        total: 0,
+        page: 1,
+        limit: 10
+      };
+    }
+
+    if (endpoint === '/offramp/transactions') {
+      return {
+        transactions: [],
+        total: 0,
+        page: data.page || 1,
+        limit: data.limit || 10
       };
     }
     
