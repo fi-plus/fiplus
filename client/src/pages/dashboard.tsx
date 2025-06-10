@@ -70,14 +70,6 @@ export default function Dashboard() {
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">fi.plus</h1>
-                <div className="flex items-center space-x-2">
-                  <div className="flex items-center space-x-1">
-                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-muted-foreground font-medium">Stellar Network</span>
-                  </div>
-                  <div className="w-1 h-1 bg-muted-foreground/40 rounded-full"></div>
-                  <span className="text-xs text-green-500 font-medium">Live</span>
-                </div>
               </div>
             </div>
             
