@@ -18,8 +18,8 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const [sendAmount, setSendAmount] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("USD");
-  const [toCurrency, setToCurrency] = useState("INR");
+  const [fromCurrency, setFromCurrency] = useState("INR");
+  const [toCurrency, setToCurrency] = useState("USD");
 
   // Fetch real transaction data from database
   const transactions = useQuery({

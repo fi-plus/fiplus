@@ -29,29 +29,43 @@ interface AuthenticatedRequest extends Request {
   user?: { id: number; email: string };
 }
 
-// Onramp API integration placeholder - requires real implementation
+// Real Onramp API integration using HMAC-SHA512 authentication
+import crypto from 'crypto';
+
 async function callOnrampAPI(endpoint: string, data?: any, method = 'GET') {
-  // TODO: Implement actual HTTP requests to Onramp.money API
+  if (!ONRAMP_API_KEY) {
+    throw new Error('ONRAMP_API_KEY not configured');
+  }
+
+  const baseUrl = 'https://sandbox.onramp.money/api/v1';
+  const url = `${baseUrl}${endpoint}`;
+  const body = data ? JSON.stringify(data) : '';
+  const timestamp = Date.now().toString();
   
-  // Mock responses for different endpoints
-  switch (endpoint) {
-    case '/user/create':
-      return { userId: `onramp_${Date.now()}`, kycStatus: 'pending' };
-    case '/wallet/create':
-      return { walletId: `wallet_${Date.now()}`, balance: '0' };
-    case '/transaction/create':
-      return { transactionId: `txn_${Date.now()}`, status: 'processing' };
-    case '/rates/current':
-      return {
-        rates: [
-          { from: 'INR', to: 'USD', rate: '0.01201' },
-          { from: 'NGN', to: 'EUR', rate: '0.00134' },
-          { from: 'USD', to: 'KES', rate: '129.45' },
-          { from: 'EUR', to: 'TRY', rate: '31.82' }
-        ]
-      };
-    default:
-      return { success: true };
+  // Generate HMAC-SHA512 signature as per Onramp documentation
+  const message = `${method}${endpoint}${timestamp}${body}`;
+  const signature = crypto.createHmac('sha512', ONRAMP_API_KEY).update(message).digest('hex');
+  
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': ONRAMP_API_KEY,
+        'X-Timestamp': timestamp,
+        'X-Signature': signature,
+      },
+      body: method !== 'GET' ? body : undefined,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Onramp API error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Onramp API call failed:', error);
+    throw error;
   }
 }
 
@@ -313,6 +327,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Get exchange rates error:", error);
       res.status(500).json({ message: "Failed to get exchange rates" });
+    }
+  });
+
+  // Onramp quote endpoint
+  app.post("/api/onramp/quote", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { fiatCurrency, fiatAmount, cryptoCurrency } = req.body;
+      
+      const quoteData = {
+        fiatCurrency,
+        fiatAmount,
+        cryptoCurrency,
+        clientCustomerId: `fiplus-${req.user?.id}-${Date.now()}`
+      };
+      
+      const quote = await callOnrampAPI('/onramp/quote', quoteData, 'POST');
+      res.json(quote);
+    } catch (error) {
+      console.error("Onramp quote error:", error);
+      res.status(500).json({ message: "Failed to get quote from Onramp" });
+    }
+  });
+
+  // Onramp KYC URL creation endpoint
+  app.post("/api/onramp/kyc", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { userEmail, phoneNumber } = req.body;
+      
+      const kycData = {
+        userEmail: userEmail || req.user?.email,
+        phoneNumber,
+        clientCustomerId: `fiplus-${req.user?.id}-${Date.now()}`
+      };
+      
+      const kycResult = await callOnrampAPI('/customer/create', kycData, 'POST');
+      res.json(kycResult);
+    } catch (error) {
+      console.error("Onramp KYC error:", error);
+      res.status(500).json({ message: "Failed to create KYC URL" });
     }
   });
 

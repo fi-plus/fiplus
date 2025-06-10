@@ -10,15 +10,15 @@ import { Star, Send, Clock, DollarSign, Users, CheckCircle2, MessageSquare, Shar
 import { useToast } from "@/hooks/use-toast";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate, calculateFee } from "@/lib/constants";
-import { onrampWhitelabel } from "@/lib/onramp";
+import { queryClient } from "@/lib/queryClient";
 
 export default function SendMoney() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [step, setStep] = useState<'form' | 'confirm' | 'processing' | 'success'>('form');
   const [amount, setAmount] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("USD");
-  const [toCurrency, setToCurrency] = useState("INR");
+  const [fromCurrency, setFromCurrency] = useState("INR");
+  const [toCurrency, setToCurrency] = useState("USD");
   const [recipient, setRecipient] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [message, setMessage] = useState("");
@@ -75,19 +75,44 @@ export default function SendMoney() {
     setStep('processing');
     
     try {
-      // Get real quote from Onramp API
-      const quote = await onrampWhitelabel.getOnrampQuote({
-        fiatCurrency: fromCurrency,
-        fiatAmount: parseFloat(amount),
-        cryptoCurrency: 'XLM'
+      // Get real quote from backend API
+      const quoteResponse = await fetch('/api/onramp/quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          fiatCurrency: fromCurrency,
+          fiatAmount: parseFloat(amount),
+          cryptoCurrency: 'XLM'
+        })
       });
       
+      if (!quoteResponse.ok) {
+        throw new Error('Failed to get quote');
+      }
+      
+      const quote = await quoteResponse.json();
+      
       // Create KYC URL for payment processing
-      const kycResult = await onrampWhitelabel.createKycUrl({
-        userEmail: user?.email || 'sender@fiplus.com',
-        phoneNumber: '+91-9999999999',
-        clientCustomerId: `fiplus-send-${user?.id || Date.now()}`
+      const kycResponse = await fetch('/api/onramp/kyc', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          userEmail: user?.email,
+          phoneNumber: '+91-9999999999'
+        })
       });
+      
+      if (!kycResponse.ok) {
+        throw new Error('Failed to create KYC URL');
+      }
+      
+      const kycResult = await kycResponse.json();
       
       // Store transaction details for completion
       localStorage.setItem('pendingSendTransaction', JSON.stringify({
