@@ -9,13 +9,9 @@ import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
-import { SUPPORTED_CURRENCIES, getExchangeRate, WALLET_ASSETS } from "@/lib/constants";
-
-const WALLET_BALANCES = {
-  USDC: "1,250.00",
-  EURC: "890.50", 
-  XLM: "100.00"
-};
+import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
+import { walletService } from "@/lib/walletService";
+import { transactionService } from "@/lib/transactionService";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -204,7 +200,7 @@ export default function Dashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-5">
-                {Object.entries(WALLET_BALANCES).map(([asset, balance]) => (
+                {Object.entries(walletService.getAllBalances()).map(([asset, balance]) => (
                   <div key={asset} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-sm">
