@@ -103,7 +103,7 @@ export default function AddMoney() {
               <div className="text-sm text-green-700">
                 <div className="font-medium">Transaction Details:</div>
                 <div>Amount: {amount} {currency}</div>
-                <div>Received: {amount} {selectedCurrency?.stablecoin}</div>
+                <div>Received: {amount} XLM</div>
                 <div>Fee: {calculateFee().toFixed(2)} {currency}</div>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function AddMoney() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Processing Payment</h2>
             <p className="text-gray-600 mb-4">
-              Converting {amount} {currency} to {selectedCurrency?.stablecoin}...
+              Converting {amount} {currency} to XLM via Onramp...
             </p>
             <div className="text-sm text-gray-500">
               This may take a few moments
@@ -186,7 +186,7 @@ export default function AddMoney() {
                   </div>
                   <div className="flex justify-between text-green-600">
                     <span>You'll receive:</span>
-                    <span>{amount} {selectedCurrency?.stablecoin}</span>
+                    <span>{amount} XLM</span>
                   </div>
                 </div>
               </div>

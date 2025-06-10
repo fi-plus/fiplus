@@ -10,6 +10,8 @@ import { Star, Send, Clock, DollarSign, Users, CheckCircle2, MessageSquare, Shar
 import { useToast } from "@/hooks/use-toast";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate, calculateFee } from "@/lib/constants";
+import { walletService } from "@/lib/walletService";
+import { transactionService } from "@/lib/transactionService";
 
 export default function SendMoney() {
   const { user } = useAuth();
@@ -65,13 +67,41 @@ export default function SendMoney() {
       });
       return;
     }
+
+    const requestedAmount = parseFloat(amount);
+    const xlmBalance = walletService.getBalance('XLM');
+    
+    if (requestedAmount > xlmBalance) {
+      toast({
+        title: "Insufficient Balance",
+        description: `You need ${requestedAmount} XLM but only have ${xlmBalance} XLM available.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setStep('confirm');
   };
 
   const confirmSend = () => {
     setStep('processing');
+    
+    // Process the transaction
+    const transaction = transactionService.sendMoney(
+      fromCurrency,
+      toCurrency,
+      parseFloat(amount),
+      recipientName,
+      recipient,
+      deliveryMethod
+    );
+    
     setTimeout(() => {
       setStep('success');
+      toast({
+        title: "Transaction Complete",
+        description: `Transaction ID: ${transaction.id}`,
+      });
     }, 3000);
   };
 

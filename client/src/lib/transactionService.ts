@@ -117,8 +117,8 @@ class TransactionService {
   }
 
   private getStablecoinForCurrency(currency: string): string {
-    const supportedCurrency = SUPPORTED_CURRENCIES.find(c => c.code === currency);
-    return supportedCurrency?.stablecoin || 'USDC';
+    // All currencies now bridge through XLM via Onramp
+    return 'XLM';
   }
 }
 

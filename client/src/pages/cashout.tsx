@@ -159,7 +159,7 @@ export default function Cashout() {
                 {user?.firstName} {user?.lastName}
               </div>
               <div className="text-xs text-gray-500">
-                Available Balance: ${WALLET_BALANCES.USDC} USDC
+                Available Balance: ${walletService.getBalance(fromAsset).toLocaleString()} ${fromAsset}
               </div>
             </div>
           </div>
