@@ -151,20 +151,25 @@ export default function AddMoney() {
     
     setStep('processing');
     
-    // Process the deposit transaction for wallet transfers
-    const transaction = transactionService.addMoney(
-      currency,
-      parseFloat(amount),
-      paymentMethod
-    );
-    
-    setTimeout(() => {
-      setStep('success');
-      toast({
-        title: "Money Added Successfully",
-        description: `XLM balance updated in your wallet. Transaction ID: ${transaction.id}`,
+    try {
+      // Create Onramp widget session for real payment processing
+      const session = await onrampWhitelabel.createOnrampSession({
+        fiatCurrency: currency,
+        fiatAmount: parseFloat(amount),
+        userEmail: 'user@example.com', // Get from auth context
+        redirectURL: `${window.location.origin}/add-money?success=true`
       });
-    }, 3000);
+      
+      // Redirect to Onramp payment widget
+      window.location.href = session.url;
+    } catch (error) {
+      toast({
+        title: "Payment Setup Failed",
+        description: "Unable to initialize payment. Please try again.",
+        variant: "destructive"
+      });
+      setStep('form');
+    }
   };
 
   if (step === 'success') {
