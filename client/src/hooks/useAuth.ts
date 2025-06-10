@@ -9,6 +9,7 @@ export function useAuth() {
     queryKey: ["/api/auth/me"],
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
+    enabled: !!localStorage.getItem("token"), // Only run if token exists
   });
 
   const loginMutation = useMutation({
@@ -20,6 +21,8 @@ export function useAuth() {
     },
     onSuccess: (user) => {
       queryClient.setQueryData(["/api/auth/me"], user);
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
+      window.location.href = "/";
     },
   });
 

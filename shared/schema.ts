@@ -52,7 +52,12 @@ export const exchangeRates = pgTable("exchange_rates", {
   rate: decimal("rate", { precision: 20, scale: 8 }).notNull(),
   source: text("source").default("onramp"),
   updatedAt: timestamp("updated_at").defaultNow(),
-});
+}, (table) => ({
+  uniquePair: {
+    name: "exchange_rates_from_to_unique",
+    columns: [table.fromCurrency, table.toCurrency],
+  },
+}));
 
 // Zod schemas
 export const insertUserSchema = createInsertSchema(users).omit({
