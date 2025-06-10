@@ -416,14 +416,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                  {/* Add Account Prompt */}
-                  <div className="border-2 border-dashed border-border rounded-lg p-2 text-center bg-muted">
-                    <div className="text-muted-foreground">
-                      <Plus className="w-4 h-4 mx-auto mb-1" />
-                      <div className="font-medium mb-1 text-xs">Add Bank Account</div>
-                      <div className="text-xs">50+ countries supported</div>
-                    </div>
-                  </div>
+
 
                   {/* Transaction Summary */}
                   {transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 && (
