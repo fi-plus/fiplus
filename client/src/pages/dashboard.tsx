@@ -147,10 +147,10 @@ export default function Dashboard() {
 
         {/* Main Content Area */}
         <div className="flex-1 p-4">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             
             {/* Main Send Money Card */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-2">
               <Card className="minimal-card overflow-hidden">
               <div className="gradient-primary p-4 text-white">
                 <CardTitle className="text-xl font-semibold mb-1">Send Money Globally</CardTitle>
@@ -249,6 +249,52 @@ export default function Dashboard() {
                   <div className="flex flex-col items-center">
                     <div className="text-base font-semibold text-purple-400">24/7</div>
                     <div className="text-xs text-muted-foreground">Available</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Wallet Overview Card */}
+            <Card className="minimal-card mt-4">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-foreground">Your Wallets</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="text-center p-3 bg-muted rounded-lg">
+                    <div className="text-lg font-semibold text-foreground">$2,450</div>
+                    <div className="text-xs text-muted-foreground">USD Balance</div>
+                  </div>
+                  <div className="text-center p-3 bg-muted rounded-lg">
+                    <div className="text-lg font-semibold text-foreground">₹1,95,000</div>
+                    <div className="text-xs text-muted-foreground">INR Balance</div>
+                  </div>
+                  <div className="text-center p-3 bg-muted rounded-lg">
+                    <div className="text-lg font-semibold text-foreground">€890</div>
+                    <div className="text-xs text-muted-foreground">EUR Balance</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Exchange Rates Card */}
+            <Card className="minimal-card mt-4">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-foreground">Live Exchange Rates</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">USD → INR</span>
+                    <span className="text-sm font-medium text-foreground">₹82.45</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">EUR → USD</span>
+                    <span className="text-sm font-medium text-foreground">$1.089</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">GBP → INR</span>
+                    <span className="text-sm font-medium text-foreground">₹103.21</span>
                   </div>
                 </div>
               </CardContent>
