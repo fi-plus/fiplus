@@ -36,13 +36,13 @@ export default function History() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green-100 text-green-800";
+        return "bg-green-500/20 text-green-400";
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-500/20 text-yellow-400";
       case "failed":
-        return "bg-red-100 text-red-800";
+        return "bg-red-500/20 text-red-400";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -68,11 +68,11 @@ export default function History() {
           <Star
             key={star}
             className={`w-3 h-3 ${
-              star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+              star <= rating ? 'text-yellow-400 fill-current' : 'text-muted-foreground'
             }`}
           />
         ))}
-        <span className="text-xs text-gray-500 ml-1">({rating}/5)</span>
+        <span className="text-xs text-muted-foreground ml-1">({rating}/5)</span>
       </div>
     );
   };
@@ -94,15 +94,15 @@ export default function History() {
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case 'send':
-        return <ArrowUpRight className="w-5 h-5 text-blue-600" />;
+        return <ArrowUpRight className="w-4 h-4 text-white" />;
       case 'receive':
-        return <ArrowDownLeft className="w-5 h-5 text-green-600" />;
+        return <ArrowDownLeft className="w-4 h-4 text-white" />;
       case 'deposit':
-        return <ArrowDownLeft className="w-5 h-5 text-green-600" />;
+        return <ArrowDownLeft className="w-4 h-4 text-white" />;
       case 'withdrawal':
-        return <ArrowUpRight className="w-5 h-5 text-orange-600" />;
+        return <ArrowUpRight className="w-4 h-4 text-white" />;
       default:
-        return <ArrowUpRight className="w-5 h-5 text-gray-600" />;
+        return <ArrowUpRight className="w-4 h-4 text-white" />;
     }
   };
 
@@ -122,70 +122,70 @@ export default function History() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Transaction History</h1>
-            <p className="text-gray-600 mt-2">Track all your cross-border payments</p>
+            <h1 className="text-2xl font-semibold text-foreground">Transaction History</h1>
+            <p className="text-muted-foreground mt-1">Track your cross-border payments</p>
           </div>
           
           {/* User Reputation Score */}
-          <Card className="bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200">
-            <CardContent className="pt-4 pb-4 px-6">
+          <Card className="minimal-card bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
+            <CardContent className="pt-3 pb-3 px-4">
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-1">
-                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                  <span className="text-xl font-bold text-yellow-600">{getAverageRating()}</span>
+                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                  <span className="text-lg font-semibold text-yellow-400">{getAverageRating()}</span>
                 </div>
-                <div className="text-sm text-gray-600">
-                  <div className="font-medium">Reputation Score</div>
-                  <div>{getTotalTransactions()} verified transfers</div>
+                <div className="text-sm text-muted-foreground">
+                  <div className="font-medium">Reputation</div>
+                  <div>{getTotalTransactions()} transfers</div>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {transactions.length === 0 ? (
-            <Card className="text-center py-12">
+            <Card className="minimal-card text-center py-8">
               <CardContent>
-                <div className="text-gray-500">
-                  <h3 className="text-lg font-medium mb-2">No transactions yet</h3>
-                  <p>Your transaction history will appear here once you start using fi.plus</p>
+                <div className="text-muted-foreground">
+                  <h3 className="text-base font-medium mb-2">No transactions yet</h3>
+                  <p className="text-sm">Your transaction history will appear here</p>
                 </div>
               </CardContent>
             </Card>
           ) : (
             transactions.map((transaction: any) => (
-              <Card key={transaction.id} className="overflow-hidden">
-                <CardContent className="p-6">
+              <Card key={transaction.id} className="minimal-card">
+                <CardContent className="p-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        transaction.type === "send" || transaction.type === "withdrawal" ? "bg-blue-100" : "bg-green-100"
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        transaction.type === "send" || transaction.type === "withdrawal" ? "bg-primary" : "bg-green-500"
                       }`}>
                         {getTransactionIcon(transaction.type)}
                       </div>
                       
                       <div>
                         <div className="flex items-center space-x-2">
-                          <span className="font-semibold text-lg">
+                          <span className="font-medium text-foreground">
                             {transaction.type === "send" || transaction.type === "withdrawal" ? "-" : "+"}{transaction.amount} {transaction.currency}
                           </span>
                           {getStatusIcon(transaction.status)}
-                          <Badge className={getStatusColor(transaction.status)}>
+                          <Badge className={getStatusColor(transaction.status)} variant="secondary">
                             {transaction.status}
                           </Badge>
                         </div>
                         
-                        <div className="text-sm text-gray-600 mt-1">
+                        <div className="text-sm text-muted-foreground mt-1">
                           {getTransactionDescription(transaction)}
                         </div>
                         
-                        <div className="flex items-center space-x-4 mt-2">
-                          <span className="text-xs text-gray-500">
+                        <div className="flex items-center space-x-4 mt-1">
+                          <span className="text-xs text-muted-foreground">
                             {formatTime(transaction.timestamp)}
                           </span>
                           {transaction.status === "completed" && (
@@ -202,9 +202,9 @@ export default function History() {
                         variant="ghost"
                         size="sm"
                         onClick={() => toggleExpanded(transaction.id)}
-                        className="text-gray-600 hover:text-gray-900"
+                        className="text-muted-foreground hover:text-foreground h-8"
                       >
-                        {expandedTx === transaction.id ? "Hide Details" : "View Details"}
+                        {expandedTx === transaction.id ? "Hide" : "Details"}
                       </Button>
                     </div>
                   </div>
