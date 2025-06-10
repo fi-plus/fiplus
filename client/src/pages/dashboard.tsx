@@ -133,8 +133,8 @@ export default function Dashboard() {
           <nav className="space-y-1">
             <Link href="/">
               <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left bg-muted text-foreground text-sm`}>
-                <DollarSign className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
-                {!sidebarCollapsed && "Dashboard"}
+                <Home className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+                {!sidebarCollapsed && "Home"}
               </Button>
             </Link>
             <Link href="/send">
