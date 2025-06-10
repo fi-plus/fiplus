@@ -116,9 +116,9 @@ export default function Dashboard() {
 
 
 
-      <main className="flex-1 flex overflow-hidden">
+      <main className="flex-1 flex">
         {/* Left Navigation Sidebar - Hidden on mobile */}
-        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0`}>
+        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40`}>
           <div className="flex items-center justify-end mb-4">
             <Button 
               variant="ghost" 
@@ -203,7 +203,7 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-4 md:p-6 pb-20 md:pb-6 overflow-auto">
+        <div className={`flex-1 p-4 md:p-6 pb-20 md:pb-6 overflow-auto ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-48'} transition-all duration-300 ease-in-out`}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}
