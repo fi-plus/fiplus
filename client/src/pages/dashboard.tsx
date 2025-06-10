@@ -69,7 +69,7 @@ export default function Dashboard() {
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-card animate-pulse"></div>
               </div>
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">fi.plus</h1>
+                <h1 className="text-xl font-bold text-foreground">fi.plus</h1>
               </div>
             </div>
             
