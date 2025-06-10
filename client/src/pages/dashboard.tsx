@@ -200,34 +200,34 @@ export default function Dashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-5">
-                {Object.entries(walletService.getAllBalances()).map(([asset, balance]) => {
-                  // Map crypto assets to user-friendly currency display
-                  const currencyMap = {
-                    'XLM': { display: 'USD', symbol: '$', name: 'US Dollar Balance' },
-                    'USDC': { display: 'USD', symbol: '$', name: 'US Dollar Balance' },
-                    'EURC': { display: 'EUR', symbol: '€', name: 'Euro Balance' }
-                  };
-                  
-                  const currency = currencyMap[asset as keyof typeof currencyMap] || { display: asset, symbol: '', name: asset };
-                  
-                  return (
-                    <div key={asset} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-sm">
-                          <span className="text-sm font-bold text-white">{currency.symbol || currency.display}</span>
-                        </div>
-                        <div>
-                          <div className="font-semibold text-gray-800">{currency.display}</div>
-                          <div className="text-xs text-gray-500">{currency.name}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-lg text-gray-800">{currency.symbol}{balance}</div>
-                        <div className="text-xs text-gray-500">{currency.display}</div>
-                      </div>
+                {/* Single wallet balance display - aligned with Onramp capabilities */}
+                <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+                      <span className="text-lg font-bold text-white">$</span>
                     </div>
-                  );
-                })}
+                    <div>
+                      <div className="font-bold text-xl text-gray-800">Account Balance</div>
+                      <div className="text-sm text-gray-600">Available for transfers worldwide</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-2xl text-gray-800">
+                      ${walletService.getAllBalances().XLM || '0.00'}
+                    </div>
+                    <div className="text-sm text-gray-500">USD equivalent</div>
+                  </div>
+                </div>
+                
+                {/* Currency conversion note */}
+                <div className="text-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="text-sm text-yellow-800">
+                    <strong>Multi-Currency Support:</strong> Send to 150+ countries in local currencies
+                  </div>
+                  <div className="text-xs text-yellow-600 mt-1">
+                    Automatic conversion at competitive rates
+                  </div>
+                </div>
                 <div className="grid grid-cols-2 gap-3 mt-4">
                   <Link href="/add-money">
                     <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3 rounded-lg shadow-md">
