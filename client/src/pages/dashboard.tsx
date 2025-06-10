@@ -313,28 +313,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            {/* Transfer Summary Card */}
-            <Card className="minimal-card mt-4">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-foreground">Transfer Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center p-2 bg-muted rounded-lg">
-                    <span className="text-sm text-muted-foreground">Total Sent This Month</span>
-                    <span className="text-sm font-medium text-foreground">₹45,000</span>
-                  </div>
-                  <div className="flex justify-between items-center p-2 bg-muted rounded-lg">
-                    <span className="text-sm text-muted-foreground">Transactions Completed</span>
-                    <span className="text-sm font-medium text-foreground">23</span>
-                  </div>
-                  <div className="flex justify-between items-center p-2 bg-green-500/10 rounded-lg">
-                    <span className="text-sm text-green-400">Fees Saved vs Banks</span>
-                    <span className="text-sm font-medium text-green-400">₹2,340</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+
           </div>
 
             {/* Right Sidebar */}
@@ -407,6 +386,25 @@ export default function Dashboard() {
                       <div className="text-xs">50+ countries supported</div>
                     </div>
                   </div>
+
+                  {/* Transaction Summary */}
+                  {transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 && (
+                    <div className="pt-3 border-t border-border">
+                      <div className="text-xs font-medium text-muted-foreground mb-2">Transaction Summary</div>
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-muted-foreground">Total Transactions</span>
+                          <span className="text-xs font-medium text-foreground">{transactions.data.length}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-muted-foreground">Latest Amount</span>
+                          <span className="text-xs font-medium text-foreground">
+                            {transactions.data[0]?.fromAmount} {transactions.data[0]?.fromCurrency}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                 </CardContent>
               </Card>
