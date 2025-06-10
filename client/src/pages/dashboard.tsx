@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2 } from "lucide-react";
+import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [sendAmount, setSendAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("INR");
   const [toCurrency, setToCurrency] = useState("USD");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Fetch real transaction data from database
   const transactions = useQuery({
@@ -91,58 +92,72 @@ export default function Dashboard() {
 
       <main className="flex-1 flex">
         {/* Left Navigation Sidebar */}
-        <aside className="w-48 bg-card border-r border-border p-4">
+        <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out`}>
+          <div className="flex items-center justify-between mb-4">
+            {!sidebarCollapsed && <div className="text-xs font-medium text-muted-foreground">Navigation</div>}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="h-8 w-8 p-0"
+            >
+              {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            </Button>
+          </div>
+          
           <nav className="space-y-1">
             <Link href="/">
-              <Button variant="ghost" className="w-full justify-start h-9 text-left bg-muted text-foreground text-sm">
-                <DollarSign className="w-4 h-4 mr-2" />
-                Dashboard
+              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left bg-muted text-foreground text-sm`}>
+                <DollarSign className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+                {!sidebarCollapsed && "Dashboard"}
               </Button>
             </Link>
             <Link href="/send">
-              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-                <Send className="w-4 h-4 mr-2" />
-                Send Money
+              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+                <Send className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+                {!sidebarCollapsed && "Send Money"}
               </Button>
             </Link>
             <Link href="/history">
-              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-                <History className="w-4 h-4 mr-2" />
-                History
+              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+                <History className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+                {!sidebarCollapsed && "History"}
               </Button>
             </Link>
             <Link href="/contacts">
-              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-                <Users className="w-4 h-4 mr-2" />
-                Contacts
+              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+                <Users className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+                {!sidebarCollapsed && "Contacts"}
               </Button>
             </Link>
             <Link href="/settings">
-              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
+              <Button variant="ghost" className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-9 text-left hover:bg-muted text-sm`}>
+                <Settings className={`w-4 h-4 ${!sidebarCollapsed ? 'mr-2' : ''}`} />
+                {!sidebarCollapsed && "Settings"}
               </Button>
             </Link>
           </nav>
           
           {/* Quick Stats in Sidebar */}
-          <div className="mt-6">
-            <h3 className="text-xs font-medium text-muted-foreground mb-3">Quick Stats</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">Month</span>
-                <span className="text-xs font-medium text-foreground">₹45k</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">Transfers</span>
-                <span className="text-xs font-medium text-foreground">23</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">Saved</span>
-                <span className="text-xs font-medium text-green-400">₹2.3k</span>
+          {!sidebarCollapsed && (
+            <div className="mt-6">
+              <h3 className="text-xs font-medium text-muted-foreground mb-3">Quick Stats</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-muted-foreground">Month</span>
+                  <span className="text-xs font-medium text-foreground">₹45k</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-muted-foreground">Transfers</span>
+                  <span className="text-xs font-medium text-foreground">23</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-muted-foreground">Saved</span>
+                  <span className="text-xs font-medium text-green-400">₹2.3k</span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </aside>
 
         {/* Main Content Area */}
