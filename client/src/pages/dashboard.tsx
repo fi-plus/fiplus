@@ -59,7 +59,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="bg-card backdrop-blur-md border-b border-border sticky top-0 z-50">
-        <div className="px-4 md:px-6 lg:px-8">
+        <div className="px-6 md:px-8 lg:px-10">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <div className="relative">
