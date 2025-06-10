@@ -10,8 +10,7 @@ import { Star, Send, Clock, DollarSign, Users, CheckCircle2, MessageSquare, Shar
 import { useToast } from "@/hooks/use-toast";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate, calculateFee } from "@/lib/constants";
-import { walletService } from "@/lib/walletService";
-import { transactionService } from "@/lib/transactionService";
+import { onrampWhitelabel } from "@/lib/onramp";
 
 export default function SendMoney() {
   const { user } = useAuth();
@@ -68,41 +67,52 @@ export default function SendMoney() {
       return;
     }
 
-    const requestedAmount = parseFloat(amount);
-    const xlmBalance = walletService.getBalance('XLM');
-    
-    if (requestedAmount > xlmBalance) {
-      toast({
-        title: "Insufficient Balance",
-        description: `You need ${requestedAmount} XLM but only have ${xlmBalance} XLM available.`,
-        variant: "destructive",
-      });
-      return;
-    }
-
+    // No wallet balance check - payment happens at send time
     setStep('confirm');
   };
 
-  const confirmSend = () => {
+  const confirmSend = async () => {
     setStep('processing');
     
-    // Process the transaction
-    const transaction = transactionService.sendMoney(
-      fromCurrency,
-      toCurrency,
-      parseFloat(amount),
-      recipientName,
-      recipient,
-      deliveryMethod
-    );
-    
-    setTimeout(() => {
-      setStep('success');
-      toast({
-        title: "Transaction Complete",
-        description: `Transaction ID: ${transaction.id}`,
+    try {
+      // Get real quote from Onramp API
+      const quote = await onrampWhitelabel.getOnrampQuote({
+        fiatCurrency: fromCurrency,
+        fiatAmount: parseFloat(amount),
+        cryptoCurrency: 'XLM'
       });
-    }, 3000);
+      
+      // Create KYC URL for payment processing
+      const kycResult = await onrampWhitelabel.createKycUrl({
+        userEmail: user?.email || 'sender@fiplus.com',
+        phoneNumber: '+91-9999999999',
+        clientCustomerId: `fiplus-send-${user?.id || Date.now()}`
+      });
+      
+      // Store transaction details for completion
+      localStorage.setItem('pendingSendTransaction', JSON.stringify({
+        amount: parseFloat(amount),
+        fromCurrency: fromCurrency,
+        toCurrency: toCurrency,
+        recipient: recipient,
+        recipientName: recipientName,
+        cryptoAmount: quote.cryptoAmount,
+        rate: quote.exchangeRate,
+        customerId: kycResult.customerId,
+        kycUrl: kycResult.kycUrl,
+        deliveryMethod: deliveryMethod
+      }));
+      
+      // Redirect to Onramp payment processing
+      window.location.href = kycResult.kycUrl;
+    } catch (error) {
+      toast({
+        title: "Payment Processing Failed",
+        description: error instanceof Error ? error.message : "Unable to process payment. Please try again.",
+        variant: "destructive"
+      });
+      setStep('confirm');
+    }
   };
 
   if (step === 'success') {

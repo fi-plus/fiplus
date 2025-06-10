@@ -202,42 +202,33 @@ export default function Dashboard() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Wallet Balances */}
+            {/* Send Money Features */}
             <Card className="shadow-lg border-0">
               <CardHeader className="bg-gradient-to-r from-gray-50 to-blue-50 border-b">
-                <CardTitle className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-gray-800">Your Wallet</span>
-                  <Button variant="ghost" size="sm" onClick={copyWalletAddress} className="text-gray-600 hover:text-blue-600">
-                    <Copy className="w-4 h-4" />
-                  </Button>
-                </CardTitle>
+                <CardTitle className="text-lg font-bold text-gray-800">Global Money Transfer</CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
-                {/* Enhanced balance display with better visual hierarchy */}
+                {/* Enhanced features display */}
                 <div className="relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-2xl"></div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
                   <div className="relative p-6 text-white">
                     <div className="flex items-start justify-between mb-4">
                       <div className="space-y-1">
-                        <div className="text-sm font-medium text-blue-100">Available Balance</div>
-                        <div className="text-3xl font-bold tracking-tight">
-                          ${walletBalances.data ? 
-                            (Array.isArray(walletBalances.data) ? 
-                              walletBalances.data.reduce((sum: number, wallet: any) => sum + parseFloat(wallet.balance || 0), 0).toFixed(2) 
-                              : '0.00') 
-                            : '0.00'}
+                        <div className="text-sm font-medium text-blue-100">Ready to Send</div>
+                        <div className="text-2xl font-bold tracking-tight">
+                          Pay as you send
                         </div>
-                        <div className="text-xs text-blue-200">USD equivalent</div>
+                        <div className="text-xs text-blue-200">No wallet funding required</div>
                       </div>
                       <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <DollarSign className="w-6 h-6 text-white" />
+                        <Send className="w-6 h-6 text-white" />
                       </div>
                     </div>
                     
                     <div className="flex items-center space-x-2 text-sm">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-green-200">Ready for instant transfers worldwide</span>
+                      <span className="text-green-200">Direct payment • Real-time conversion</span>
                     </div>
                   </div>
                 </div>
@@ -246,25 +237,18 @@ export default function Dashboard() {
                 <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
-                      <ArrowUpRight className="w-5 h-5 text-white" />
+                      <Globe className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="font-semibold text-emerald-800">Global Reach</div>
                       <div className="text-sm text-emerald-700">Send to 150+ countries in local currencies</div>
                       <div className="text-xs text-emerald-600 mt-1">
-                        Auto-conversion • Live rates • Minimal fees
+                        Bank transfer • Live rates • Instant processing
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="mt-4">
-                  <Link href="/add-money">
-                    <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3 rounded-lg shadow-md">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Funds
-                    </Button>
-                  </Link>
-                </div>
+
               </CardContent>
             </Card>
 

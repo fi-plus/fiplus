@@ -13,7 +13,7 @@ import Contacts from "@/pages/contacts";
 import Settings from "@/pages/settings";
 import WalletConnect from "@/pages/wallet-connect";
 import KYCVerification from "@/pages/kyc-verification";
-import AddMoney from "@/pages/add-money";
+
 import SendMoney from "@/pages/send-money";
 import Claim from "@/pages/claim";
 
@@ -79,11 +79,7 @@ function Router() {
           <KYCVerification />
         </ProtectedRoute>
       </Route>
-      <Route path="/add-money">
-        <ProtectedRoute>
-          <AddMoney />
-        </ProtectedRoute>
-      </Route>
+
       <Route path="/send">
         <ProtectedRoute>
           <SendMoney />
