@@ -257,17 +257,11 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3 mt-4">
+                <div className="mt-4">
                   <Link href="/add-money">
                     <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3 rounded-lg shadow-md">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Funds
-                    </Button>
-                  </Link>
-                  <Link href="/cashout">
-                    <Button variant="outline" className="w-full border-2 border-orange-300 text-orange-600 hover:bg-orange-50 font-semibold py-3 rounded-lg">
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Cash Out
                     </Button>
                   </Link>
                 </div>

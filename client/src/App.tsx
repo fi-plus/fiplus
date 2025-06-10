@@ -16,7 +16,7 @@ import KYCVerification from "@/pages/kyc-verification";
 import AddMoney from "@/pages/add-money";
 import SendMoney from "@/pages/send-money";
 import Claim from "@/pages/claim";
-import Cashout from "@/pages/cashout";
+
 import UniversalConvert from "@/pages/universal-convert";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -90,11 +90,6 @@ function Router() {
         </ProtectedRoute>
       </Route>
       <Route path="/claim" component={Claim} />
-      <Route path="/cashout">
-        <ProtectedRoute>
-          <Cashout />
-        </ProtectedRoute>
-      </Route>
       <Route path="/">
         <ProtectedRoute>
           <Dashboard />
