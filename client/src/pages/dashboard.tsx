@@ -254,47 +254,59 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            {/* Wallet Overview Card */}
+            {/* Quick Actions Card */}
             <Card className="minimal-card mt-4">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-foreground">Your Wallets</CardTitle>
+                <CardTitle className="text-sm font-medium text-foreground">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="text-center p-3 bg-muted rounded-lg">
-                    <div className="text-lg font-semibold text-foreground">$2,450</div>
-                    <div className="text-xs text-muted-foreground">USD Balance</div>
-                  </div>
-                  <div className="text-center p-3 bg-muted rounded-lg">
-                    <div className="text-lg font-semibold text-foreground">₹1,95,000</div>
-                    <div className="text-xs text-muted-foreground">INR Balance</div>
-                  </div>
-                  <div className="text-center p-3 bg-muted rounded-lg">
-                    <div className="text-lg font-semibold text-foreground">€890</div>
-                    <div className="text-xs text-muted-foreground">EUR Balance</div>
-                  </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Link href="/send">
+                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
+                      <Send className="w-4 h-4" />
+                      <span className="text-xs">Send Money</span>
+                    </Button>
+                  </Link>
+                  <Link href="/history">
+                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
+                      <History className="w-4 h-4" />
+                      <span className="text-xs">View History</span>
+                    </Button>
+                  </Link>
+                  <Link href="/contacts">
+                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
+                      <Users className="w-4 h-4" />
+                      <span className="text-xs">Contacts</span>
+                    </Button>
+                  </Link>
+                  <Link href="/settings">
+                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
+                      <Settings className="w-4 h-4" />
+                      <span className="text-xs">Settings</span>
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
             
-            {/* Exchange Rates Card */}
+            {/* Transfer Summary Card */}
             <Card className="minimal-card mt-4">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-foreground">Live Exchange Rates</CardTitle>
+                <CardTitle className="text-sm font-medium text-foreground">Transfer Summary</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">USD → INR</span>
-                    <span className="text-sm font-medium text-foreground">₹82.45</span>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-2 bg-muted rounded-lg">
+                    <span className="text-sm text-muted-foreground">Total Sent This Month</span>
+                    <span className="text-sm font-medium text-foreground">₹45,000</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">EUR → USD</span>
-                    <span className="text-sm font-medium text-foreground">$1.089</span>
+                  <div className="flex justify-between items-center p-2 bg-muted rounded-lg">
+                    <span className="text-sm text-muted-foreground">Transactions Completed</span>
+                    <span className="text-sm font-medium text-foreground">23</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">GBP → INR</span>
-                    <span className="text-sm font-medium text-foreground">₹103.21</span>
+                  <div className="flex justify-between items-center p-2 bg-green-500/10 rounded-lg">
+                    <span className="text-sm text-green-400">Fees Saved vs Banks</span>
+                    <span className="text-sm font-medium text-green-400">₹2,340</span>
                   </div>
                 </div>
               </CardContent>
