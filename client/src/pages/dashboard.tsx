@@ -191,12 +191,12 @@ export default function Dashboard() {
             
             {/* Main Send Money Card */}
             <div className="lg:col-span-2 space-y-6">
-              <Card className="minimal-card overflow-hidden">
+              <Card className="minimal-card overflow-hidden h-fit">
               <div className="gradient-primary p-4 text-white">
                 <CardTitle className="text-lg sm:text-xl font-semibold mb-1">Send Money Globally</CardTitle>
                 <p className="text-white/80 text-sm">Fast, secure cross-border payments via Stellar network</p>
               </div>
-              <CardContent className="p-4 space-y-4">
+              <CardContent className="p-4 space-y-4 pb-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-foreground mb-2 block">From</label>
@@ -295,7 +295,7 @@ export default function Dashboard() {
             </Card>
             
               {/* Recent Transactions Card */}
-              <Card className="minimal-card">
+              <Card className="minimal-card h-fit">
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center justify-between">
                     <span className="text-sm font-medium text-foreground">Recent Transactions</span>
@@ -306,7 +306,7 @@ export default function Dashboard() {
                     </Link>
                   </CardTitle>
                 </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 pb-4">
                 {transactions.isLoading ? (
                   <div className="flex items-center justify-center py-6">
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
