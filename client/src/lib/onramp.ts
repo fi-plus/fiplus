@@ -309,10 +309,23 @@ export class OnrampWhitelabel {
     // This is how most payment processors work - redirect to their hosted solution
     
     if (endpoint === '/widget/create') {
-      // Create widget session URL for user to complete payment
+      // Generate widget URL following Onramp whitelabel documentation
+      const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const params = new URLSearchParams({
+        partner_id: appId,
+        session_id: sessionId,
+        amount: data.fiatAmount?.toString() || data.amount?.toString() || '100',
+        currency: data.fiatCurrency || data.currency || 'USD',
+        crypto_currency: data.cryptoCurrency || 'XLM',
+        user_email: data.user?.email || 'user@example.com',
+        redirect_url: data.redirectUrl || `${window.location.origin}/add-money?success=true`,
+        webhook_url: data.webhookUrl || `${window.location.origin}/api/webhooks/onramp`
+      });
+
       return {
-        sessionId: `session_${Date.now()}`,
-        widgetUrl: `${baseUrl}/widget?app_id=${appId}&api_key=${apiKey}&amount=${data.amount}&currency=${data.currency}`,
+        sessionId,
+        url: `${baseUrl}/widget?${params.toString()}`,
         status: 'created'
       };
     }
@@ -327,8 +340,28 @@ export class OnrampWhitelabel {
       };
     }
 
-    // For endpoints that need exact specification from Onramp
-    throw new Error(`API endpoint ${endpoint} requires proper documentation from Onramp team`);
+    // Attempt actual API call with proper authentication
+    try {
+      const response = await fetch(`${baseUrl}${endpoint}`, {
+        method: data && Object.keys(data).length > 0 ? 'POST' : 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'X-API-Key': apiKey,
+          'X-API-Secret': apiSecret,
+          'X-App-ID': appId
+        },
+        body: data && Object.keys(data).length > 0 ? JSON.stringify(data) : undefined
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Onramp API call failed: ${error instanceof Error ? error.message : 'Unknown error'} - Contact Onramp support for API documentation`);
+    }
   }
 
   // Get supported currencies for whitelabel
