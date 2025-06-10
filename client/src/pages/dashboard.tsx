@@ -250,20 +250,20 @@ export default function Dashboard() {
                         <Building2 className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">Chase Bank</div>
-                        <div className="text-sm text-gray-600">••••1234 (Checking)</div>
+                        <div className="font-semibold text-gray-900">ICICI Bank</div>
+                        <div className="text-sm text-gray-600">••••9876 (Savings)</div>
                       </div>
                     </div>
                     <Badge variant="secondary" className="bg-green-100 text-green-800">Connected</Badge>
                   </div>
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">$3,200.00</div>
+                      <div className="text-2xl font-bold text-gray-900">₹1,50,000</div>
                       <div className="text-sm text-gray-600">Available balance</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-gray-700">USD</div>
-                      <div className="text-xs text-gray-500">US Dollar</div>
+                      <div className="text-sm font-medium text-gray-700">INR</div>
+                      <div className="text-xs text-gray-500">Indian Rupee</div>
                     </div>
                   </div>
                 </div>
