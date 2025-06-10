@@ -62,14 +62,6 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                className="h-8 w-8 p-0 hidden md:flex"
-              >
-                {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-              </Button>
               <div className="relative">
                 <div className="w-10 h-10 bg-gradient-to-br from-primary via-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Star className="w-5 h-5 text-white" />
@@ -115,8 +107,16 @@ export default function Dashboard() {
       <main className="flex-1 flex">
         {/* Left Navigation Sidebar - Hidden on mobile */}
         <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block`}>
-          <div className="mb-4">
+          <div className="flex items-center justify-between mb-4">
             {!sidebarCollapsed && <div className="text-xs font-medium text-muted-foreground">Navigation</div>}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="h-8 w-8 p-0 ml-auto"
+            >
+              {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            </Button>
           </div>
           
           <nav className="space-y-1">
@@ -152,26 +152,7 @@ export default function Dashboard() {
             </Link>
           </nav>
           
-          {/* Quick Stats in Sidebar */}
-          {!sidebarCollapsed && (
-            <div className="mt-6">
-              <h3 className="text-xs font-medium text-muted-foreground mb-3">Quick Stats</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-muted-foreground">Month</span>
-                  <span className="text-xs font-medium text-foreground">₹45k</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-muted-foreground">Transfers</span>
-                  <span className="text-xs font-medium text-foreground">23</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-muted-foreground">Saved</span>
-                  <span className="text-xs font-medium text-green-400">₹2.3k</span>
-                </div>
-              </div>
-            </div>
-          )}
+          
         </aside>
 
         {/* Mobile Bottom Navigation */}
