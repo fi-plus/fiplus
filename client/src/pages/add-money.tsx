@@ -144,10 +144,13 @@ export default function AddMoney() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-        userEmail: user?.email || 'user@fiplus.com',
-        phoneNumber: '+91-9999999999',
-        clientCustomerId: `fiplus-user-${user?.id || Date.now()}`
+          userEmail: user?.email || 'user@fiplus.com',
+          phoneNumber: '+91-9999999999'
+        })
       });
+      
+      if (!kycResponse.ok) throw new Error('KYC request failed');
+      const kycResult = await kycResponse.json();
       
       // Store transaction details for completion
       localStorage.setItem('pendingTransaction', JSON.stringify({
