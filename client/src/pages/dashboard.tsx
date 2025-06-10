@@ -55,33 +55,33 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <Star className="w-6 h-6 text-white" />
+      <header className="bg-card border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
+                <Star className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
+                <h1 className="text-xl font-semibold text-foreground">fi.plus</h1>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-xs text-gray-500">Stellar Network</span>
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                  <span className="text-xs text-muted-foreground">Stellar Network</span>
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4">
               <div className="text-right">
-                <div className="text-sm font-medium text-gray-900">
+                <div className="text-sm font-medium text-foreground">
                   {user?.firstName} {user?.lastName}
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-muted-foreground">
                   {user?.email}
                 </div>
               </div>
-              <Button variant="outline" onClick={logout} className="text-gray-600 border-gray-300">
+              <Button variant="ghost" onClick={logout} className="text-muted-foreground hover:text-foreground">
                 Logout
               </Button>
             </div>
@@ -89,31 +89,31 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <main className="max-w-6xl mx-auto px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* Main Send Money Card */}
           <div className="lg:col-span-2">
-            <Card className="shadow-lg border-0 overflow-hidden bg-white">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-                <CardTitle className="text-3xl font-bold mb-2">Send Money Globally</CardTitle>
-                <p className="text-blue-100 text-lg">Fast, secure cross-border payments via Stellar network</p>
+            <Card className="minimal-card overflow-hidden">
+              <div className="gradient-primary p-6 text-white">
+                <CardTitle className="text-2xl font-semibold mb-1">Send Money Globally</CardTitle>
+                <p className="text-white/80">Fast, secure cross-border payments via Stellar network</p>
               </div>
-              <CardContent className="p-8 space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <CardContent className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-semibold text-gray-700 mb-3 block">From Currency</label>
+                    <label className="text-sm font-medium text-foreground mb-2 block">From</label>
                     <Select value={fromCurrency} onValueChange={setFromCurrency}>
-                      <SelectTrigger className="h-14 border-gray-300 text-lg">
+                      <SelectTrigger className="h-12 minimal-input">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         {SUPPORTED_CURRENCIES.map((currency) => (
                           <SelectItem key={currency.code} value={currency.code}>
-                            <span className="flex items-center space-x-3">
-                              <span className="text-xl">{currency.flag}</span>
+                            <span className="flex items-center space-x-2">
+                              <span>{currency.flag}</span>
                               <span className="font-medium">{currency.code}</span>
-                              <span className="text-gray-500">{currency.name}</span>
+                              <span className="text-muted-foreground text-sm">{currency.name}</span>
                             </span>
                           </SelectItem>
                         ))}
@@ -121,18 +121,18 @@ export default function Dashboard() {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-sm font-semibold text-gray-700 mb-3 block">To Currency</label>
+                    <label className="text-sm font-medium text-foreground mb-2 block">To</label>
                     <Select value={toCurrency} onValueChange={setToCurrency}>
-                      <SelectTrigger className="h-14 border-gray-300 text-lg">
+                      <SelectTrigger className="h-12 minimal-input">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         {SUPPORTED_CURRENCIES.map((currency) => (
                           <SelectItem key={currency.code} value={currency.code}>
-                            <span className="flex items-center space-x-3">
-                              <span className="text-xl">{currency.flag}</span>
+                            <span className="flex items-center space-x-2">
+                              <span>{currency.flag}</span>
                               <span className="font-medium">{currency.code}</span>
-                              <span className="text-gray-500">{currency.name}</span>
+                              <span className="text-muted-foreground text-sm">{currency.name}</span>
                             </span>
                           </SelectItem>
                         ))}
@@ -142,31 +142,31 @@ export default function Dashboard() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 mb-3 block">Amount to Send</label>
+                  <label className="text-sm font-medium text-foreground mb-2 block">Amount</label>
                   <div className="relative">
                     <Input
                       type="number"
                       placeholder="0.00"
                       value={sendAmount}
                       onChange={(e) => setSendAmount(e.target.value)}
-                      className="h-16 text-3xl font-bold border-gray-300 pr-20"
+                      className="h-14 text-2xl font-semibold minimal-input pr-16"
                     />
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-lg font-medium text-gray-500">
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-medium text-muted-foreground">
                       {fromCurrency}
                     </div>
                   </div>
                 </div>
 
                 {sendAmount && parseFloat(sendAmount) > 0 && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-green-700 font-medium">Recipient will receive:</span>
-                      <span className="text-2xl font-bold text-green-800">
+                      <span className="text-green-400 font-medium">Recipient receives:</span>
+                      <span className="text-xl font-semibold text-green-400">
                         {(parseFloat(sendAmount) * getExchangeRate(fromCurrency, toCurrency)).toLocaleString()} {toCurrency}
                       </span>
                     </div>
-                    <div className="text-sm text-green-600 mt-1">
-                      Rate: 1 {fromCurrency} = {getExchangeRate(fromCurrency, toCurrency)} {toCurrency} • Updated now
+                    <div className="text-sm text-green-400/80 mt-1">
+                      Rate: 1 {fromCurrency} = {getExchangeRate(fromCurrency, toCurrency)} {toCurrency}
                     </div>
                   </div>
                 )}
@@ -174,25 +174,24 @@ export default function Dashboard() {
                 <Button 
                   onClick={handleSendMoney}
                   disabled={!sendAmount || parseFloat(sendAmount) <= 0}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-6 text-xl rounded-xl shadow-lg disabled:opacity-50"
-                  size="lg"
+                  className="w-full minimal-button h-12 disabled:opacity-50"
                 >
-                  <Send className="w-6 h-6 mr-3" />
+                  <Send className="w-4 h-4 mr-2" />
                   Send Money
                 </Button>
 
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div className="flex flex-col items-center">
-                    <div className="text-2xl font-bold text-green-600">$0.000005</div>
-                    <div className="text-sm text-gray-500">Network Fee</div>
+                    <div className="text-lg font-semibold text-green-400">$0.000005</div>
+                    <div className="text-xs text-muted-foreground">Network Fee</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="text-2xl font-bold text-blue-600">3-5s</div>
-                    <div className="text-sm text-gray-500">Settlement</div>
+                    <div className="text-lg font-semibold text-primary">3-5s</div>
+                    <div className="text-xs text-muted-foreground">Settlement</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="text-2xl font-bold text-purple-600">24/7</div>
-                    <div className="text-sm text-gray-500">Available</div>
+                    <div className="text-lg font-semibold text-purple-400">24/7</div>
+                    <div className="text-xs text-muted-foreground">Available</div>
                   </div>
                 </div>
               </CardContent>
