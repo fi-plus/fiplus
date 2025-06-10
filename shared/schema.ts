@@ -61,6 +61,8 @@ export const insertUserSchema = createInsertSchema(users).omit({
   updatedAt: true,
   onrampUserId: true,
   kycStatus: true,
+}).extend({
+  onrampUserId: z.string().optional(),
 });
 
 export const insertWalletSchema = createInsertSchema(wallets).omit({
@@ -68,6 +70,8 @@ export const insertWalletSchema = createInsertSchema(wallets).omit({
   createdAt: true,
   updatedAt: true,
   onrampWalletId: true,
+}).extend({
+  onrampWalletId: z.string().optional(),
 });
 
 export const insertTransactionSchema = createInsertSchema(transactions).omit({
@@ -75,6 +79,8 @@ export const insertTransactionSchema = createInsertSchema(transactions).omit({
   createdAt: true,
   updatedAt: true,
   onrampTransactionId: true,
+}).extend({
+  onrampTransactionId: z.string().optional(),
 });
 
 export const insertExchangeRateSchema = createInsertSchema(exchangeRates).omit({

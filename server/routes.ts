@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import jwt from "jsonwebtoken";
@@ -23,6 +23,10 @@ function authenticateToken(req: any, res: any, next: any) {
     req.user = user;
     next();
   });
+}
+
+interface AuthenticatedRequest extends Request {
+  user: { id: number; email: string };
 }
 
 // Mock Onramp API integration
@@ -137,7 +141,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/auth/me", authenticateToken, async (req, res) => {
+  app.get("/api/auth/me", authenticateToken, async (req: any, res) => {
     try {
       const user = await storage.getUser(req.user.id);
       if (!user) {
@@ -153,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Wallet routes
-  app.get("/api/wallets", authenticateToken, async (req, res) => {
+  app.get("/api/wallets", authenticateToken, async (req: any, res) => {
     try {
       const wallets = await storage.getUserWallets(req.user.id);
       res.json(wallets);
@@ -164,13 +168,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Transaction routes
-  app.post("/api/transactions/send", authenticateToken, async (req, res) => {
+  app.post("/api/transactions/send", authenticateToken, async (req: any, res) => {
     try {
       const transactionData = sendMoneySchema.parse(req.body);
       
       // Get exchange rate from Onramp
       const rateResponse = await callOnrampAPI('/rates/current');
-      const rate = rateResponse.rates.find((r: any) => 
+      const rates = rateResponse?.rates || [];
+      const rate = rates.find((r: any) => 
         r.from === transactionData.fromCurrency && r.to === transactionData.toCurrency
       );
       
@@ -219,7 +224,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/transactions", authenticateToken, async (req, res) => {
+  app.get("/api/transactions", authenticateToken, async (req: any, res) => {
     try {
       const transactions = await storage.getUserTransactions(req.user.id);
       res.json(transactions);
