@@ -333,11 +333,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             await storage.createTransaction({
               userId: parseInt(userId),
               type: 'deposit',
-              amount: parseFloat(amount),
-              currency,
+              fromCurrency: currency,
+              toCurrency: 'XLM',
+              fromAmount: amount.toString(),
+              toAmount: amount.toString(), // 1:1 for simplicity, real rate from webhook
+              fee: req.body.fee?.toString() || "0",
               status: 'completed',
-              externalTransactionId: transactionId,
-              fee: 0 // Get from webhook data
+              onrampTransactionId: transactionId,
+              paymentMethod: req.body.paymentMethod || 'unknown'
             });
           }
           break;

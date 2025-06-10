@@ -200,7 +200,7 @@ export class OnrampWhitelabel {
       user: {
         email: options.userEmail
       },
-      webhookUrl: `${window.location.origin}/api/onramp/webhook`,
+      webhookUrl: `${window.location.origin}/api/webhooks/onramp`,
       redirectUrl: options.redirectUrl || `${window.location.origin}/add-money?success=true`
     };
 
