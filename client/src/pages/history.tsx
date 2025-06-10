@@ -123,8 +123,8 @@ export default function History() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-6">
+      <div className="max-w-4xl mx-auto p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
           <div>
             <h1 className="text-2xl font-semibold text-foreground">Transaction History</h1>
             <p className="text-muted-foreground mt-1">Track your cross-border payments</p>
@@ -162,7 +162,7 @@ export default function History() {
               <Card key={transaction.id} className="minimal-card">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 flex-1">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                         transaction.type === "send" || transaction.type === "withdrawal" ? "bg-primary" : "bg-green-500"
                       }`}>

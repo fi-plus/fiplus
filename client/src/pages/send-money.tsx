@@ -311,8 +311,8 @@ export default function SendMoney() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <Star className="w-8 h-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
+              <Star className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">fi.plus</h1>
             </div>
             <Button variant="ghost" onClick={() => window.location.href = '/'}>
               Back to Dashboard
@@ -335,7 +335,7 @@ export default function SendMoney() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Amount and Currencies */}
-            <div className="grid grid-cols-3 gap-4 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
               <div>
                 <label className="block text-sm font-medium mb-2">Amount</label>
                 <Input
@@ -343,7 +343,7 @@ export default function SendMoney() {
                   placeholder="0.00"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="text-xl font-bold"
+                  className="text-lg sm:text-xl font-bold"
                 />
               </div>
               <div>

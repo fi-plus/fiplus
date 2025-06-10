@@ -91,3 +91,34 @@
 .minimal-button {
   @apply bg-primary text-primary-foreground rounded-lg font-medium transition-all hover:opacity-90 focus:ring-2 focus:ring-primary;
 }
+
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  .mobile-compact {
+    padding: 12px !important;
+  }
+  
+  .mobile-text-sm {
+    font-size: 14px !important;
+  }
+  
+  .mobile-grid-1 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .mobile-space-y-2 > * + * {
+    margin-top: 8px !important;
+  }
+  
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-flex-col {
+    flex-direction: column !important;
+  }
+  
+  .mobile-w-full {
+    width: 100% !important;
+  }
+}
