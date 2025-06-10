@@ -306,6 +306,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/transactions", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { type, fromCurrency, toCurrency, amount, method, status, externalId } = req.body;
+      
+      const transaction = await storage.createTransaction({
+        userId: req.user!.id,
+        type,
+        fromCurrency,
+        toCurrency,
+        amount: amount.toString(),
+        status: status || 'pending',
+        method: method || 'onramp',
+        externalId: externalId || null
+      });
+      
+      res.json(transaction);
+    } catch (error) {
+      console.error("Create transaction error:", error);
+      res.status(500).json({ message: "Failed to create transaction" });
+    }
+  });
+
   // Exchange rates route
   app.get("/api/exchange-rates", async (req, res) => {
     try {
