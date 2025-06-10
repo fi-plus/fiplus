@@ -85,13 +85,13 @@
 }
 
 .minimal-card {
-  @apply bg-card border border-border/50 rounded-xl shadow-lg shadow-black/5;
+  @apply bg-card border border-border rounded-xl shadow-lg;
 }
 
 .minimal-input {
-  @apply bg-background border border-border/50 rounded-lg focus:border-primary/50 focus:ring-1 focus:ring-primary/20;
+  @apply bg-background border border-border rounded-lg focus:border-primary focus:ring-1 focus:ring-primary;
 }
 
 .minimal-button {
-  @apply bg-primary text-primary-foreground rounded-lg font-medium transition-all hover:bg-primary/90 focus:ring-2 focus:ring-primary/20;
+  @apply bg-primary text-primary-foreground rounded-lg font-medium transition-all hover:opacity-90 focus:ring-2 focus:ring-primary;
 }
