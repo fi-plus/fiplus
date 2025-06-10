@@ -12,6 +12,9 @@ import History from "@/pages/history";
 import Contacts from "@/pages/contacts";
 import Settings from "@/pages/settings";
 import WalletConnect from "@/pages/wallet-connect";
+import KYCVerification from "@/pages/kyc-verification";
+import AddMoney from "@/pages/add-money";
+import SendMoney from "@/pages/send-money";
 import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -61,6 +64,21 @@ function Router() {
       <Route path="/settings">
         <ProtectedRoute>
           <Settings />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/kyc">
+        <ProtectedRoute>
+          <KYCVerification />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/add-money">
+        <ProtectedRoute>
+          <AddMoney />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/send">
+        <ProtectedRoute>
+          <SendMoney />
         </ProtectedRoute>
       </Route>
       <Route path="/">

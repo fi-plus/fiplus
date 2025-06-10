@@ -178,10 +178,12 @@ export default function Dashboard() {
                     <span className="font-bold">{balance}</span>
                   </div>
                 ))}
-                <Button variant="outline" className="w-full mt-4">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Funds
-                </Button>
+                <Link href="/add-money">
+                  <Button variant="outline" className="w-full mt-4">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Funds
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 
