@@ -4,6 +4,7 @@ import WalletBalances from "@/components/WalletBalances";
 import RecentActivity from "@/components/RecentActivity";
 import ExchangeRates from "@/components/ExchangeRates";
 import QuickActions from "@/components/QuickActions";
+import StellarWalletCard from "@/components/StellarWalletCard";
 import { useWallet } from "@/hooks/useWallet";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,7 @@ export default function Dashboard() {
 
           {/* Right Column: Wallet and Activity */}
           <div className="space-y-6">
+            <StellarWalletCard />
             <WalletBalances />
             <RecentActivity />
             <QuickActions />

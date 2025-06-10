@@ -11,6 +11,8 @@ export const users = pgTable("users", {
   phoneNumber: text("phone_number"),
   kycStatus: text("kyc_status").default("pending"), // pending, verified, rejected
   onrampUserId: text("onramp_user_id"),
+  stellarPublicKey: text("stellar_public_key"),
+  stellarWalletCreated: boolean("stellar_wallet_created").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

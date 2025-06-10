@@ -8,6 +8,13 @@
       "when": 1749556441499,
       "tag": "0000_icy_stellaris",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1749558201736,
+      "tag": "0001_clammy_sunspot",
+      "breakpoints": true
     }
   ]
 }
