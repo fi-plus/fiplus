@@ -130,10 +130,6 @@ export default function Cashout() {
     } else {
       setOfframpQuote(null);
     }
-  };
-
-  const handleMethodSelect = (method: string) => {
-    setCashoutMethod(method);
     setStep('details');
   };
 
@@ -351,11 +347,53 @@ export default function Cashout() {
                       type="number"
                       placeholder="0.00"
                       value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
+                      onChange={(e) => handleAmountChange(e.target.value)}
                       className="h-12 text-lg"
                     />
                   </div>
                 </div>
+
+                {/* Real-time Onramp Offramp Quote */}
+                {cashoutMethod === 'onramp_offramp' && amount && (
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border border-green-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-medium text-green-900">Real-time Offramp Quote</h3>
+                      {isLoadingQuote && (
+                        <div className="animate-spin w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full"></div>
+                      )}
+                    </div>
+                    
+                    {offrampQuote && !isLoadingQuote && (
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">You send:</span>
+                          <span className="font-medium">{amount} {fromAsset}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Exchange rate:</span>
+                          <span>1 {fromAsset} = {offrampQuote.exchangeRate} {toCurrency}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Onramp fee:</span>
+                          <span>{offrampQuote.fees.total.toFixed(2)} {toCurrency}</span>
+                        </div>
+                        <div className="flex justify-between font-medium text-green-600 border-t pt-2">
+                          <span>You receive:</span>
+                          <span>{offrampQuote.fiatAmount.toFixed(2)} {toCurrency}</span>
+                        </div>
+                        <div className="text-xs text-green-600 mt-2">
+                          Processing time: {offrampQuote.estimatedTime}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {!offrampQuote && !isLoadingQuote && (
+                      <div className="text-sm text-gray-500">
+                        Enter amount to see live pricing
+                      </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -366,7 +404,7 @@ export default function Cashout() {
                 {availableMethods.map(([key, method]) => {
                   const Icon = method.icon;
                   return (
-                    <Card key={key} className="shadow-lg border-0 hover:shadow-xl transition-shadow cursor-pointer" onClick={() => handleMethodSelect(key)}>
+                    <Card key={key} className="shadow-lg border-0 hover:shadow-xl transition-shadow cursor-pointer" onClick={() => handleMethodChange(key)}>
                       <CardContent className="p-6 text-center">
                         <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
                           <Icon className="w-8 h-8 text-white" />
