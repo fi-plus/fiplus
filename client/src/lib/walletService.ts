@@ -5,10 +5,10 @@ class WalletService {
   private balances = new Map<string, number>();
   
   constructor() {
-    // Initialize with realistic balances
-    this.balances.set('USDC', 1250.00);
-    this.balances.set('EURC', 890.50);
-    this.balances.set('XLM', 100.00);
+    // Initialize with realistic balances - XLM is primary since Onramp supports it
+    this.balances.set('XLM', 2500.00); // Primary balance in XLM
+    this.balances.set('USDC', 750.00);  // Secondary stablecoin balance
+    this.balances.set('EURC', 650.50);  // Secondary stablecoin balance
   }
 
   getBalance(asset: string): number {

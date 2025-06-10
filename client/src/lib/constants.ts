@@ -4,43 +4,43 @@ export const SUPPORTED_CURRENCIES = [
     code: "USD", 
     name: "US Dollar", 
     flag: "🇺🇸", 
-    stablecoin: "USDC",
-    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    stablecoin: "XLM", // Onramp primarily supports XLM
+    stellarAsset: "XLM"
   },
   { 
     code: "EUR", 
     name: "Euro", 
     flag: "🇪🇺", 
-    stablecoin: "EURC",
-    stellarAsset: "EURC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    stablecoin: "XLM", // Bridge through XLM via Onramp
+    stellarAsset: "XLM"
   },
   { 
     code: "GBP", 
     name: "British Pound", 
     flag: "🇬🇧", 
-    stablecoin: "USDC", // Bridge through USDC
-    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    stablecoin: "XLM", // Bridge through XLM via Onramp
+    stellarAsset: "XLM"
   },
   { 
     code: "INR", 
     name: "Indian Rupee", 
     flag: "🇮🇳", 
-    stablecoin: "USDC", // Bridge through USDC
-    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    stablecoin: "XLM", // Bridge through XLM via Onramp
+    stellarAsset: "XLM"
   },
   { 
     code: "NGN", 
     name: "Nigerian Naira", 
     flag: "🇳🇬", 
-    stablecoin: "USDC", // Bridge through USDC
-    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    stablecoin: "XLM", // Bridge through XLM via Onramp
+    stellarAsset: "XLM"
   },
   { 
     code: "KES", 
     name: "Kenyan Shilling", 
     flag: "🇰🇪", 
-    stablecoin: "USDC", // Bridge through USDC
-    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    stablecoin: "XLM", // Bridge through XLM via Onramp
+    stellarAsset: "XLM"
   },
 ];
 
@@ -86,8 +86,8 @@ export const FEE_STRUCTURE = {
   }
 };
 
-// Wallet asset configuration
-export const WALLET_ASSETS = ['USDC', 'EURC', 'XLM'] as const;
+// Wallet asset configuration - Onramp primarily supports XLM
+export const WALLET_ASSETS = ['XLM', 'USDC', 'EURC'] as const;
 export type WalletAsset = typeof WALLET_ASSETS[number];
 
 // Currency conversion helpers
