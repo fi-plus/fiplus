@@ -15,6 +15,8 @@ import WalletConnect from "@/pages/wallet-connect";
 import KYCVerification from "@/pages/kyc-verification";
 import AddMoney from "@/pages/add-money";
 import SendMoney from "@/pages/send-money";
+import Claim from "@/pages/claim";
+import Cashout from "@/pages/cashout";
 import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -79,6 +81,12 @@ function Router() {
       <Route path="/send">
         <ProtectedRoute>
           <SendMoney />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/claim" component={Claim} />
+      <Route path="/cashout">
+        <ProtectedRoute>
+          <Cashout />
         </ProtectedRoute>
       </Route>
       <Route path="/">
