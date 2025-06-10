@@ -114,6 +114,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Profile update route
+  app.put("/api/profile", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { firstName, lastName, email, phone, country } = req.body;
+      
+      // In a real app, you would update the user in the database
+      // For now, we'll just return a success response
+      res.json({ 
+        message: "Profile updated successfully",
+        user: {
+          id: req.user.id,
+          firstName,
+          lastName,
+          email,
+          phone,
+          country
+        }
+      });
+    } catch (error) {
+      console.error("Profile update error:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { email, password } = loginSchema.parse(req.body);
