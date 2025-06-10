@@ -7,6 +7,10 @@ import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import NotFound from "@/pages/not-found";
+import Convert from "@/pages/convert";
+import History from "@/pages/history";
+import Contacts from "@/pages/contacts";
+import Settings from "@/pages/settings";
 import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
