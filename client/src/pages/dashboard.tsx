@@ -8,6 +8,7 @@ import { useWallet } from "@/hooks/useWallet";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Send } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Dashboard() {
   const { totalBalance } = useWallet();
@@ -32,6 +33,7 @@ export default function Dashboard() {
                 <Button 
                   variant="secondary" 
                   className="bg-white bg-opacity-20 hover:bg-opacity-30 border-0 text-white"
+                  onClick={() => document.getElementById('send-money-form')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Money
@@ -39,6 +41,7 @@ export default function Dashboard() {
                 <Button 
                   variant="secondary" 
                   className="bg-white bg-opacity-20 hover:bg-opacity-30 border-0 text-white"
+                  onClick={() => document.getElementById('send-money-form')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   <Send className="w-4 h-4 mr-2" />
                   Send Money
@@ -50,7 +53,7 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column: Send Money Form */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2" id="send-money-form">
             <SendMoneyForm />
           </div>
 

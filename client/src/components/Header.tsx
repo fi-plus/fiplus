@@ -2,6 +2,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Bell, ChevronDown } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Link } from "wouter";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -20,10 +21,10 @@ export default function Header() {
               <h1 className="text-2xl font-bold text-primary">fi.plus</h1>
             </div>
             <nav className="hidden md:ml-8 md:flex md:space-x-8">
-              <a href="#" className="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Send Money</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Receive</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Rates</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Help</a>
+              <Link href="/" className="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Send Money</Link>
+              <Link href="/history" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">History</Link>
+              <Link href="/convert" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Convert</Link>
+              <Link href="/contacts" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Contacts</Link>
             </nav>
           </div>
           <div className="flex items-center space-x-4">
@@ -43,10 +44,16 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Help</DropdownMenuItem>
-                <DropdownMenuItem onClick={logout} className="text-red-600">
+                <DropdownMenuItem asChild>
+                  <Link href="/settings" className="cursor-pointer">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings" className="cursor-pointer">Settings</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/contacts" className="cursor-pointer">Help</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout} className="text-red-600 cursor-pointer">
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>
