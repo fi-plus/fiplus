@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
 import { walletService } from "@/lib/walletService";
@@ -19,6 +20,18 @@ export default function Dashboard() {
   const [sendAmount, setSendAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("INR");
+
+  // Fetch real transaction data from database
+  const transactions = useQuery({
+    queryKey: ['/api/transactions'],
+    enabled: !!user
+  });
+
+  // Fetch real wallet balances
+  const walletBalances = useQuery({
+    queryKey: ['/api/wallets'],
+    enabled: !!user
+  });
 
   const handleSendMoney = () => {
     if (!sendAmount || parseFloat(sendAmount) <= 0) {
@@ -209,7 +222,11 @@ export default function Dashboard() {
                       <div className="space-y-1">
                         <div className="text-sm font-medium text-blue-100">Available Balance</div>
                         <div className="text-3xl font-bold tracking-tight">
-                          ${walletService.getAllBalances().XLM || '2,500.00'}
+                          ${walletBalances.data ? 
+                            (Array.isArray(walletBalances.data) ? 
+                              walletBalances.data.reduce((sum: number, wallet: any) => sum + parseFloat(wallet.balance || 0), 0).toFixed(2) 
+                              : '0.00') 
+                            : '0.00'}
                         </div>
                         <div className="text-xs text-blue-200">USD equivalent</div>
                       </div>
@@ -296,31 +313,45 @@ export default function Dashboard() {
                 <CardTitle className="text-lg font-bold text-gray-800">Recent Activity</CardTitle>
               </CardHeader>
               <CardContent className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3 p-3 bg-green-50 border border-green-100 rounded-lg hover:bg-green-100 transition-colors">
-                    <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-sm">
-                      <ArrowDownLeft className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-semibold text-gray-800">Received</div>
-                      <div className="text-xs text-gray-600">+$500.00 USD</div>
-                      <div className="text-xs text-green-600 font-medium">From Maria Garcia</div>
-                    </div>
-                    <div className="text-xs text-gray-500 font-medium">2h ago</div>
+                {transactions.isLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                   </div>
-                  
-                  <div className="flex items-center space-x-3 p-3 bg-blue-50 border border-blue-100 rounded-lg hover:bg-blue-100 transition-colors">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-sm">
-                      <ArrowUpRight className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-semibold text-gray-800">Sent</div>
-                      <div className="text-xs text-gray-600">-$250.00 USD → ₹20,780 INR</div>
-                      <div className="text-xs text-blue-600 font-medium">To Rajesh Kumar</div>
-                    </div>
-                    <div className="text-xs text-gray-500 font-medium">1d ago</div>
+                ) : transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 ? (
+                  <div className="space-y-3">
+                    {transactions.data.slice(0, 2).map((transaction: any) => (
+                      <div key={transaction.id} className="flex items-center space-x-3 p-3 bg-gray-50 border border-gray-100 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${
+                          transaction.type === 'deposit' ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-500 to-purple-500'
+                        }`}>
+                          {transaction.type === 'deposit' ? (
+                            <ArrowDownLeft className="w-5 h-5 text-white" />
+                          ) : (
+                            <ArrowUpRight className="w-5 h-5 text-white" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-sm font-semibold text-gray-800 capitalize">{transaction.type}</div>
+                          <div className="text-xs text-gray-600">
+                            {transaction.fromAmount} {transaction.fromCurrency}
+                            {transaction.toCurrency && ` → ${transaction.toAmount} ${transaction.toCurrency}`}
+                          </div>
+                          <div className={`text-xs font-medium ${transaction.type === 'deposit' ? 'text-green-600' : 'text-blue-600'}`}>
+                            {transaction.recipientName || transaction.status}
+                          </div>
+                        </div>
+                        <div className="text-xs text-gray-500 font-medium">
+                          {new Date(transaction.createdAt).toLocaleDateString()}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <div className="text-sm">No transactions yet</div>
+                    <div className="text-xs mt-1">Your transaction history will appear here</div>
+                  </div>
+                )}
                 <Link href="/history">
                   <Button variant="outline" className="w-full mt-4 border-gray-300 hover:bg-gray-50 text-gray-700 font-medium">
                     View All Transactions
