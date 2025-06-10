@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft, Home, LogOut, Bell, Search } from "lucide-react";
+import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft, Home, LogOut, Bell, Search, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -124,6 +124,59 @@ export default function Dashboard() {
           </div>
         </div>
       </header>
+
+      {/* Mobile Navigation Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setMobileMenuOpen(false)}></div>
+          <div className="fixed left-0 top-0 h-full w-64 bg-card border-r border-border p-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm font-medium text-foreground">Navigation</div>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <nav className="space-y-1">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start h-9 text-left bg-muted text-foreground text-sm">
+                  <DollarSign className="w-4 h-4 mr-2" />
+                  Dashboard
+                </Button>
+              </Link>
+              <Link href="/send" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                  <Send className="w-4 h-4 mr-2" />
+                  Send Money
+                </Button>
+              </Link>
+              <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                  <History className="w-4 h-4 mr-2" />
+                  History
+                </Button>
+              </Link>
+              <Link href="/contacts" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                  <Users className="w-4 h-4 mr-2" />
+                  Contacts
+                </Button>
+              </Link>
+              <Link href="/settings" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </Button>
+              </Link>
+            </nav>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 flex">
         {/* Left Navigation Sidebar - Hidden on mobile */}
