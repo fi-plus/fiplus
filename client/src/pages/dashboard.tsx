@@ -119,13 +119,12 @@ export default function Dashboard() {
       <main className="flex-1 flex overflow-hidden">
         {/* Left Navigation Sidebar - Hidden on mobile */}
         <aside className={`${sidebarCollapsed ? 'w-16' : 'w-48'} bg-card border-r border-border p-4 transition-all duration-300 ease-in-out hidden md:block flex-shrink-0`}>
-          <div className="flex items-center justify-between mb-4">
-            {!sidebarCollapsed && <div className="text-xs font-medium text-muted-foreground">Navigation</div>}
+          <div className="flex items-center justify-end mb-4">
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="h-8 w-8 p-0 ml-auto flex items-center justify-center"
+              className="h-8 w-8 p-0 flex items-center justify-center"
             >
               {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
             </Button>
