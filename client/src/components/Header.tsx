@@ -1,0 +1,59 @@
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Bell, ChevronDown } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
+export default function Header() {
+  const { user, logout } = useAuth();
+
+  const getUserInitials = (firstName?: string, lastName?: string) => {
+    if (!firstName || !lastName) return "U";
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
+  return (
+    <header className="bg-white shadow-sm border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <h1 className="text-2xl font-bold text-primary">fi.plus</h1>
+            </div>
+            <nav className="hidden md:ml-8 md:flex md:space-x-8">
+              <a href="#" className="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Send Money</a>
+              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Receive</a>
+              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Rates</a>
+              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Help</a>
+            </nav>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="sm" className="p-2">
+              <Bell className="h-5 w-5 text-gray-500" />
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center space-x-2 text-sm text-gray-700 hover:text-gray-900">
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
+                      {getUserInitials(user?.firstName, user?.lastName)}
+                    </span>
+                  </div>
+                  <span>{user?.firstName} {user?.lastName}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Help</DropdownMenuItem>
+                <DropdownMenuItem onClick={logout} className="text-red-600">
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
