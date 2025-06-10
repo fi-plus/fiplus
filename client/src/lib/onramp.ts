@@ -295,23 +295,36 @@ export class OnrampWhitelabel {
   }
 
   private async makeApiCall(endpoint: string, data: any): Promise<any> {
-    const baseUrl = this.config.environment === 'sandbox' 
-      ? 'https://api.sandbox.onramp.money'
-      : 'https://api.onramp.money';
+    const baseUrl = import.meta.env.VITE_ONRAMP_BASE_URL || 'https://api-test.onramp.money';
+    const apiKey = import.meta.env.VITE_ONRAMP_API_KEY;
+    const apiSecret = import.meta.env.VITE_ONRAMP_API_SECRET;
+    const appId = import.meta.env.VITE_ONRAMP_APP_ID;
 
-    // API call logging removed for production
-    
-    // Return appropriate response structure based on endpoint
-    if (endpoint === '/onramp/quote') {
-      return {
-        cryptoAmount: data.fiatAmount * 7.2,
-        exchangeRate: 7.2,
-        fees: { 
-          total: data.fiatAmount * 0.025, 
-          breakdown: [{ type: 'onramp_fee', amount: data.fiatAmount * 0.025 }] 
+    if (!apiKey || !apiSecret || !appId) {
+      throw new Error('Onramp API credentials not configured');
+    }
+
+    try {
+      const response = await fetch(`${baseUrl}${endpoint}`, {
+        method: endpoint.includes('/transaction') && !endpoint.includes('/transactions') ? 'POST' : 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'X-API-Key': apiKey,
+          'X-API-Secret': apiSecret,
+          'X-App-ID': appId
         },
-        estimatedTime: '5-15 minutes'
-      };
+        body: data && Object.keys(data).length > 0 ? JSON.stringify(data) : undefined
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Onramp API error: ${response.status} - ${errorText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(`API call failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
 
     if (endpoint === '/offramp/quote') {
@@ -384,7 +397,7 @@ export class OnrampWhitelabel {
 
 // Initialize Onramp Whitelabel
 export const onrampWhitelabel = new OnrampWhitelabel({
-  apiKey: import.meta.env.VITE_ONRAMP_API_KEY || 'sandbox_key',
+  apiKey: import.meta.env.VITE_ONRAMP_API_KEY || '',
   environment: 'sandbox',
   partnerName: 'fi.plus',
   brandColor: '#2563eb',
