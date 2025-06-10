@@ -166,7 +166,7 @@ export default function Dashboard() {
             <Link href="/">
               <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
                 <DollarSign className="w-4 h-4" />
-                <span className="text-xs">Dashboard</span>
+                <span className="text-xs">Home</span>
               </Button>
             </Link>
             <Link href="/send">
