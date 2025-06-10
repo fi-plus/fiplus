@@ -4,14 +4,21 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, AlertCircle, Download, Share2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-// Service removed - using direct API calls
+import { useQuery } from "@tanstack/react-query";
 
 export default function History() {
   const { toast } = useToast();
   const [expandedTx, setExpandedTx] = useState<string | null>(null);
   
-  // Get real transaction data from transactionService
-  const transactions = transactionService.getTransactionHistory();
+  // Get real transaction data from API
+  const { data: transactions = [] } = useQuery({
+    queryKey: ['/api/transactions'],
+    queryFn: () => fetch('/api/transactions', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => res.json())
+  });
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -75,7 +82,7 @@ export default function History() {
   };
 
   const getAverageRating = () => {
-    const completedTransactions = transactions.filter(tx => tx.status === 'completed');
+    const completedTransactions = transactions.filter((tx: any) => tx.status === 'completed');
     if (completedTransactions.length === 0) return "0.0";
     return "5.0"; // Default high rating for completed transactions
   };

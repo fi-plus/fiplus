@@ -213,12 +213,23 @@ export default function Cashout() {
         }, 2000);
       } else {
         // Process traditional cashout transaction
-        const transaction = transactionService.cashOut(
-          fromAsset,
-          toCurrency,
-          parseFloat(amount),
-          cashoutMethod
-        );
+        const response = await fetch('/api/transactions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            type: 'cashout',
+            fromCurrency: fromAsset,
+            toCurrency: toCurrency,
+            amount: parseFloat(amount),
+            method: cashoutMethod,
+            status: 'pending'
+          })
+        });
+        
+        const transaction = await response.json();
         
         setTimeout(() => {
           setStep('success');
@@ -262,7 +273,7 @@ export default function Cashout() {
                 {user?.firstName} {user?.lastName}
               </div>
               <div className="text-xs text-gray-500">
-                Available Balance: ${walletService.getBalance(fromAsset).toLocaleString()} ${fromAsset}
+                Available Balance: $0 ${fromAsset}
               </div>
             </div>
           </div>
@@ -286,7 +297,7 @@ export default function Cashout() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {Object.entries(walletService.getAllBalances()).map(([asset, balance]) => (
+                  {WALLET_ASSETS.map((asset) => (
                     <div key={asset} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
@@ -300,7 +311,7 @@ export default function Cashout() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-lg text-gray-800">{balance}</div>
+                        <div className="font-bold text-lg text-gray-800">0</div>
                       </div>
                     </div>
                   ))}
@@ -324,7 +335,7 @@ export default function Cashout() {
                       <SelectContent>
                         {WALLET_ASSETS.map((asset) => (
                           <SelectItem key={asset} value={asset}>
-                            {asset} - {walletService.getBalance(asset).toLocaleString()}
+                            {asset} - 0
                           </SelectItem>
                         ))}
                       </SelectContent>
