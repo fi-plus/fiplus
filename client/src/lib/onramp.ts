@@ -299,7 +299,7 @@ export class OnrampWhitelabel {
       ? 'https://api.sandbox.onramp.money'
       : 'https://api.onramp.money';
 
-    console.log('Onramp API call:', { endpoint, data });
+    // API call logging removed for production
     
     // Return appropriate response structure based on endpoint
     if (endpoint === '/onramp/quote') {

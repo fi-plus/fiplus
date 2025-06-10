@@ -6,8 +6,8 @@ import bcrypt from "bcryptjs";
 import { insertUserSchema, loginSchema, sendMoneySchema, type User } from "@shared/schema";
 import { z } from "zod";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-const ONRAMP_API_KEY = process.env.ONRAMP_API_KEY || process.env.VITE_ONRAMP_API_KEY || "default_onramp_key";
+const JWT_SECRET = process.env.JWT_SECRET || "dev-jwt-secret-change-in-production";
+const ONRAMP_API_KEY = process.env.ONRAMP_API_KEY || process.env.VITE_ONRAMP_API_KEY || "dev-onramp-key";
 
 // Middleware to verify JWT token
 function authenticateToken(req: any, res: any, next: any) {
@@ -26,13 +26,12 @@ function authenticateToken(req: any, res: any, next: any) {
 }
 
 interface AuthenticatedRequest extends Request {
-  user: { id: number; email: string };
+  user?: { id: number; email: string };
 }
 
-// Mock Onramp API integration
+// Onramp API integration placeholder - requires real implementation
 async function callOnrampAPI(endpoint: string, data?: any, method = 'GET') {
-  // In a real implementation, this would make actual HTTP requests to Onramp.money API
-  console.log(`Onramp API call: ${method} ${endpoint}`, data);
+  // TODO: Implement actual HTTP requests to Onramp.money API
   
   // Mock responses for different endpoints
   switch (endpoint) {
