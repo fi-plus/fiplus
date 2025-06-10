@@ -1,56 +1,254 @@
-// Onramp.money SDK integration
-// In a real implementation, this would import the actual Onramp SDK
+// Onramp.money Widget Integration
+// Based on: https://docs.onramp.money/onramp/offramp-widget-integration/sandbox-mode/sandbox-quick-guide
 
-export interface OnrampConfig {
+export interface OnrampWidgetConfig {
   apiKey: string;
   environment: 'sandbox' | 'production';
+  partnerId: string;
+  element: string;
+  type: 'onramp' | 'offramp';
+  fiatCurrency: string;
+  cryptoCurrency: string;
+  fiatAmount?: number;
+  cryptoAmount?: number;
+  walletAddress?: string;
+  redirectURL?: string;
+  webhookURL?: string;
 }
 
-export class OnrampSDK {
-  private config: OnrampConfig;
+export class OnrampWidget {
+  private config: OnrampWidgetConfig;
+  private widget: any = null;
 
-  constructor(config: OnrampConfig) {
+  constructor(config: OnrampWidgetConfig) {
     this.config = config;
   }
 
-  // Initialize KYC flow
-  initKYC(userId: string, options: any) {
-    console.log("Initializing Onramp KYC flow for user:", userId);
-    // Real implementation would open Onramp's KYC widget
-    return Promise.resolve({ kycUrl: `https://onramp.money/kyc?user=${userId}` });
-  }
+  // Initialize Onramp Widget according to documentation
+  async init(): Promise<void> {
+    const widgetConfig = {
+      appId: this.config.apiKey,
+      environment: this.config.environment,
+      elementId: this.config.element,
+      flowType: this.config.type,
+      fiatCurrency: this.config.fiatCurrency,
+      cryptoCurrency: this.config.cryptoCurrency,
+      fiatAmount: this.config.fiatAmount,
+      cryptoAmount: this.config.cryptoAmount,
+      walletAddress: this.config.walletAddress,
+      redirectURL: this.config.redirectURL,
+      webhookURL: this.config.webhookURL,
+      partnerDisplayName: 'fi.plus',
+      colorBackground: '#ffffff',
+      colorPrimary: '#2563eb',
+      colorSecondary: '#64748b'
+    };
 
-  // Create payment widget
-  createPaymentWidget(containerId: string, options: any) {
-    console.log("Creating Onramp payment widget in:", containerId);
-    // Real implementation would render Onramp's payment widget
-    const container = document.getElementById(containerId);
-    if (container) {
-      container.innerHTML = `
-        <div class="p-4 border rounded-lg bg-blue-50">
-          <p class="text-sm text-blue-800">Onramp.money Payment Widget</p>
-          <p class="text-xs text-blue-600">This would show the actual payment interface</p>
-        </div>
-      `;
+    // Load Onramp widget script if not already loaded
+    if (!window.OnrampWidget) {
+      await this.loadScript();
     }
+
+    // Initialize widget
+    this.widget = new window.OnrampWidget(widgetConfig);
   }
 
-  // Get supported currencies
-  getSupportedCurrencies() {
-    return Promise.resolve([
-      { code: 'USD', name: 'US Dollar', symbol: '$' },
-      { code: 'EUR', name: 'Euro', symbol: '€' },
-      { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
-      { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
-      { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
-      { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
-    ]);
+  private loadScript(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector('script[src*="onramp"]')) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = this.config.environment === 'sandbox' 
+        ? 'https://widget.sandbox.onramp.money/widget.js'
+        : 'https://widget.onramp.money/widget.js';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load Onramp widget'));
+      document.head.appendChild(script);
+    });
+  }
+
+  // Create Onramp widget for fiat to crypto
+  static createOnrampWidget(elementId: string, options: Partial<OnrampWidgetConfig>) {
+    const config: OnrampWidgetConfig = {
+      apiKey: import.meta.env.VITE_ONRAMP_API_KEY || 'sandbox_key',
+      environment: 'sandbox',
+      partnerId: 'fiplus',
+      element: elementId,
+      type: 'onramp',
+      fiatCurrency: options.fiatCurrency || 'USD',
+      cryptoCurrency: 'XLM',
+      walletAddress: options.walletAddress,
+      redirectURL: `${window.location.origin}/add-money?success=true`,
+      webhookURL: `${window.location.origin}/api/onramp/webhook`,
+      ...options
+    };
+
+    return new OnrampWidget(config);
+  }
+
+  // Create Offramp widget for crypto to fiat
+  static createOfframpWidget(elementId: string, options: Partial<OnrampWidgetConfig>) {
+    const config: OnrampWidgetConfig = {
+      apiKey: import.meta.env.VITE_ONRAMP_API_KEY || 'sandbox_key',
+      environment: 'sandbox',
+      partnerId: 'fiplus',
+      element: elementId,
+      type: 'offramp',
+      fiatCurrency: options.fiatCurrency || 'USD',
+      cryptoCurrency: 'XLM',
+      walletAddress: options.walletAddress,
+      redirectURL: `${window.location.origin}/cashout?success=true`,
+      webhookURL: `${window.location.origin}/api/onramp/webhook`,
+      ...options
+    };
+
+    return new OnrampWidget(config);
+  }
+
+  destroy() {
+    if (this.widget && this.widget.destroy) {
+      this.widget.destroy();
+    }
   }
 }
 
-// Initialize Onramp SDK
-const onrampApiKey = import.meta.env.VITE_ONRAMP_API_KEY || "default_onramp_key";
-export const onrampSDK = new OnrampSDK({
-  apiKey: onrampApiKey,
-  environment: 'sandbox'
+// Global type for Onramp widget
+declare global {
+  interface Window {
+    OnrampWidget: any;
+  }
+}
+
+// Onramp Whitelabel Integration
+// Based on: https://docs.onramp.money/onramp-whitelabel-unlisted
+
+export interface OnrampWhitelabelConfig {
+  apiKey: string;
+  environment: 'sandbox' | 'production';
+  partnerName: string;
+  brandColor: string;
+  logoUrl?: string;
+}
+
+export class OnrampWhitelabel {
+  private config: OnrampWhitelabelConfig;
+
+  constructor(config: OnrampWhitelabelConfig) {
+    this.config = config;
+  }
+
+  // Initialize Onramp Whitelabel Widget
+  async createOnrampSession(options: {
+    fiatCurrency: string;
+    fiatAmount: number;
+    cryptoCurrency: string;
+    walletAddress: string;
+    userEmail?: string;
+    redirectUrl?: string;
+  }) {
+    const sessionConfig = {
+      apiKey: this.config.apiKey,
+      environment: this.config.environment,
+      type: 'onramp',
+      partner: {
+        name: this.config.partnerName,
+        brandColor: this.config.brandColor,
+        logoUrl: this.config.logoUrl
+      },
+      transaction: {
+        fiatCurrency: options.fiatCurrency,
+        fiatAmount: options.fiatAmount,
+        cryptoCurrency: options.cryptoCurrency,
+        walletAddress: options.walletAddress
+      },
+      user: {
+        email: options.userEmail
+      },
+      callbacks: {
+        redirectUrl: options.redirectUrl || `${window.location.origin}/add-money?success=true`,
+        webhookUrl: `${window.location.origin}/api/onramp/webhook`
+      }
+    };
+
+    // This would make actual API call to Onramp
+    const response = await this.makeApiCall('/sessions', sessionConfig);
+    return response;
+  }
+
+  // Initialize Offramp Whitelabel Widget
+  async createOfframpSession(options: {
+    cryptoCurrency: string;
+    cryptoAmount: number;
+    fiatCurrency: string;
+    walletAddress: string;
+    bankDetails?: any;
+    userEmail?: string;
+    redirectUrl?: string;
+  }) {
+    const sessionConfig = {
+      apiKey: this.config.apiKey,
+      environment: this.config.environment,
+      type: 'offramp',
+      partner: {
+        name: this.config.partnerName,
+        brandColor: this.config.brandColor,
+        logoUrl: this.config.logoUrl
+      },
+      transaction: {
+        cryptoCurrency: options.cryptoCurrency,
+        cryptoAmount: options.cryptoAmount,
+        fiatCurrency: options.fiatCurrency,
+        walletAddress: options.walletAddress,
+        bankDetails: options.bankDetails
+      },
+      user: {
+        email: options.userEmail
+      },
+      callbacks: {
+        redirectUrl: options.redirectUrl || `${window.location.origin}/cashout?success=true`,
+        webhookUrl: `${window.location.origin}/api/onramp/webhook`
+      }
+    };
+
+    const response = await this.makeApiCall('/sessions', sessionConfig);
+    return response;
+  }
+
+  private async makeApiCall(endpoint: string, data: any) {
+    const baseUrl = this.config.environment === 'sandbox' 
+      ? 'https://api.sandbox.onramp.money'
+      : 'https://api.onramp.money';
+
+    // In production, this would make real API calls
+    console.log('Onramp API call:', { endpoint, data });
+    
+    // Mock response for sandbox
+    return {
+      sessionId: `session_${Date.now()}`,
+      url: `${baseUrl}/widget?session=${Date.now()}`,
+      status: 'created'
+    };
+  }
+
+  // Get supported currencies for whitelabel
+  async getSupportedCurrencies() {
+    return this.makeApiCall('/currencies', {});
+  }
+
+  // Get real-time exchange rates
+  async getExchangeRates(from: string, to: string) {
+    return this.makeApiCall('/rates', { from, to });
+  }
+}
+
+// Initialize Onramp Whitelabel
+export const onrampWhitelabel = new OnrampWhitelabel({
+  apiKey: import.meta.env.VITE_ONRAMP_API_KEY || 'sandbox_key',
+  environment: 'sandbox',
+  partnerName: 'fi.plus',
+  brandColor: '#2563eb',
+  logoUrl: '/logo.png'
 });

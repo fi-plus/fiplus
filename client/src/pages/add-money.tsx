@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
 import { walletService } from "@/lib/walletService";
 import { transactionService } from "@/lib/transactionService";
+import { onrampWhitelabel } from "@/lib/onramp";
 
 const FUNDING_METHODS = {
   'stellar_wallet': {
@@ -77,10 +78,35 @@ export default function AddMoney() {
     setStep('payment');
   };
 
-  const processPayment = () => {
+  const processPayment = async () => {
+    if (paymentMethod === 'onramp_deposit') {
+      try {
+        // Create Onramp session for fiat to XLM conversion
+        const session = await onrampWhitelabel.createOnrampSession({
+          fiatCurrency: currency,
+          fiatAmount: parseFloat(amount),
+          cryptoCurrency: 'XLM',
+          walletAddress: `GCEXAMPLE${user?.id}STELLARWALLET`,
+          userEmail: user?.email,
+          redirectUrl: `${window.location.origin}/add-money?success=true`
+        });
+        
+        // Redirect to Onramp widget
+        window.location.href = session.url;
+        return;
+      } catch (error) {
+        toast({
+          title: "Onramp Error",
+          description: "Failed to initialize Onramp session. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+    
     setStep('processing');
     
-    // Process the deposit transaction
+    // Process the deposit transaction for wallet transfers
     const transaction = transactionService.addMoney(
       currency,
       parseFloat(amount),
@@ -247,16 +273,20 @@ export default function AddMoney() {
 
               {paymentMethod === 'onramp_deposit' && (
                 <div className="space-y-4">
-                  <h3 className="font-medium">Onramp.money Integration</h3>
+                  <h3 className="font-medium">Onramp Whitelabel Integration</h3>
                   <div className="bg-blue-50 rounded-lg p-4">
                     <p className="text-sm text-blue-700 mb-3">
-                      This will redirect you to Onramp.money to convert your {currency} to XLM
+                      Convert {currency} to XLM using Onramp's secure infrastructure
                     </p>
-                    <div className="text-xs text-blue-600">
-                      • Secure KYC verification required<br/>
-                      • Real-time exchange rates<br/>
-                      • Direct XLM delivery to your fi.plus wallet
+                    <div className="text-xs text-blue-600 space-y-1">
+                      <div>• Embedded KYC verification</div>
+                      <div>• Real-time {currency}/XLM exchange rates</div>
+                      <div>• Direct delivery to your Stellar wallet</div>
+                      <div>• Whitelabel solution by Onramp.money</div>
                     </div>
+                  </div>
+                  <div id="onramp-widget" className="min-h-[400px] border rounded-lg bg-gray-50 flex items-center justify-center">
+                    <div className="text-gray-500 text-sm">Onramp widget will load here</div>
                   </div>
                 </div>
               )}

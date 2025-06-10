@@ -14,6 +14,15 @@ import { walletService } from "@/lib/walletService";
 import { transactionService } from "@/lib/transactionService";
 
 const CASHOUT_METHODS = {
+  'onramp_offramp': {
+    name: 'Onramp Offramp',
+    icon: Building2,
+    description: 'XLM to fiat via Onramp whitelabel solution',
+    fee: 'Variable',
+    time: '5-15 minutes',
+    minAmount: 10,
+    available: ['USD', 'EUR', 'GBP', 'INR', 'NGN', 'KES']
+  },
   'bank_transfer': {
     name: 'Bank Transfer',
     icon: Building2,
@@ -31,15 +40,6 @@ const CASHOUT_METHODS = {
     time: 'Minutes',
     minAmount: 5,
     available: ['KES', 'UGX', 'PHP', 'NGN']
-  },
-  'instant_cash': {
-    name: 'Instant Cash',
-    icon: DollarSign,
-    description: 'Cash pickup at partner locations',
-    fee: '2%',
-    time: 'Instant',
-    minAmount: 20,
-    available: ['USD', 'EUR', 'INR', 'NGN', 'KES']
   }
 };
 
