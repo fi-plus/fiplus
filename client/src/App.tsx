@@ -7,18 +7,14 @@ import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import NotFound from "@/pages/not-found";
-import Convert from "@/pages/convert";
 import History from "@/pages/history";
 import Contacts from "@/pages/contacts";
 import Settings from "@/pages/settings";
 import WalletConnect from "@/pages/wallet-connect";
 import KYCVerification from "@/pages/kyc-verification";
-
 import SendMoney from "@/pages/send-money";
 import Claim from "@/pages/claim";
 import AddBankAccount from "@/pages/add-bank-account";
-
-import UniversalConvert from "@/pages/universal-convert";
 import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -50,16 +46,7 @@ function Router() {
     <Switch>
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/convert">
-        <ProtectedRoute>
-          <Convert />
-        </ProtectedRoute>
-      </Route>
-      <Route path="/universal-convert">
-        <ProtectedRoute>
-          <UniversalConvert />
-        </ProtectedRoute>
-      </Route>
+
       <Route path="/history">
         <ProtectedRoute>
           <History />

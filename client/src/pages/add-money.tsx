@@ -8,9 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { CreditCard, Smartphone, Building2, ArrowRight, DollarSign, Star, CheckCircle2, Wallet } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
-import { walletService } from "@/lib/walletService";
-import { transactionService } from "@/lib/transactionService";
-import { onrampWhitelabel } from "@/lib/onramp";
+// Services removed - using backend API directly
+// Using backend API endpoints directly
 
 const FUNDING_METHODS = {
   'onramp_deposit': {
@@ -44,12 +43,21 @@ export default function AddMoney() {
     
     setIsLoadingQuote(true);
     try {
-      const quoteResult = await onrampWhitelabel.getOnrampQuote({
-        fiatCurrency: currency,
-        fiatAmount: parseFloat(amount),
-        cryptoCurrency: 'XLM',
-        paymentMethod: 'bank_transfer'
+      const response = await fetch('/api/onramp/quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          fiatCurrency: currency,
+          fiatAmount: parseFloat(amount),
+          cryptoCurrency: 'XLM'
+        })
       });
+      
+      if (!response.ok) throw new Error('Quote request failed');
+      const quoteResult = await response.json();
       setQuote(quoteResult);
     } catch (error) {
       console.error('Failed to fetch quote:', error);
@@ -111,15 +119,31 @@ export default function AddMoney() {
     setStep('processing');
     
     try {
-      // Get real quote from Onramp API
-      const quote = await onrampWhitelabel.getOnrampQuote({
-        fiatCurrency: currency,
-        fiatAmount: parseFloat(amount),
-        cryptoCurrency: 'XLM'
+      // Get real quote from backend API
+      const quoteResponse = await fetch('/api/onramp/quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          fiatCurrency: currency,
+          fiatAmount: parseFloat(amount),
+          cryptoCurrency: 'XLM'
+        })
       });
       
+      if (!quoteResponse.ok) throw new Error('Quote request failed');
+      const quote = await quoteResponse.json();
+      
       // Create KYC URL for user verification
-      const kycResult = await onrampWhitelabel.createKycUrl({
+      const kycResponse = await fetch('/api/onramp/kyc', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
         userEmail: user?.email || 'user@fiplus.com',
         phoneNumber: '+91-9999999999',
         clientCustomerId: `fiplus-user-${user?.id || Date.now()}`

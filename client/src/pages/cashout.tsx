@@ -10,9 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Building2, Smartphone, Wallet, Clock, DollarSign, Star, CheckCircle2, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SUPPORTED_CURRENCIES, calculateFee, WALLET_ASSETS } from "@/lib/constants";
-import { walletService } from "@/lib/walletService";
-import { transactionService } from "@/lib/transactionService";
-import { onrampWhitelabel } from "@/lib/onramp";
+// Using backend API endpoints directly
 
 const CASHOUT_METHODS = {
   'onramp_offramp': {
