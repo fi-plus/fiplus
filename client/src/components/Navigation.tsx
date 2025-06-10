@@ -12,7 +12,8 @@ import {
   DollarSign,
   Shield,
   Menu,
-  X
+  X,
+  Shuffle
 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,6 +23,7 @@ const navigationItems = [
   { href: "/send", label: "Send Money", icon: Send },
   { href: "/add-money", label: "Add Money", icon: Plus },
   { href: "/cashout", label: "Cash Out", icon: DollarSign },
+  { href: "/universal-convert", label: "Currency Bridge", icon: Shuffle },
   { href: "/history", label: "History", icon: History },
   { href: "/contacts", label: "Contacts", icon: Users },
   { href: "/convert", label: "Convert", icon: ArrowUpDown },

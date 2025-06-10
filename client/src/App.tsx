@@ -17,6 +17,7 @@ import AddMoney from "@/pages/add-money";
 import SendMoney from "@/pages/send-money";
 import Claim from "@/pages/claim";
 import Cashout from "@/pages/cashout";
+import UniversalConvert from "@/pages/universal-convert";
 import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -51,6 +52,11 @@ function Router() {
       <Route path="/convert">
         <ProtectedRoute>
           <Convert />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/universal-convert">
+        <ProtectedRoute>
+          <UniversalConvert />
         </ProtectedRoute>
       </Route>
       <Route path="/history">
