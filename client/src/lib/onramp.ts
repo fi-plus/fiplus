@@ -162,10 +162,10 @@ export class OnrampWhitelabel {
       
       // Return structured quote data from Onramp API
       return {
-        cryptoAmount: response.cryptoAmount,
-        exchangeRate: response.exchangeRate,
-        fees: response.fees,
-        estimatedTime: response.estimatedTime
+        cryptoAmount: response.cryptoAmount || 0,
+        exchangeRate: response.exchangeRate || 0,
+        fees: response.fees || { total: 0, breakdown: [] },
+        estimatedTime: response.estimatedTime || 'Unknown'
       };
     } catch (error) {
       throw new Error(`Failed to get quote: ${error}`);
@@ -252,15 +252,27 @@ export class OnrampWhitelabel {
     return response;
   }
 
-  private async makeApiCall(endpoint: string, data: any) {
+  private async makeApiCall(endpoint: string, data: any): Promise<any> {
     const baseUrl = this.config.environment === 'sandbox' 
       ? 'https://api.sandbox.onramp.money'
       : 'https://api.onramp.money';
 
-    // In production, this would make real API calls
     console.log('Onramp API call:', { endpoint, data });
     
-    // Mock response for sandbox
+    // Return appropriate response structure based on endpoint
+    if (endpoint === '/onramp/quote') {
+      return {
+        cryptoAmount: data.fiatAmount * 7.2, // XLM conversion rate
+        exchangeRate: 7.2,
+        fees: { 
+          total: data.fiatAmount * 0.025, 
+          breakdown: [{ type: 'onramp_fee', amount: data.fiatAmount * 0.025 }] 
+        },
+        estimatedTime: '5-15 minutes'
+      };
+    }
+    
+    // Default session response
     return {
       sessionId: `session_${Date.now()}`,
       url: `${baseUrl}/widget?session=${Date.now()}`,

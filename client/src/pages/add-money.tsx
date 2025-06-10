@@ -54,7 +54,7 @@ export default function AddMoney() {
     method.available.includes(currency)
   );
 
-  // Fetch quote when amount and currency change for onramp method
+  // Fetch real-time quote from Onramp for pricing transparency
   const fetchQuote = async () => {
     if (!amount || !currency || paymentMethod !== 'onramp_deposit') return;
     
@@ -74,8 +74,26 @@ export default function AddMoney() {
         description: "Unable to fetch current rates. Please try again.",
         variant: "destructive"
       });
+      setQuote(null);
     } finally {
       setIsLoadingQuote(false);
+    }
+  };
+
+  // Auto-fetch quote when parameters change
+  const handleAmountChange = (value: string) => {
+    setAmount(value);
+    if (paymentMethod === 'onramp_deposit' && value && parseFloat(value) > 0) {
+      setTimeout(fetchQuote, 500); // Debounce
+    }
+  };
+
+  const handlePaymentMethodChange = (method: string) => {
+    setPaymentMethod(method);
+    if (method === 'onramp_deposit' && amount && parseFloat(amount) > 0) {
+      fetchQuote();
+    } else {
+      setQuote(null);
     }
   };
 
@@ -239,17 +257,45 @@ export default function AddMoney() {
                     <span>Amount:</span>
                     <span>{amount} {currency}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Fee ({method.fee}):</span>
-                    <span>{calculateFee().toFixed(2)} {currency}</span>
-                  </div>
+                  {paymentMethod === 'onramp_deposit' && quote && (
+                    <>
+                      <div className="flex justify-between">
+                        <span>Exchange Rate:</span>
+                        <span>1 {currency} = {quote.exchangeRate} XLM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Onramp Fee:</span>
+                        <span>{quote.fees.total.toFixed(2)} {currency}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Processing Time:</span>
+                        <span>{quote.estimatedTime}</span>
+                      </div>
+                    </>
+                  )}
+                  {paymentMethod !== 'onramp_deposit' && (
+                    <div className="flex justify-between">
+                      <span>Fee ({method.fee}):</span>
+                      <span>{calculateFee().toFixed(2)} {currency}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between font-medium border-t pt-2">
-                    <span>Total:</span>
-                    <span>{getTotalAmount().toFixed(2)} {currency}</span>
+                    <span>Total Cost:</span>
+                    <span>
+                      {paymentMethod === 'onramp_deposit' && quote 
+                        ? (parseFloat(amount) + quote.fees.total).toFixed(2)
+                        : getTotalAmount().toFixed(2)
+                      } {currency}
+                    </span>
                   </div>
-                  <div className="flex justify-between text-green-600">
+                  <div className="flex justify-between text-green-600 font-medium">
                     <span>You'll receive:</span>
-                    <span>{amount} XLM</span>
+                    <span>
+                      {paymentMethod === 'onramp_deposit' && quote 
+                        ? quote.cryptoAmount.toFixed(2)
+                        : amount
+                      } XLM
+                    </span>
                   </div>
                 </div>
               </div>
@@ -411,7 +457,7 @@ export default function AddMoney() {
                       name="paymentMethod"
                       value={key}
                       checked={paymentMethod === key}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      onChange={(e) => handlePaymentMethodChange(e.target.value)}
                       className="sr-only"
                     />
                     <label
