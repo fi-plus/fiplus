@@ -18,29 +18,29 @@ export const SUPPORTED_CURRENCIES = [
     code: "GBP", 
     name: "British Pound", 
     flag: "🇬🇧", 
-    stablecoin: "GBPC",
-    stellarAsset: "GBPC:SYNTHETIC" // Placeholder for future implementation
+    stablecoin: "USDC", // Bridge through USDC
+    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
   },
   { 
     code: "INR", 
     name: "Indian Rupee", 
     flag: "🇮🇳", 
-    stablecoin: "INRC",
-    stellarAsset: "INRC:SYNTHETIC"
+    stablecoin: "USDC", // Bridge through USDC
+    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
   },
   { 
     code: "NGN", 
     name: "Nigerian Naira", 
     flag: "🇳🇬", 
-    stablecoin: "NGNC",
-    stellarAsset: "NGNC:SYNTHETIC"
+    stablecoin: "USDC", // Bridge through USDC
+    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
   },
   { 
     code: "KES", 
     name: "Kenyan Shilling", 
     flag: "🇰🇪", 
-    stablecoin: "KESC",
-    stellarAsset: "KESC:SYNTHETIC"
+    stablecoin: "USDC", // Bridge through USDC
+    stellarAsset: "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
   },
 ];
 
