@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, AlertCircle, Download, Share2, MessageSquare, Star, Eye } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, AlertCircle, Download, Share2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { transactionService } from "@/lib/transactionService";
 
@@ -41,47 +41,20 @@ export default function History() {
 
   const formatTime = (date: Date) => {
     const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-    
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes}m ago`;
+    const diff = now.getTime() - date.getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days} day${days > 1 ? 's' : ''} ago`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else {
+      return 'Just now';
     }
-    
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      return `${diffInHours}h ago`;
-    }
-    
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays}d ago`;
   };
 
-  const downloadReceipt = (tx: any) => {
-    toast({
-      title: "Receipt Downloaded",
-      description: `Transaction ${tx.txHash} receipt saved to downloads.`,
-    });
-  };
-
-  const shareViaWhatsApp = (tx: any) => {
-    const message = `Money transfer completed!\n\nAmount: ${tx.amount} ${tx.currency}\n${tx.type === 'sent' ? 'Recipient' : 'Sender'}: ${tx.recipient || tx.sender}\nTransaction ID: ${tx.txHash}\n\nPowered by fi.plus`;
-    toast({
-      title: "Sharing via WhatsApp",
-      description: "Opening WhatsApp to share receipt.",
-    });
-  };
-
-  const shareViaSMS = (tx: any) => {
-    const message = `Payment of ${tx.amount} ${tx.currency} ${tx.status}. Transaction: ${tx.txHash}`;
-    toast({
-      title: "Sharing via SMS",
-      description: "Opening SMS to share receipt.",
-    });
-  };
-
-  const renderStarRating = (rating: number | null) => {
-    if (rating === null) return null;
-    
+  const renderStarRating = (rating: number) => {
     return (
       <div className="flex items-center space-x-1">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -104,12 +77,41 @@ export default function History() {
   const getAverageRating = () => {
     const completedTransactions = transactions.filter(tx => tx.status === 'completed');
     if (completedTransactions.length === 0) return "0.0";
-    // For real transactions, we'll use a default rating of 5.0 since rating system isn't implemented yet
-    return "5.0";
+    return "5.0"; // Default high rating for completed transactions
   };
 
   const getTotalTransactions = () => {
     return transactions.filter(tx => tx.status === 'completed').length;
+  };
+
+  const getTransactionIcon = (type: string) => {
+    switch (type) {
+      case 'send':
+        return <ArrowUpRight className="w-5 h-5 text-blue-600" />;
+      case 'receive':
+        return <ArrowDownLeft className="w-5 h-5 text-green-600" />;
+      case 'deposit':
+        return <ArrowDownLeft className="w-5 h-5 text-green-600" />;
+      case 'withdrawal':
+        return <ArrowUpRight className="w-5 h-5 text-orange-600" />;
+      default:
+        return <ArrowUpRight className="w-5 h-5 text-gray-600" />;
+    }
+  };
+
+  const getTransactionDescription = (transaction: any) => {
+    switch (transaction.type) {
+      case 'send':
+        return `To ${transaction.recipientName || 'Recipient'}`;
+      case 'receive':
+        return 'Received payment';
+      case 'deposit':
+        return 'Added funds to wallet';
+      case 'withdrawal':
+        return 'Withdrawn to bank account';
+      default:
+        return 'Transaction';
+    }
   };
 
   return (
@@ -139,143 +141,128 @@ export default function History() {
         </div>
 
         <div className="space-y-4">
-          {transactions.map((transaction) => (
-            <Card key={transaction.id} className="overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      transaction.type === "sent" ? "bg-blue-100" : "bg-green-100"
-                    }`}>
-                      {transaction.type === "sent" ? (
-                        <ArrowUpRight className="w-5 h-5 text-blue-600" />
-                      ) : (
-                        <ArrowDownLeft className="w-5 h-5 text-green-600" />
-                      )}
-                    </div>
-                    
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <span className="font-semibold text-lg">
-                          {transaction.type === "sent" ? "-" : "+"}{transaction.amount} {transaction.currency}
-                        </span>
-                        {getStatusIcon(transaction.status)}
-                        <Badge className={getStatusColor(transaction.status)}>
-                          {transaction.status}
-                        </Badge>
-                      </div>
-                      
-                      <div className="text-sm text-gray-600 mt-1">
-                        {transaction.type === "sent" 
-                          ? `To ${transaction.recipient}` 
-                          : `From ${transaction.sender}`
-                        }
-                        {transaction.toCurrency && (
-                          <span className="ml-2">→ {transaction.convertedAmount} {transaction.toCurrency}</span>
-                        )}
-                      </div>
-                      
-                      <div className="flex items-center space-x-4 mt-2">
-                        <span className="text-xs text-gray-500">{formatTime(transaction.timestamp)}</span>
-                        {renderStarRating(transaction.rating)}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => toggleExpanded(transaction.id)}
-                    >
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                  </div>
+          {transactions.length === 0 ? (
+            <Card className="text-center py-12">
+              <CardContent>
+                <div className="text-gray-500">
+                  <h3 className="text-lg font-medium mb-2">No transactions yet</h3>
+                  <p>Your transaction history will appear here once you start using fi.plus</p>
                 </div>
-
-                {/* Expanded Details */}
-                {expandedTx === transaction.id && (
-                  <div className="mt-6 pt-6 border-t border-gray-200">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-3">
-                        <h4 className="font-medium text-gray-900">Transaction Details</h4>
-                        <div className="text-sm space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Transaction ID:</span>
-                            <span className="font-mono text-xs">{transaction.txHash}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Network Fee:</span>
-                            <span>${transaction.fee} XLM</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Settlement Time:</span>
-                            <span>3-5 seconds</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Blockchain:</span>
-                            <span>Stellar Network</span>
-                          </div>
-                        </div>
+              </CardContent>
+            </Card>
+          ) : (
+            transactions.map((transaction) => (
+              <Card key={transaction.id} className="overflow-hidden">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        transaction.type === "send" || transaction.type === "withdrawal" ? "bg-blue-100" : "bg-green-100"
+                      }`}>
+                        {getTransactionIcon(transaction.type)}
                       </div>
-
-                      <div className="space-y-3">
-                        <h4 className="font-medium text-gray-900">Actions</h4>
-                        <div className="space-y-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => downloadReceipt(transaction)}
-                            className="w-full justify-start"
-                          >
-                            <Download className="w-4 h-4 mr-2" />
-                            Download Receipt
-                          </Button>
-                          
-                          {transaction.status === 'completed' && (
-                            <>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => shareViaWhatsApp(transaction)}
-                                className="w-full justify-start"
-                              >
-                                <MessageSquare className="w-4 h-4 mr-2" />
-                                Share via WhatsApp
-                              </Button>
-                              
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => shareViaSMS(transaction)}
-                                className="w-full justify-start"
-                              >
-                                <Share2 className="w-4 h-4 mr-2" />
-                                Share via SMS
-                              </Button>
-                            </>
+                      
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <span className="font-semibold text-lg">
+                            {transaction.type === "send" || transaction.type === "withdrawal" ? "-" : "+"}{transaction.amount} {transaction.currency}
+                          </span>
+                          {getStatusIcon(transaction.status)}
+                          <Badge className={getStatusColor(transaction.status)}>
+                            {transaction.status}
+                          </Badge>
+                        </div>
+                        
+                        <div className="text-sm text-gray-600 mt-1">
+                          {getTransactionDescription(transaction)}
+                        </div>
+                        
+                        <div className="flex items-center space-x-4 mt-2">
+                          <span className="text-xs text-gray-500">
+                            {formatTime(transaction.timestamp)}
+                          </span>
+                          {transaction.status === "completed" && (
+                            <div className="flex items-center space-x-1">
+                              {renderStarRating(5)}
+                            </div>
                           )}
                         </div>
                       </div>
                     </div>
+                    
+                    <div className="text-right">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleExpanded(transaction.id)}
+                        className="text-gray-600 hover:text-gray-900"
+                      >
+                        {expandedTx === transaction.id ? "Hide Details" : "View Details"}
+                      </Button>
+                    </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
-        {MOCK_TRANSACTIONS.length === 0 && (
-          <Card>
-            <CardContent className="text-center py-12">
-              <div className="text-gray-500">
-                <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <h3 className="text-lg font-medium mb-2">No transactions yet</h3>
-                <p>Your transaction history will appear here once you start sending money.</p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                  {/* Expanded Details */}
+                  {expandedTx === transaction.id && (
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <h4 className="font-medium text-gray-900 mb-3">Transaction Details</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Transaction ID:</span>
+                              <span className="font-mono">{transaction.id}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Amount:</span>
+                              <span>{transaction.amount} {transaction.currency}</span>
+                            </div>
+                            {transaction.toCurrency && (
+                              <div className="flex justify-between">
+                                <span className="text-gray-600">Converted Amount:</span>
+                                <span>{transaction.convertedAmount} {transaction.toCurrency}</span>
+                              </div>
+                            )}
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Fee:</span>
+                              <span>{transaction.fee} XLM</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Status:</span>
+                              <Badge className={getStatusColor(transaction.status)}>
+                                {transaction.status}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-medium text-gray-900 mb-3">Actions</h4>
+                          <div className="space-y-2">
+                            <Button variant="outline" size="sm" className="w-full justify-start">
+                              <Download className="w-4 h-4 mr-2" />
+                              Download Receipt
+                            </Button>
+                            <Button variant="outline" size="sm" className="w-full justify-start">
+                              <Share2 className="w-4 h-4 mr-2" />
+                              Share Transaction
+                            </Button>
+                            {transaction.type === 'send' && (
+                              <Button variant="outline" size="sm" className="w-full justify-start">
+                                <ArrowUpRight className="w-4 h-4 mr-2" />
+                                Send Again
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

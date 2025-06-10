@@ -10,13 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRightLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-const currencies = [
-  { code: 'USD', name: 'US Dollar', symbol: '$' },
-  { code: 'EUR', name: 'Euro', symbol: '€' },
-  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
-  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
-];
+import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
+import { walletService } from "@/lib/walletService";
 
 export default function Convert() {
   const [fromCurrency, setFromCurrency] = useState("USD");
@@ -95,9 +90,9 @@ export default function Convert() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {currencies.map((currency) => (
+                      {SUPPORTED_CURRENCIES.map((currency) => (
                         <SelectItem key={currency.code} value={currency.code}>
-                          {currency.symbol} {currency.code} - {currency.name}
+                          {currency.flag} {currency.code} - {currency.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -123,9 +118,9 @@ export default function Convert() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {currencies.map((currency) => (
+                      {SUPPORTED_CURRENCIES.map((currency) => (
                         <SelectItem key={currency.code} value={currency.code}>
-                          {currency.symbol} {currency.code} - {currency.name}
+                          {currency.flag} {currency.code} - {currency.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
