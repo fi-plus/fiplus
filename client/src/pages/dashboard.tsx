@@ -254,38 +254,62 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             
-            {/* Quick Actions Card */}
+            {/* Recent Transactions Card */}
             <Card className="minimal-card mt-4">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-foreground">Quick Actions</CardTitle>
+                <CardTitle className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">Recent Transactions</span>
+                  <Link href="/history">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-7 text-xs">
+                      View All
+                    </Button>
+                  </Link>
+                </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="grid grid-cols-2 gap-3">
-                  <Link href="/send">
-                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
-                      <Send className="w-4 h-4" />
-                      <span className="text-xs">Send Money</span>
-                    </Button>
-                  </Link>
-                  <Link href="/history">
-                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
-                      <History className="w-4 h-4" />
-                      <span className="text-xs">View History</span>
-                    </Button>
-                  </Link>
-                  <Link href="/contacts">
-                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
-                      <Users className="w-4 h-4" />
-                      <span className="text-xs">Contacts</span>
-                    </Button>
-                  </Link>
-                  <Link href="/settings">
-                    <Button variant="outline" className="w-full h-12 flex flex-col items-center justify-center space-y-1">
-                      <Settings className="w-4 h-4" />
-                      <span className="text-xs">Settings</span>
-                    </Button>
-                  </Link>
-                </div>
+                {transactions.isLoading ? (
+                  <div className="flex items-center justify-center py-6">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                  </div>
+                ) : transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 ? (
+                  <div className="space-y-2">
+                    {transactions.data.slice(0, 4).map((transaction: any) => (
+                      <div key={transaction.id} className="flex items-center justify-between p-2 bg-muted rounded-lg">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                            transaction.type === 'deposit' ? 'bg-green-500' : 'bg-primary'
+                          }`}>
+                            {transaction.type === 'deposit' ? (
+                              <ArrowDownLeft className="w-3 h-3 text-white" />
+                            ) : (
+                              <ArrowUpRight className="w-3 h-3 text-white" />
+                            )}
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium text-foreground capitalize">{transaction.type}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {transaction.fromAmount} {transaction.fromCurrency}
+                              {transaction.toCurrency && ` → ${transaction.toCurrency}`}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium text-foreground">
+                            {transaction.fromAmount} {transaction.fromCurrency}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {new Date(transaction.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <div className="text-sm">No transactions yet</div>
+                    <div className="text-xs mt-1">Start sending money to see activity</div>
+                  </div>
+                )}
               </CardContent>
             </Card>
             
