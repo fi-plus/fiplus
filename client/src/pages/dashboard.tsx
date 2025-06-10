@@ -91,72 +91,72 @@ export default function Dashboard() {
 
       <main className="flex-1 flex">
         {/* Left Navigation Sidebar */}
-        <aside className="w-64 bg-card border-r border-border p-6">
-          <nav className="space-y-2">
+        <aside className="w-48 bg-card border-r border-border p-4">
+          <nav className="space-y-1">
             <Link href="/">
-              <Button variant="ghost" className="w-full justify-start h-10 text-left bg-muted text-foreground">
-                <DollarSign className="w-4 h-4 mr-3" />
+              <Button variant="ghost" className="w-full justify-start h-9 text-left bg-muted text-foreground text-sm">
+                <DollarSign className="w-4 h-4 mr-2" />
                 Dashboard
               </Button>
             </Link>
             <Link href="/send">
-              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
-                <Send className="w-4 h-4 mr-3" />
+              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                <Send className="w-4 h-4 mr-2" />
                 Send Money
               </Button>
             </Link>
             <Link href="/history">
-              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
-                <History className="w-4 h-4 mr-3" />
+              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                <History className="w-4 h-4 mr-2" />
                 History
               </Button>
             </Link>
             <Link href="/contacts">
-              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
-                <Users className="w-4 h-4 mr-3" />
+              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                <Users className="w-4 h-4 mr-2" />
                 Contacts
               </Button>
             </Link>
             <Link href="/settings">
-              <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted">
-                <Settings className="w-4 h-4 mr-3" />
+              <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
+                <Settings className="w-4 h-4 mr-2" />
                 Settings
               </Button>
             </Link>
           </nav>
           
           {/* Quick Stats in Sidebar */}
-          <div className="mt-8">
-            <h3 className="text-sm font-medium text-muted-foreground mb-4">Quick Stats</h3>
-            <div className="space-y-3">
+          <div className="mt-6">
+            <h3 className="text-xs font-medium text-muted-foreground mb-3">Quick Stats</h3>
+            <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">This Month</span>
-                <span className="text-xs font-medium text-foreground">₹45,000</span>
+                <span className="text-xs text-muted-foreground">Month</span>
+                <span className="text-xs font-medium text-foreground">₹45k</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">Total Transfers</span>
+                <span className="text-xs text-muted-foreground">Transfers</span>
                 <span className="text-xs font-medium text-foreground">23</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">Saved in Fees</span>
-                <span className="text-xs font-medium text-green-400">₹2,340</span>
+                <span className="text-xs text-muted-foreground">Saved</span>
+                <span className="text-xs font-medium text-green-400">₹2.3k</span>
               </div>
             </div>
           </div>
         </aside>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="flex-1 p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             
             {/* Main Send Money Card */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-3">
               <Card className="minimal-card overflow-hidden">
-              <div className="gradient-primary p-6 text-white">
-                <CardTitle className="text-2xl font-semibold mb-1">Send Money Globally</CardTitle>
-                <p className="text-white/80">Fast, secure cross-border payments via Stellar network</p>
+              <div className="gradient-primary p-4 text-white">
+                <CardTitle className="text-xl font-semibold mb-1">Send Money Globally</CardTitle>
+                <p className="text-white/80 text-sm">Fast, secure cross-border payments via Stellar network</p>
               </div>
-              <CardContent className="p-6 space-y-6">
+              <CardContent className="p-4 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-foreground mb-2 block">From</label>
@@ -206,7 +206,7 @@ export default function Dashboard() {
                       placeholder="0.00"
                       value={sendAmount}
                       onChange={(e) => setSendAmount(e.target.value)}
-                      className="h-14 text-2xl font-semibold minimal-input pr-16"
+                      className="h-12 text-xl font-semibold minimal-input pr-16"
                     />
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-medium text-muted-foreground">
                       {fromCurrency}
@@ -215,14 +215,14 @@ export default function Dashboard() {
                 </div>
 
                 {sendAmount && parseFloat(sendAmount) > 0 && (
-                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-green-400 font-medium">Recipient receives:</span>
-                      <span className="text-xl font-semibold text-green-400">
+                      <span className="text-green-400 font-medium text-sm">Recipient receives:</span>
+                      <span className="text-lg font-semibold text-green-400">
                         {(parseFloat(sendAmount) * getExchangeRate(fromCurrency, toCurrency)).toLocaleString()} {toCurrency}
                       </span>
                     </div>
-                    <div className="text-sm text-green-400/80 mt-1">
+                    <div className="text-xs text-green-400/80 mt-1">
                       Rate: 1 {fromCurrency} = {getExchangeRate(fromCurrency, toCurrency)} {toCurrency}
                     </div>
                   </div>
@@ -237,17 +237,17 @@ export default function Dashboard() {
                   Send Money
                 </Button>
 
-                <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="grid grid-cols-3 gap-3 text-center">
                   <div className="flex flex-col items-center">
-                    <div className="text-lg font-semibold text-green-400">$0.000005</div>
+                    <div className="text-base font-semibold text-green-400">$0.000005</div>
                     <div className="text-xs text-muted-foreground">Network Fee</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="text-lg font-semibold text-primary">3-5s</div>
+                    <div className="text-base font-semibold text-primary">3-5s</div>
                     <div className="text-xs text-muted-foreground">Settlement</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="text-lg font-semibold text-purple-400">24/7</div>
+                    <div className="text-base font-semibold text-purple-400">24/7</div>
                     <div className="text-xs text-muted-foreground">Available</div>
                   </div>
                 </div>
@@ -256,76 +256,72 @@ export default function Dashboard() {
           </div>
 
             {/* Right Sidebar */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {/* Connected Bank Accounts */}
               <Card className="minimal-card">
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-2">
                   <CardTitle className="flex items-center justify-between">
-                    <span className="text-base font-medium text-foreground">Connected Accounts</span>
+                    <span className="text-sm font-medium text-foreground">Connected Accounts</span>
                     <Link href="/add-bank-account">
-                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-8">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground h-7 text-xs">
                         <Plus className="w-3 h-3 mr-1" />
                         Add
                       </Button>
                     </Link>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0 space-y-3">
+                <CardContent className="pt-0 space-y-2">
                 {/* Indian Bank Account */}
-                <div className="border border-border rounded-lg p-3 bg-card">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="border border-border rounded-lg p-2 bg-card">
+                  <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-                        <Building2 className="w-4 h-4 text-white" />
+                      <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-md flex items-center justify-center">
+                        <Building2 className="w-3 h-3 text-white" />
                       </div>
                       <div>
-                        <div className="font-medium text-foreground text-sm">HDFC Bank</div>
+                        <div className="font-medium text-foreground text-xs">HDFC Bank</div>
                         <div className="text-xs text-muted-foreground">••••5678</div>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs">Connected</Badge>
+                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs h-5">Connected</Badge>
                   </div>
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="text-lg font-semibold text-foreground">₹2,45,000</div>
+                      <div className="text-sm font-semibold text-foreground">₹2,45,000</div>
                       <div className="text-xs text-muted-foreground">Available</div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-foreground">INR</div>
-                    </div>
+                    <div className="text-xs font-medium text-foreground">INR</div>
                   </div>
                 </div>
 
                 {/* ICICI Bank Account */}
-                <div className="border border-border rounded-lg p-3 bg-card">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="border border-border rounded-lg p-2 bg-card">
+                  <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                        <Building2 className="w-4 h-4 text-white" />
+                      <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-md flex items-center justify-center">
+                        <Building2 className="w-3 h-3 text-white" />
                       </div>
                       <div>
-                        <div className="font-medium text-foreground text-sm">ICICI Bank</div>
+                        <div className="font-medium text-foreground text-xs">ICICI Bank</div>
                         <div className="text-xs text-muted-foreground">••••9876</div>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs">Connected</Badge>
+                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs h-5">Connected</Badge>
                   </div>
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="text-lg font-semibold text-foreground">₹1,50,000</div>
+                      <div className="text-sm font-semibold text-foreground">₹1,50,000</div>
                       <div className="text-xs text-muted-foreground">Available</div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-foreground">INR</div>
-                    </div>
+                    <div className="text-xs font-medium text-foreground">INR</div>
                   </div>
                 </div>
 
                   {/* Add Account Prompt */}
-                  <div className="border-2 border-dashed border-border rounded-lg p-3 text-center bg-muted">
+                  <div className="border-2 border-dashed border-border rounded-lg p-2 text-center bg-muted">
                     <div className="text-muted-foreground">
-                      <Plus className="w-6 h-6 mx-auto mb-2" />
-                      <div className="font-medium mb-1 text-sm">Add Bank Account</div>
+                      <Plus className="w-4 h-4 mx-auto mb-1" />
+                      <div className="font-medium mb-1 text-xs">Add Bank Account</div>
                       <div className="text-xs">50+ countries supported</div>
                     </div>
                   </div>
@@ -335,8 +331,8 @@ export default function Dashboard() {
 
               {/* Recent Activity */}
               <Card className="minimal-card">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base font-medium text-foreground">Recent Activity</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-foreground">Recent Activity</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
                   {transactions.isLoading ? (
@@ -344,10 +340,10 @@ export default function Dashboard() {
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                     </div>
                   ) : transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 ? (
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {transactions.data.slice(0, 3).map((transaction: any) => (
-                        <div key={transaction.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                        <div key={transaction.id} className="flex items-center space-x-2 p-1 rounded-lg hover:bg-muted/50 transition-colors">
+                          <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
                             transaction.type === 'deposit' ? 'bg-green-500' : 'bg-primary'
                           }`}>
                             {transaction.type === 'deposit' ? (
@@ -362,12 +358,9 @@ export default function Dashboard() {
                               {transaction.fromAmount} {transaction.fromCurrency}
                               {transaction.toCurrency && ` → ${transaction.toAmount} ${transaction.toCurrency}`}
                             </div>
-                            <div className="text-xs text-muted-foreground truncate">
-                              {transaction.recipientName || transaction.status}
-                            </div>
                           </div>
                           <div className="text-xs text-muted-foreground">
-                            {new Date(transaction.createdAt).toLocaleDateString()}
+                            {new Date(transaction.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                           </div>
                         </div>
                       ))}
@@ -379,7 +372,7 @@ export default function Dashboard() {
                     </div>
                   )}
                   <Link href="/history">
-                    <Button variant="outline" className="w-full mt-3 text-sm h-8">
+                    <Button variant="outline" className="w-full mt-2 text-xs h-7">
                       View All Transactions
                     </Button>
                   </Link>
