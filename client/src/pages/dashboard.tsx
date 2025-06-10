@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft, Home, LogOut } from "lucide-react";
+import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy, Plus, DollarSign, Globe, Building2, Menu, ChevronLeft, Home, LogOut, Bell, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -74,7 +74,8 @@ export default function Dashboard() {
             </div>
             
             <div className="flex items-center space-x-4">
-              <div className="hidden sm:flex items-center space-x-3">
+              {/* User Profile Section */}
+              <div className="hidden sm:flex items-center space-x-4">
                 <div className="text-right">
                   <div className="text-sm font-semibold text-foreground">
                     {user?.firstName} {user?.lastName}
@@ -83,21 +84,30 @@ export default function Dashboard() {
                     {user?.email}
                   </div>
                 </div>
-                <div className="w-9 h-9 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-border/50 shadow-sm">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-xl flex items-center justify-center border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer">
                   <span className="text-sm font-semibold text-foreground">
                     {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
                   </span>
                 </div>
               </div>
               
+              {/* Mobile Avatar */}
+              <div className="sm:hidden">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-lg flex items-center justify-center border border-border/50">
+                  <span className="text-xs font-semibold text-foreground">
+                    {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Logout Button */}
               <Button 
                 variant="ghost" 
                 onClick={logout} 
-                className="text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 px-3 py-2 rounded-lg flex items-center space-x-2"
+                className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 hover:text-destructive transition-all duration-200 px-3 py-2 rounded-lg flex items-center space-x-2 border border-border/30"
               >
                 <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Logout</span>
-                <span className="sm:hidden text-xs">Exit</span>
+                <span className="hidden sm:inline text-sm">Logout</span>
               </Button>
             </div>
           </div>
