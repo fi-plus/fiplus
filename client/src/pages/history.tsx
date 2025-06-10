@@ -4,67 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, AlertCircle, Download, Share2, MessageSquare, Star, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-const MOCK_TRANSACTIONS = [
-  {
-    id: 1,
-    type: "sent",
-    amount: "250.00",
-    currency: "USD",
-    toCurrency: "INR",
-    convertedAmount: "20,780.00",
-    recipient: "Rajesh Kumar",
-    status: "completed",
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-    fee: "0.000005",
-    rating: 5,
-    txHash: "FP1ABC123DEF456789",
-  },
-  {
-    id: 2,
-    type: "received",
-    amount: "500.00",
-    currency: "USDC",
-    sender: "Maria Garcia",
-    status: "completed",
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-    fee: "0.000005",
-    rating: 4,
-    txHash: "FP2XYZ789GHI012345",
-  },
-  {
-    id: 3,
-    type: "sent",
-    amount: "100.00",
-    currency: "EUR",
-    toCurrency: "NGN",
-    convertedAmount: "172,850.00",
-    recipient: "Adaora Okafor",
-    status: "pending",
-    timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
-    fee: "0.000005",
-    rating: null,
-    txHash: "FP3PQR345STU678901",
-  },
-  {
-    id: 4,
-    type: "sent",
-    amount: "75.00",
-    currency: "USD",
-    toCurrency: "KES",
-    convertedAmount: "9,731.25",
-    recipient: "Samuel Kimani",
-    status: "completed",
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 48), // 2 days ago
-    fee: "0.000005",
-    rating: 5,
-    txHash: "FP4MNO567PQR890123",
-  },
-];
+import { transactionService } from "@/lib/transactionService";
 
 export default function History() {
   const { toast } = useToast();
-  const [expandedTx, setExpandedTx] = useState<number | null>(null);
+  const [expandedTx, setExpandedTx] = useState<string | null>(null);
+  
+  // Get real transaction data from transactionService
+  const transactions = transactionService.getTransactionHistory();
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -150,19 +97,19 @@ export default function History() {
     );
   };
 
-  const toggleExpanded = (txId: number) => {
+  const toggleExpanded = (txId: string) => {
     setExpandedTx(expandedTx === txId ? null : txId);
   };
 
   const getAverageRating = () => {
-    const completedWithRating = MOCK_TRANSACTIONS.filter(tx => tx.status === 'completed' && tx.rating);
-    if (completedWithRating.length === 0) return 0;
-    const total = completedWithRating.reduce((sum, tx) => sum + (tx.rating || 0), 0);
-    return (total / completedWithRating.length).toFixed(1);
+    const completedTransactions = transactions.filter(tx => tx.status === 'completed');
+    if (completedTransactions.length === 0) return "0.0";
+    // For real transactions, we'll use a default rating of 5.0 since rating system isn't implemented yet
+    return "5.0";
   };
 
   const getTotalTransactions = () => {
-    return MOCK_TRANSACTIONS.filter(tx => tx.status === 'completed').length;
+    return transactions.filter(tx => tx.status === 'completed').length;
   };
 
   return (
@@ -192,7 +139,7 @@ export default function History() {
         </div>
 
         <div className="space-y-4">
-          {MOCK_TRANSACTIONS.map((transaction) => (
+          {transactions.map((transaction) => (
             <Card key={transaction.id} className="overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
