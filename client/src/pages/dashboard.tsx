@@ -20,6 +20,7 @@ export default function Dashboard() {
   const [fromCurrency, setFromCurrency] = useState("INR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Fetch real transaction data from database
   const transactions = useQuery({
@@ -62,6 +63,16 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3 ml-2">
+              {/* Mobile Menu Button */}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="h-8 w-8 p-0 md:hidden flex items-center justify-center mr-2"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
+              
               <div className="relative">
                 <div className="w-10 h-10 bg-gradient-to-br from-primary via-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Star className="w-5 h-5 text-white" />
@@ -344,14 +355,14 @@ export default function Dashboard() {
                           <div>
                             <div className="text-sm font-medium text-foreground capitalize">{transaction.type}</div>
                             <div className="text-xs text-muted-foreground">
-                              {parseFloat(transaction.fromAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transaction.fromCurrency}
+                              {(parseFloat(transaction.fromAmount) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transaction.fromCurrency}
                               {transaction.toCurrency && ` → ${transaction.toCurrency}`}
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium text-foreground">
-                            {parseFloat(transaction.fromAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transaction.fromCurrency}
+                            {(parseFloat(transaction.fromAmount) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transaction.fromCurrency}
                           </div>
                           <div className="text-xs text-muted-foreground">
                             {new Date(transaction.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -453,7 +464,7 @@ export default function Dashboard() {
                         <div className="flex justify-between items-center">
                           <span className="text-xs text-muted-foreground">Latest Amount</span>
                           <span className="text-xs font-medium text-foreground">
-                            {parseFloat(transactions.data[0]?.fromAmount || '0').toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transactions.data[0]?.fromCurrency}
+                            {(parseFloat(transactions.data[0]?.fromAmount || '0') / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transactions.data[0]?.fromCurrency}
                           </span>
                         </div>
                       </div>
