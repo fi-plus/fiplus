@@ -11,6 +11,7 @@ import Convert from "@/pages/convert";
 import History from "@/pages/history";
 import Contacts from "@/pages/contacts";
 import Settings from "@/pages/settings";
+import WalletConnect from "@/pages/wallet-connect";
 import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -27,6 +28,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!user) {
     window.location.href = "/login";
     return null;
+  }
+
+  // Check if user needs to connect wallet first
+  if (!user.stellarWalletCreated) {
+    return <WalletConnect />;
   }
   
   return <>{children}</>;

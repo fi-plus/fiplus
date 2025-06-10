@@ -138,6 +138,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stellar wallet creation route
+  app.post("/api/stellar/wallet/create", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const userId = req.user.id;
+      
+      // Update user record to mark Stellar wallet as created
+      // In production, this would call Onramp.money API to create actual wallet
+      const stellarPublicKey = `GCEXAMPLE${userId}STELLARKEY`;
+      
+      // Update user with Stellar wallet info using SQL
+      await storage.db.execute({
+        sql: `UPDATE users SET stellar_public_key = $1, stellar_wallet_created = TRUE WHERE id = $2`,
+        args: [stellarPublicKey, userId]
+      });
+
+      res.json({
+        success: true,
+        stellarPublicKey,
+        message: "Stellar wallet created successfully"
+      });
+    } catch (error) {
+      console.error("Stellar wallet creation error:", error);
+      res.status(500).json({ message: "Failed to create Stellar wallet" });
+    }
+  });
+
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { email, password } = loginSchema.parse(req.body);
