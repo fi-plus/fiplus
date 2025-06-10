@@ -140,42 +140,77 @@ export class OnrampWhitelabel {
     this.config = config;
   }
 
-  // Initialize Onramp Whitelabel Widget
+  // Get quote for onramp transaction
+  async getOnrampQuote(options: {
+    fiatCurrency: string;
+    fiatAmount: number;
+    cryptoCurrency: string;
+    paymentMethod?: string;
+  }): Promise<{
+    cryptoAmount: number;
+    exchangeRate: number;
+    fees: { total: number; breakdown: any[] };
+    estimatedTime: string;
+  }> {
+    try {
+      const response = await this.makeApiCall('/onramp/quote', {
+        fiatCurrency: options.fiatCurrency,
+        fiatAmount: options.fiatAmount,
+        cryptoCurrency: options.cryptoCurrency,
+        paymentMethod: options.paymentMethod || 'bank_transfer'
+      });
+      
+      // Return structured quote data from Onramp API
+      return {
+        cryptoAmount: response.cryptoAmount,
+        exchangeRate: response.exchangeRate,
+        fees: response.fees,
+        estimatedTime: response.estimatedTime
+      };
+    } catch (error) {
+      throw new Error(`Failed to get quote: ${error}`);
+    }
+  }
+
+  // Create onramp session after getting quote
   async createOnrampSession(options: {
     fiatCurrency: string;
     fiatAmount: number;
     cryptoCurrency: string;
     walletAddress: string;
     userEmail?: string;
+    paymentMethod?: string;
     redirectUrl?: string;
   }) {
+    // First get a quote to validate pricing
+    const quote = await this.getOnrampQuote({
+      fiatCurrency: options.fiatCurrency,
+      fiatAmount: options.fiatAmount,
+      cryptoCurrency: options.cryptoCurrency,
+      paymentMethod: options.paymentMethod
+    });
+
     const sessionConfig = {
-      apiKey: this.config.apiKey,
-      environment: this.config.environment,
-      type: 'onramp',
-      partner: {
-        name: this.config.partnerName,
-        brandColor: this.config.brandColor,
-        logoUrl: this.config.logoUrl
-      },
-      transaction: {
-        fiatCurrency: options.fiatCurrency,
-        fiatAmount: options.fiatAmount,
-        cryptoCurrency: options.cryptoCurrency,
-        walletAddress: options.walletAddress
-      },
+      fiatCurrency: options.fiatCurrency,
+      fiatAmount: options.fiatAmount,
+      cryptoCurrency: options.cryptoCurrency,
+      cryptoAmount: quote.cryptoAmount,
+      walletAddress: options.walletAddress,
+      paymentMethod: options.paymentMethod || 'bank_transfer',
       user: {
         email: options.userEmail
       },
-      callbacks: {
-        redirectUrl: options.redirectUrl || `${window.location.origin}/add-money?success=true`,
-        webhookUrl: `${window.location.origin}/api/onramp/webhook`
-      }
+      webhookUrl: `${window.location.origin}/api/onramp/webhook`,
+      redirectUrl: options.redirectUrl || `${window.location.origin}/add-money?success=true`
     };
 
-    // This would make actual API call to Onramp
-    const response = await this.makeApiCall('/sessions', sessionConfig);
-    return response;
+    const response = await this.makeApiCall('/onramp/session', sessionConfig);
+    return { 
+      sessionId: response.sessionId || 'mock_session_id',
+      url: response.url || `${window.location.origin}/add-money?onramp=true`,
+      status: response.status || 'created',
+      quote 
+    };
   }
 
   // Initialize Offramp Whitelabel Widget

@@ -46,11 +46,38 @@ export default function AddMoney() {
   const [currency, setCurrency] = useState("USD");
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [step, setStep] = useState<'select' | 'payment' | 'processing' | 'success'>('select');
+  const [quote, setQuote] = useState<any>(null);
+  const [isLoadingQuote, setIsLoadingQuote] = useState(false);
 
   const selectedCurrency = SUPPORTED_CURRENCIES.find(c => c.code === currency);
   const availableMethods = Object.entries(FUNDING_METHODS).filter(([key, method]) => 
     method.available.includes(currency)
   );
+
+  // Fetch quote when amount and currency change for onramp method
+  const fetchQuote = async () => {
+    if (!amount || !currency || paymentMethod !== 'onramp_deposit') return;
+    
+    setIsLoadingQuote(true);
+    try {
+      const quoteResult = await onrampWhitelabel.getOnrampQuote({
+        fiatCurrency: currency,
+        fiatAmount: parseFloat(amount),
+        cryptoCurrency: 'XLM',
+        paymentMethod: 'bank_transfer'
+      });
+      setQuote(quoteResult);
+    } catch (error) {
+      console.error('Failed to fetch quote:', error);
+      toast({
+        title: "Quote Error",
+        description: "Unable to fetch current rates. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoadingQuote(false);
+    }
+  };
 
   const calculateFee = () => {
     if (!paymentMethod || !amount) return 0;
