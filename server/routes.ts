@@ -116,6 +116,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Profile update route
   app.put("/api/profile", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
       const { firstName, lastName, email, phone, country } = req.body;
       
       // In a real app, you would update the user in the database
@@ -132,7 +136,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       });
     } catch (error) {
-      console.error("Profile update error:", error);
       res.status(500).json({ message: "Failed to update profile" });
     }
   });
@@ -140,6 +143,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Stellar wallet creation route
   app.post("/api/stellar/wallet/create", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+      
       const userId = req.user.id;
       
       // Update user record to mark Stellar wallet as created
