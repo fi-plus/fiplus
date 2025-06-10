@@ -276,36 +276,32 @@ export default function Dashboard() {
               </CardContent>
             </Card>
 
-            {/* Quick Actions */}
+            {/* Quick Stats */}
             <Card className="minimal-card">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base font-medium text-foreground">Quick Actions</CardTitle>
+                <CardTitle className="text-base font-medium text-foreground">Summary</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0 space-y-1">
-                <Link href="/history">
-                  <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted transition-colors">
-                    <History className="w-4 h-4 mr-2 text-muted-foreground" />
-                    <span className="text-sm">Transaction History</span>
-                  </Button>
-                </Link>
-                <Link href="/contacts">
-                  <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted transition-colors">
-                    <Users className="w-4 h-4 mr-2 text-muted-foreground" />
-                    <span className="text-sm">Manage Contacts</span>
-                  </Button>
-                </Link>
-                <Link href="/convert">
-                  <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted transition-colors">
-                    <ArrowUpRight className="w-4 h-4 mr-2 text-muted-foreground" />
-                    <span className="text-sm">Convert Currency</span>
-                  </Button>
-                </Link>
-                <Link href="/settings">
-                  <Button variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted transition-colors">
-                    <Settings className="w-4 h-4 mr-2 text-muted-foreground" />
-                    <span className="text-sm">Settings</span>
-                  </Button>
-                </Link>
+              <CardContent className="pt-0 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">This Month</span>
+                  <span className="text-sm font-medium text-foreground">₹45,000 sent</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Total Transfers</span>
+                  <span className="text-sm font-medium text-foreground">23 completed</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Avg. Rate</span>
+                  <span className="text-sm font-medium text-green-400">₹82.45/USD</span>
+                </div>
+                <div className="pt-2 border-t border-border">
+                  <Link href="/history">
+                    <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted transition-colors">
+                      <History className="w-4 h-4 mr-2 text-muted-foreground" />
+                      <span className="text-sm">View All History</span>
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
 
@@ -321,24 +317,24 @@ export default function Dashboard() {
                   </div>
                 ) : transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 ? (
                   <div className="space-y-2">
-                    {transactions.data.slice(0, 2).map((transaction: any) => (
-                      <div key={transaction.id} className="flex items-center space-x-3 p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    {transactions.data.slice(0, 3).map((transaction: any) => (
+                      <div key={transaction.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
                           transaction.type === 'deposit' ? 'bg-green-500' : 'bg-primary'
                         }`}>
                           {transaction.type === 'deposit' ? (
-                            <ArrowDownLeft className="w-4 h-4 text-white" />
+                            <ArrowDownLeft className="w-3 h-3 text-white" />
                           ) : (
-                            <ArrowUpRight className="w-4 h-4 text-white" />
+                            <ArrowUpRight className="w-3 h-3 text-white" />
                           )}
                         </div>
-                        <div className="flex-1">
-                          <div className="text-sm font-medium text-foreground capitalize">{transaction.type}</div>
-                          <div className="text-xs text-muted-foreground">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-medium text-foreground capitalize">{transaction.type}</div>
+                          <div className="text-xs text-muted-foreground truncate">
                             {transaction.fromAmount} {transaction.fromCurrency}
                             {transaction.toCurrency && ` → ${transaction.toAmount} ${transaction.toCurrency}`}
                           </div>
-                          <div className={`text-xs font-medium ${transaction.type === 'deposit' ? 'text-green-400' : 'text-primary'}`}>
+                          <div className="text-xs text-muted-foreground truncate">
                             {transaction.recipientName || transaction.status}
                           </div>
                         </div>
@@ -351,11 +347,11 @@ export default function Dashboard() {
                 ) : (
                   <div className="text-center py-6 text-muted-foreground">
                     <div className="text-sm">No transactions yet</div>
-                    <div className="text-xs mt-1">Your transaction history will appear here</div>
+                    <div className="text-xs mt-1">Start sending money to see activity</div>
                   </div>
                 )}
                 <Link href="/history">
-                  <Button variant="outline" className="w-full mt-3 text-sm h-9">
+                  <Button variant="outline" className="w-full mt-3 text-sm h-8">
                     View All Transactions
                   </Button>
                 </Link>
