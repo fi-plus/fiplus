@@ -16,31 +16,13 @@ import { onrampWhitelabel } from "@/lib/onramp";
 
 const CASHOUT_METHODS = {
   'onramp_offramp': {
-    name: 'Onramp Offramp',
-    icon: Building2,
-    description: 'XLM to fiat via Onramp whitelabel solution',
-    fee: 'Variable',
-    time: '5-15 minutes',
-    minAmount: 10,
-    available: ['USD', 'EUR', 'GBP', 'INR', 'NGN', 'KES']
-  },
-  'bank_transfer': {
     name: 'Bank Transfer',
     icon: Building2,
-    description: 'Direct transfer to your bank account',
-    fee: '0.5%',
-    time: '1-3 business days',
+    description: 'Convert XLM to fiat currency via Onramp',
+    fee: 'Real-time rates from Onramp API',
+    time: '5-15 minutes',
     minAmount: 10,
-    available: ['USD', 'EUR', 'GBP', 'INR']
-  },
-  'mobile_money': {
-    name: 'Mobile Money',
-    icon: Smartphone,
-    description: 'M-Pesa, GCash, or other mobile wallets',
-    fee: '1%',
-    time: 'Minutes',
-    minAmount: 5,
-    available: ['KES', 'UGX', 'PHP', 'NGN']
+    available: ['INR'] // Only INR confirmed working in sandbox
   }
 };
 

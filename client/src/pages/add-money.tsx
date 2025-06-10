@@ -13,29 +13,13 @@ import { transactionService } from "@/lib/transactionService";
 import { onrampWhitelabel } from "@/lib/onramp";
 
 const FUNDING_METHODS = {
-  'stellar_wallet': {
-    name: 'Stellar Wallet',
-    icon: Wallet,
-    description: 'Transfer XLM from your Stellar wallet',
-    fee: '0.00001 XLM',
-    time: '3-5 seconds',
-    available: ['XLM']
-  },
-  'usdc_wallet': {
-    name: 'USDC Wallet',
-    icon: CreditCard,
-    description: 'Transfer USDC from external wallet',
-    fee: '0.00001 XLM',
-    time: '3-5 seconds',
-    available: ['USDC']
-  },
   'onramp_deposit': {
-    name: 'Onramp Deposit',
+    name: 'Bank Transfer',
     icon: Building2,
-    description: 'Fiat to XLM via Onramp.money',
-    fee: 'Variable',
+    description: 'Add money using bank transfer via Onramp',
+    fee: 'Real-time rates from Onramp API',
     time: '5-15 minutes',
-    available: ['USD', 'EUR', 'GBP', 'INR', 'NGN', 'KES']
+    available: ['INR'] // Only INR confirmed working in sandbox
   }
 };
 
@@ -43,8 +27,8 @@ export default function AddMoney() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState("USD");
-  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [currency, setCurrency] = useState("INR");
+  const [paymentMethod, setPaymentMethod] = useState<string>("onramp_deposit");
   const [step, setStep] = useState<'select' | 'payment' | 'processing' | 'success'>('select');
   const [quote, setQuote] = useState<any>(null);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
@@ -124,59 +108,34 @@ export default function AddMoney() {
   };
 
   const processPayment = async () => {
-    if (paymentMethod === 'onramp_deposit') {
-      try {
-        // Create Onramp session for fiat to XLM conversion
-        const session = await onrampWhitelabel.createOnrampSession({
-          fiatCurrency: currency,
-          fiatAmount: parseFloat(amount),
-          cryptoCurrency: 'XLM',
-          walletAddress: `GCEXAMPLE${user?.id}STELLARWALLET`,
-          userEmail: user?.email,
-          redirectUrl: `${window.location.origin}/add-money?success=true`
-        });
-        
-        // Redirect to Onramp widget
-        window.location.href = session.url;
-        return;
-      } catch (error) {
-        toast({
-          title: "Onramp Error",
-          description: "Failed to initialize Onramp session. Please try again.",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-    
     setStep('processing');
     
     try {
       // Get real quote from Onramp API
       const quote = await onrampWhitelabel.getOnrampQuote({
-        fiatCurrency: currency === 'USD' ? 'INR' : currency, // Use INR for sandbox
+        fiatCurrency: currency,
         fiatAmount: parseFloat(amount),
         cryptoCurrency: 'XLM'
       });
       
       // Create KYC URL for user verification
       const kycResult = await onrampWhitelabel.createKycUrl({
-        userEmail: 'user@fiplus.com',
+        userEmail: user?.email || 'user@fiplus.com',
         phoneNumber: '+91-9999999999',
-        clientCustomerId: `fiplus-user-${Date.now()}`
+        clientCustomerId: `fiplus-user-${user?.id || Date.now()}`
       });
       
-      // Store transaction details locally
+      // Store transaction details for completion
       localStorage.setItem('pendingTransaction', JSON.stringify({
         amount: parseFloat(amount),
-        currency: currency === 'USD' ? 'INR' : currency,
+        currency: currency,
         cryptoAmount: quote.cryptoAmount,
         rate: quote.exchangeRate,
         customerId: kycResult.customerId,
         kycUrl: kycResult.kycUrl
       }));
       
-      // Redirect to KYC verification
+      // Redirect to KYC verification and payment
       window.location.href = kycResult.kycUrl;
     } catch (error) {
       toast({
