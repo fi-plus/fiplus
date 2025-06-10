@@ -117,36 +117,31 @@ export default function Dashboard() {
 
 
       {/* Left Navigation Sidebar - Hidden on mobile */}
-      <aside className="w-48 bg-card border-r border-border p-4 hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40">
+      <aside className="w-16 bg-card border-r border-border p-2 hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40">
         <nav className="space-y-1">
           <Link href="/">
-            <Button variant="ghost" className="w-full justify-start h-9 text-left bg-muted text-foreground text-sm">
-              <Home className="w-4 h-4 mr-2" />
-              Home
+            <Button variant="ghost" className="w-full justify-center h-10 bg-muted text-foreground" title="Home">
+              <Home className="w-5 h-5" />
             </Button>
           </Link>
           <Link href="/send">
-            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-              <Send className="w-4 h-4 mr-2" />
-              Send Money
+            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Send Money">
+              <Send className="w-5 h-5" />
             </Button>
           </Link>
           <Link href="/history">
-            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-              <History className="w-4 h-4 mr-2" />
-              History
+            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="History">
+              <History className="w-5 h-5" />
             </Button>
           </Link>
           <Link href="/contacts">
-            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-              <Users className="w-4 h-4 mr-2" />
-              Contacts
+            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Contacts">
+              <Users className="w-5 h-5" />
             </Button>
           </Link>
           <Link href="/settings">
-            <Button variant="ghost" className="w-full justify-start h-9 text-left hover:bg-muted text-sm">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
+            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Settings">
+              <Settings className="w-5 h-5" />
             </Button>
           </Link>
         </nav>
@@ -191,7 +186,7 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className="p-4 md:p-6 pb-20 md:pb-6 md:ml-48">
+        <div className="p-4 md:p-6 pb-20 md:pb-6 md:ml-16">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}
