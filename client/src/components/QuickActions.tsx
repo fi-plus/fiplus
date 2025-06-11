@@ -32,7 +32,7 @@ const quickActions = [
 
 export default function QuickActions() {
   return (
-    <Card className="bg-white card-shadow">
+    <Card className="minimal-card">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-gray-900">Quick Actions</CardTitle>
       </CardHeader>
@@ -44,7 +44,7 @@ export default function QuickActions() {
               <Link key={action.label} href={action.href}>
                 <Button
                   variant="ghost"
-                  className="flex flex-col items-center p-4 h-auto bg-gray-50 hover:bg-gray-100 border-0 w-full"
+                  className="flex flex-col items-center p-4 h-20 bg-gray-50 hover:bg-gray-100 border-0 w-full"
                 >
                   <IconComponent className={`w-6 h-6 mb-2 ${action.color}`} />
                   <span className="text-sm font-medium text-gray-700">{action.label}</span>

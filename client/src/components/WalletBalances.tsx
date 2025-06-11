@@ -26,7 +26,7 @@ export default function WalletBalances() {
   const { wallets, isLoading } = useWallet();
 
   return (
-    <Card className="bg-white card-shadow">
+    <Card className="minimal-card">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-gray-900">Your Wallets</CardTitle>
       </CardHeader>
@@ -81,7 +81,7 @@ export default function WalletBalances() {
         
         <Button 
           variant="outline" 
-          className="w-full mt-4 text-gray-700 border-gray-200 hover:bg-gray-50"
+          className="w-full mt-4 text-gray-700 border-gray-200 hover:bg-gray-50 h-10"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Currency

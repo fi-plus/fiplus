@@ -202,7 +202,7 @@ export default function AddMoney() {
 
             <Button 
               onClick={() => window.location.href = '/'}
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full bg-green-600 hover:bg-green-700 h-11"
             >
               Return to Dashboard
             </Button>
@@ -373,7 +373,7 @@ export default function AddMoney() {
 
               <Button 
                 onClick={processPayment}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full bg-blue-600 hover:bg-blue-700 h-11"
                 size="lg"
               >
                 {paymentMethod === 'stellar_wallet' ? 'I have sent XLM' : paymentMethod === 'usdc_wallet' ? 'I have sent USDC' : paymentMethod === 'onramp_deposit' ? 'Continue with Onramp' : 'Complete Deposit'}
