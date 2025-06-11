@@ -90,7 +90,7 @@ export default function KYCVerification() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="lg:ml-64 ml-[275px] mr-[275px] mt-[-15px] mb-[-15px]">
+      <div className="lg:ml-64 mt-[16px] mb-[16px] pl-[0px] pr-[0px] ml-[270.5px] mr-[270.5px]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-[48px] mb-[48px] pl-[20px] pr-[20px] pt-[0px] pb-[0px] ml-[20px] mr-[20px]">
           <div className="text-center mb-8">
             <h1 className="font-bold text-foreground mb-4 text-left text-[24px]">Verify Your Identity</h1>
