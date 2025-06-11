@@ -37,19 +37,26 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8">
       <Card className="w-full max-w-sm minimal-card">
-        <CardHeader className="text-center pb-4">
-          <div className="mx-auto mb-3 flex items-center justify-center space-x-2">
-            <img 
-              src={logoPath} 
-              alt="fi.plus logo" 
-              className="w-8 h-8 rounded-lg"
-            />
-            <h1 className="text-2xl font-semibold text-foreground">fi.plus</h1>
+        <CardHeader className="text-center pb-6">
+          <div className="mx-auto mb-6 flex items-center justify-center space-x-3">
+            <div className="relative">
+              <img 
+                src={logoPath} 
+                alt="fi.plus logo" 
+                className="w-12 h-12 rounded-xl shadow-sm"
+              />
+            </div>
+            <div className="text-left">
+              <h1 className="text-2xl font-bold text-foreground tracking-tight">fi.plus</h1>
+              <p className="text-xs text-muted-foreground font-medium">Global payments</p>
+            </div>
           </div>
-          <CardTitle className="text-xl font-medium">Welcome back</CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Sign in to your account
-          </CardDescription>
+          <div className="space-y-2">
+            <CardTitle className="text-2xl font-bold text-foreground">Welcome back</CardTitle>
+            <CardDescription className="text-muted-foreground text-base">
+              Sign in to continue your financial journey
+            </CardDescription>
+          </div>
         </CardHeader>
         
         <form onSubmit={handleSubmit(onSubmit)}>
