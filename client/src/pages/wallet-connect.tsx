@@ -234,7 +234,7 @@ export default function WalletConnect() {
         </Card>
 
         {/* Footer Info */}
-        <div className="text-center mt-12 text-sm text-gray-500">
+        <div className="text-center mt-12 text-sm text-muted-foreground">
           <p>Powered by Stellar Network • SEP-24/31 Compliant • Licensed Money Transmitter</p>
         </div>
       </main>
