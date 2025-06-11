@@ -310,21 +310,7 @@ export default function SendMoney() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <header className="bg-card/80 backdrop-blur-sm border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Star className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground">fi.plus</h1>
-            </div>
-            <Button variant="ghost" onClick={() => window.location.href = '/'}>
-              Back to Dashboard
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
+      <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">Send Money</h1>
           <p className="text-xl text-muted-foreground">
