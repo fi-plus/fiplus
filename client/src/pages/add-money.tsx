@@ -219,8 +219,8 @@ export default function AddMoney() {
         <Navigation />
         <div className="flex items-center justify-center p-4 min-h-screen">
           <Card className="max-w-md w-full text-center">
-          <CardContent className="pt-8 pb-8">
-            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+            <CardContent className="pt-8 pb-8">
+              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
               <DollarSign className="w-10 h-10 text-blue-600" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Processing Payment</h2>
