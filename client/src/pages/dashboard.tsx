@@ -295,9 +295,6 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-
-
-                  {/* Transaction Summary */}
                   {transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 && (
                     <div className="pt-3 border-t border-border">
                       <div className="text-xs font-medium text-muted-foreground mb-2">Transaction Summary</div>
