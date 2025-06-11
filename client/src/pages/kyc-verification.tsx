@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Camera, FileText, CheckCircle2, Clock, Star, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import MobileNavigation from "@/components/MobileNavigation";
 
 export default function KYCVerification() {
   const { user } = useAuth();
@@ -100,7 +101,7 @@ export default function KYCVerification() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Verify Your Identity</h1>
           <p className="text-xl text-gray-600">
@@ -242,6 +243,7 @@ export default function KYCVerification() {
           </Card>
         )}
       </main>
+      <MobileNavigation />
     </div>
   );
 }

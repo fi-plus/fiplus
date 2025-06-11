@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Star, Gift, CheckCircle2, Camera, CreditCard, User, Phone, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import MobileNavigation from "@/components/MobileNavigation";
 
 export default function Claim() {
   const [, setLocation] = useLocation();
@@ -95,7 +96,7 @@ export default function Claim() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
         {/* Money Received Card */}
         <Card className="mb-8 minimal-card overflow-hidden">
           <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-6 text-white">
@@ -305,6 +306,7 @@ export default function Claim() {
           </Card>
         )}
       </main>
+      <MobileNavigation />
     </div>
   );
 }

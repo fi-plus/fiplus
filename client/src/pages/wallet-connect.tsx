@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, Star, Zap, Shield, ArrowRight, CheckCircle2, Clock, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import MobileNavigation from "@/components/MobileNavigation";
 
 export default function WalletConnect() {
   const { user } = useAuth();
@@ -92,7 +93,7 @@ export default function WalletConnect() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
         <div className="text-center mb-12">
           <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <Wallet className="w-10 h-10 text-primary" />
@@ -229,6 +230,7 @@ export default function WalletConnect() {
           <p>Powered by Stellar Network • SEP-24/31 Compliant • Licensed Money Transmitter</p>
         </div>
       </main>
+      <MobileNavigation />
     </div>
   );
 }
