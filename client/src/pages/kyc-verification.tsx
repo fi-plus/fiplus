@@ -90,164 +90,151 @@ export default function KYCVerification() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      {/* Header */}
-      <header className="bg-card/80 backdrop-blur-sm border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Star className="w-8 h-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground">fi.plus</h1>
-              {getStatusBadge()}
-            </div>
-            <div className="text-sm text-muted-foreground">
-              {user?.firstName} {user?.lastName}
-            </div>
+      
+      <div className="lg:ml-64">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-foreground mb-4">Verify Your Identity</h1>
+            <p className="text-xl text-muted-foreground">
+              Complete KYC verification to unlock full sending limits and instant withdrawals
+            </p>
           </div>
-        </div>
-      </header>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">Verify Your Identity</h1>
-          <p className="text-xl text-muted-foreground">
-            Complete KYC verification to unlock full sending limits and instant withdrawals
-          </p>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm text-muted-foreground mb-2">
-            <span>Verification Progress</span>
-            <span>{progress}% Complete</span>
+          {/* Progress Bar */}
+          <div className="mb-8">
+            <div className="flex justify-between text-sm text-muted-foreground mb-2">
+              <span>Verification Progress</span>
+              <span>{progress}% Complete</span>
+            </div>
+            <Progress value={progress} className="h-2" />
           </div>
-          <Progress value={progress} className="h-2" />
-        </div>
 
-        {step === 'intro' && (
-          <Card className="minimal-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Camera className="w-6 h-6 text-primary" />
-                <span>Quick Identity Verification</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-muted-foreground">
-                We need to verify your identity to comply with global financial regulations. 
-                This process takes less than 2 minutes.
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-primary/10 rounded-lg p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <Camera className="w-5 h-5 text-primary" />
-                    <span className="font-medium text-foreground">Selfie Verification</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Take a quick selfie to verify your identity
-                  </p>
+          {step === 'intro' && (
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Camera className="w-6 h-6 text-primary" />
+                  <span>Quick Identity Verification</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="text-muted-foreground">
+                  We need to verify your identity to comply with global financial regulations. 
+                  This process takes less than 2 minutes.
                 </div>
 
-                <div className="bg-primary/10 rounded-lg p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <FileText className="w-5 h-5 text-primary" />
-                    <span className="font-medium text-foreground">Document Scan</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-primary/10 rounded-lg p-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <Camera className="w-5 h-5 text-primary" />
+                      <span className="font-medium text-foreground">Selfie Verification</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Take a quick selfie to verify your identity
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    Scan your government-issued ID or passport
-                  </p>
-                </div>
-              </div>
 
-              <div className="bg-yellow-500/10 rounded-lg p-4 border border-yellow-500/20">
-                <div className="flex items-start space-x-3">
-                  <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-foreground">Current Limits (Unverified)</div>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      • Send up to $100 per transaction<br/>
-                      • Monthly limit: $1,000<br/>
-                      • Standard withdrawal times
+                  <div className="bg-primary/10 rounded-lg p-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <FileText className="w-5 h-5 text-primary" />
+                      <span className="font-medium text-foreground">Document Scan</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Scan your government-issued ID or passport
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-500/10 rounded-lg p-4 border border-yellow-500/20">
+                  <div className="flex items-start space-x-3">
+                    <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5" />
+                    <div>
+                      <div className="font-medium text-foreground">Current Limits (Unverified)</div>
+                      <div className="text-sm text-muted-foreground mt-1">
+                        • Send up to $100 per transaction<br/>
+                        • Monthly limit: $1,000<br/>
+                        • Standard withdrawal times
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <Button 
-                onClick={handleSelfieCapture}
-                className="w-full minimal-button"
-                size="lg"
-              >
-                <Camera className="w-5 h-5 mr-2" />
-                Start Verification
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+                <Button 
+                  onClick={handleSelfieCapture}
+                  className="w-full minimal-button"
+                  size="lg"
+                >
+                  <Camera className="w-5 h-5 mr-2" />
+                  Start Verification
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
-        {step === 'selfie' && (
-          <Card className="minimal-card">
-            <CardHeader>
-              <CardTitle>Take Your Selfie</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-6">
-              <div className="w-64 h-64 bg-muted rounded-lg mx-auto flex items-center justify-center">
-                <Camera className="w-16 h-16 text-muted-foreground" />
-              </div>
-              <div className="text-muted-foreground">
-                Position your face within the frame and ensure good lighting
-              </div>
-              <Button 
-                onClick={handleDocumentScan}
-                className="w-full minimal-button"
-              >
-                Capture Selfie
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+          {step === 'selfie' && (
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle>Take Your Selfie</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-6">
+                <div className="w-64 h-64 bg-muted rounded-lg mx-auto flex items-center justify-center">
+                  <Camera className="w-16 h-16 text-muted-foreground" />
+                </div>
+                <div className="text-muted-foreground">
+                  Position your face within the frame and ensure good lighting
+                </div>
+                <Button 
+                  onClick={handleDocumentScan}
+                  className="w-full minimal-button"
+                >
+                  Capture Selfie
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
-        {step === 'document' && (
-          <Card className="minimal-card">
-            <CardHeader>
-              <CardTitle>Scan Your ID Document</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-6">
-              <div className="w-64 h-40 bg-muted rounded-lg mx-auto flex items-center justify-center">
-                <FileText className="w-16 h-16 text-muted-foreground" />
-              </div>
-              <div className="text-muted-foreground">
-                Please scan the front of your government-issued ID, driver's license, or passport
-              </div>
-              <Button 
-                onClick={handleDocumentScan}
-                className="w-full minimal-button"
-              >
-                Scan Document
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+          {step === 'document' && (
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle>Scan Your ID Document</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-6">
+                <div className="w-64 h-40 bg-muted rounded-lg mx-auto flex items-center justify-center">
+                  <FileText className="w-16 h-16 text-muted-foreground" />
+                </div>
+                <div className="text-muted-foreground">
+                  Please scan the front of your government-issued ID, driver's license, or passport
+                </div>
+                <Button 
+                  onClick={handleDocumentScan}
+                  className="w-full minimal-button"
+                >
+                  Scan Document
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
-        {step === 'processing' && (
-          <Card className="minimal-card">
-            <CardHeader>
-              <CardTitle className="text-center">Processing Verification</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-6">
-              <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
-                <Clock className="w-10 h-10 text-primary animate-pulse" />
-              </div>
-              <div className="text-muted-foreground">
-                We're verifying your documents. This usually takes just a few seconds...
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Please don't close this page
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </main>
+          {step === 'processing' && (
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle className="text-center">Processing Verification</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-6">
+                <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
+                  <Clock className="w-10 h-10 text-primary animate-pulse" />
+                </div>
+                <div className="text-muted-foreground">
+                  We're verifying your documents. This usually takes just a few seconds...
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Please don't close this page
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
       <MobileNavigation />
     </div>
   );
