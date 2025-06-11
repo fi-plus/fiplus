@@ -310,7 +310,7 @@ export default function SendMoney() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+      <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 mt-[16px] mb-[16px]">
         <div className="mb-8 text-left">
           <h1 className="font-bold text-foreground mb-4 text-[24px]">Send Money</h1>
           <p className="text-muted-foreground text-[16px]">
