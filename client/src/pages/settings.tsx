@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, Shield, Bell, CreditCard, Globe, Smartphone, LogOut } from "lucide-react";
+import { User, Shield, Bell, CreditCard, Globe, Smartphone, LogOut, Eye, EyeOff, Lock, Download, Trash2, HelpCircle, Mail, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import MobileNavigation from "@/components/MobileNavigation";
 
@@ -22,7 +22,14 @@ export default function Settings() {
   
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [smsNotifications, setSmsNotifications] = useState(false);
+  const [pushNotifications, setPushNotifications] = useState(true);
+  const [marketingEmails, setMarketingEmails] = useState(false);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [language, setLanguage] = useState("en");
+  const [currency, setCurrency] = useState("USD");
+  const [timezone, setTimezone] = useState("UTC");
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -67,10 +74,10 @@ export default function Settings() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="md:ml-64 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+      <main className="md:ml-64 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-8">
         <div className="mb-8">
-          <h1 className="font-bold text-foreground text-[24px]">Settings</h1>
-          <p className="text-muted-foreground mt-2">Manage your account preferences and security</p>
+          <h1 className="font-bold text-foreground text-2xl md:text-3xl">Settings</h1>
+          <p className="text-muted-foreground mt-2 text-sm md:text-base">Manage your account preferences and security</p>
         </div>
 
         <div className="space-y-6">
@@ -82,19 +89,25 @@ export default function Settings() {
                 Profile Information
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-4 mb-6">
-                <Avatar className="w-20 h-20">
+            <CardContent className="p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-6">
+                <Avatar className="w-16 h-16 md:w-20 md:h-20">
                   <AvatarFallback className="bg-primary text-primary-foreground text-lg font-medium">
                     {getUserInitials(user?.firstName, user?.lastName)}
                   </AvatarFallback>
                 </Avatar>
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground">{user?.firstName} {user?.lastName}</h3>
-                  <p className="text-muted-foreground">{user?.email}</p>
-                  <Button variant="outline" size="sm" className="mt-2 h-9">
-                    Change Photo
-                  </Button>
+                <div className="text-center sm:text-left flex-1">
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground">{user?.firstName} {user?.lastName}</h3>
+                  <p className="text-muted-foreground text-sm md:text-base">{user?.email}</p>
+                  <div className="flex flex-col sm:flex-row gap-2 mt-3">
+                    <Button variant="outline" size="sm" className="h-9">
+                      Change Photo
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-9">
+                      <Mail className="w-4 h-4 mr-2" />
+                      Verify Email
+                    </Button>
+                  </div>
                 </div>
               </div>
 
@@ -177,10 +190,10 @@ export default function Settings() {
                 Security Settings
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="p-4 md:p-6 space-y-6">
               <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label className="text-base">Two-Factor Authentication</Label>
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">Two-Factor Authentication</Label>
                   <p className="text-sm text-muted-foreground">
                     Add an extra layer of security to your account
                   </p>
@@ -193,13 +206,49 @@ export default function Settings() {
 
               <Separator />
 
-              <div>
-                <Button variant="outline">
-                  Change Password
-                </Button>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Last changed 3 months ago
+              <div className="flex items-center justify-between">
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">Biometric Authentication</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Use fingerprint or face recognition for quick access
+                  </p>
+                </div>
+                <Switch
+                  checked={biometricEnabled}
+                  onCheckedChange={setBiometricEnabled}
+                />
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button variant="outline" className="flex-1">
+                    <Lock className="w-4 h-4 mr-2" />
+                    Change Password
+                  </Button>
+                  <Button variant="outline" className="flex-1">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Recovery Codes
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Password last changed 3 months ago
                 </p>
+              </div>
+
+              <Separator />
+
+              <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-amber-800 dark:text-amber-200">Security Status</h4>
+                    <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                      Your account security is strong. Consider enabling 2FA for enhanced protection.
+                    </p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -212,10 +261,10 @@ export default function Settings() {
                 Notification Preferences
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="p-4 md:p-6 space-y-6">
               <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label className="text-base">Email Notifications</Label>
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">Email Notifications</Label>
                   <p className="text-sm text-muted-foreground">
                     Receive updates about your transactions via email
                   </p>
@@ -229,8 +278,8 @@ export default function Settings() {
               <Separator />
 
               <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label className="text-base">SMS Notifications</Label>
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">SMS Notifications</Label>
                   <p className="text-sm text-muted-foreground">
                     Get text messages for important account updates
                   </p>
@@ -238,6 +287,36 @@ export default function Settings() {
                 <Switch
                   checked={smsNotifications}
                   onCheckedChange={setSmsNotifications}
+                />
+              </div>
+
+              <Separator />
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">Push Notifications</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Get instant notifications on your mobile device
+                  </p>
+                </div>
+                <Switch
+                  checked={pushNotifications}
+                  onCheckedChange={setPushNotifications}
+                />
+              </div>
+
+              <Separator />
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">Marketing Communications</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Receive promotional emails and product updates
+                  </p>
+                </div>
+                <Switch
+                  checked={marketingEmails}
+                  onCheckedChange={setMarketingEmails}
                 />
               </div>
             </CardContent>
@@ -251,56 +330,173 @@ export default function Settings() {
                 Payment Methods
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium text-foreground mb-2">No payment methods</h3>
-                <p className="text-muted-foreground mb-4">Add a payment method to fund your transfers</p>
-                <Button className="minimal-button">
-                  Add Payment Method
-                </Button>
+            <CardContent className="p-4 md:p-6 space-y-4">
+              <div className="grid gap-3">
+                <div className="border border-border rounded-lg p-4 bg-muted/30">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+                        <CreditCard className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-foreground">Visa ••••4242</div>
+                        <div className="text-sm text-muted-foreground">Expires 12/26</div>
+                      </div>
+                    </div>
+                    <Button variant="ghost" size="sm">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full h-11 justify-center">
+                <CreditCard className="w-4 h-4 mr-2" />
+                Add Payment Method
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* App Preferences */}
+          <Card className="minimal-card">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <Smartphone className="w-5 h-5" />
+                App Preferences
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 md:p-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1 flex-1">
+                  <Label className="text-base font-medium">Dark Mode</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Switch between light and dark themes
+                  </p>
+                </div>
+                <Switch
+                  checked={darkMode}
+                  onCheckedChange={setDarkMode}
+                />
               </div>
             </CardContent>
           </Card>
 
-          {/* Preferences Section */}
+          {/* Regional & Language Settings */}
           <Card className="minimal-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
                 <Globe className="w-5 h-5" />
-                Preferences
+                Regional & Language
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-4 md:p-6 space-y-4">
               <div>
-                <Label htmlFor="language">Language</Label>
-                <select className="w-full mt-1 p-2 bg-background border border-border rounded-md text-foreground minimal-input">
+                <Label htmlFor="language" className="text-base font-medium">Language</Label>
+                <select 
+                  className="w-full mt-2 h-11 px-3 bg-background border border-border rounded-md text-foreground minimal-input"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                >
                   <option value="en">English</option>
                   <option value="es">Español</option>
                   <option value="fr">Français</option>
                   <option value="de">Deutsch</option>
+                  <option value="hi">हिन्दी</option>
+                  <option value="zh">中文</option>
                 </select>
               </div>
 
               <div>
-                <Label htmlFor="currency">Default Currency</Label>
-                <select className="w-full mt-1 p-2 bg-background border border-border rounded-md text-foreground minimal-input">
+                <Label htmlFor="currency" className="text-base font-medium">Default Currency</Label>
+                <select 
+                  className="w-full mt-2 h-11 px-3 bg-background border border-border rounded-md text-foreground minimal-input"
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                >
                   <option value="USD">USD - US Dollar</option>
                   <option value="EUR">EUR - Euro</option>
                   <option value="GBP">GBP - British Pound</option>
                   <option value="INR">INR - Indian Rupee</option>
+                  <option value="CAD">CAD - Canadian Dollar</option>
+                  <option value="AUD">AUD - Australian Dollar</option>
                 </select>
               </div>
 
               <div>
-                <Label htmlFor="timezone">Timezone</Label>
-                <select className="w-full mt-1 p-2 bg-background border border-border rounded-md text-foreground minimal-input">
-                  <option value="UTC">UTC</option>
-                  <option value="EST">Eastern Time</option>
-                  <option value="PST">Pacific Time</option>
-                  <option value="GMT">Greenwich Mean Time</option>
+                <Label htmlFor="timezone" className="text-base font-medium">Timezone</Label>
+                <select 
+                  className="w-full mt-2 h-11 px-3 bg-background border border-border rounded-md text-foreground minimal-input"
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                >
+                  <option value="UTC">UTC - Coordinated Universal Time</option>
+                  <option value="EST">EST - Eastern Standard Time</option>
+                  <option value="PST">PST - Pacific Standard Time</option>
+                  <option value="GMT">GMT - Greenwich Mean Time</option>
+                  <option value="IST">IST - India Standard Time</option>
+                  <option value="JST">JST - Japan Standard Time</option>
                 </select>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Data & Privacy */}
+          <Card className="minimal-card">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <Shield className="w-5 h-5" />
+                Data & Privacy
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 md:p-6 space-y-4">
+              <div className="grid gap-3">
+                <Button variant="outline" className="justify-start h-11">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download Your Data
+                </Button>
+                <Button variant="outline" className="justify-start h-11">
+                  <Eye className="w-4 h-4 mr-2" />
+                  Privacy Settings
+                </Button>
+                <Button variant="outline" className="justify-start h-11 text-red-600 hover:text-red-700 border-red-200 hover:border-red-300">
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete Account
+                </Button>
+              </div>
+              <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-blue-800 dark:text-blue-200">Privacy Notice</h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                      We protect your personal data according to GDPR and other privacy regulations.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Help & Support */}
+          <Card className="minimal-card">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <HelpCircle className="w-5 h-5" />
+                Help & Support
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 md:p-6 space-y-3">
+              <Button variant="outline" className="w-full justify-start h-11">
+                <HelpCircle className="w-4 h-4 mr-2" />
+                Help Center
+              </Button>
+              <Button variant="outline" className="w-full justify-start h-11">
+                <Mail className="w-4 h-4 mr-2" />
+                Contact Support
+              </Button>
+              <Button variant="outline" className="w-full justify-start h-11">
+                <Phone className="w-4 h-4 mr-2" />
+                Request Callback
+              </Button>
             </CardContent>
           </Card>
 
