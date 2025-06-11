@@ -4,11 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { 
   Home, 
   Send, 
-  Plus, 
   History, 
   Users, 
   Settings, 
-  DollarSign,
   Shield
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,8 +14,6 @@ import { useAuth } from "@/hooks/useAuth";
 const navigationItems = [
   { href: "/", label: "Dashboard", icon: Home },
   { href: "/send", label: "Send Money", icon: Send },
-  { href: "/add-money", label: "Add Money", icon: Plus },
-  { href: "/cashout", label: "Cash Out", icon: DollarSign },
   { href: "/history", label: "History", icon: History },
   { href: "/contacts", label: "Contacts", icon: Users },
   { href: "/kyc", label: "KYC Verify", icon: Shield },
