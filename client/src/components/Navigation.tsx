@@ -56,14 +56,14 @@ export default function Navigation() {
       )}
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ${
+      <div className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-card shadow-2xl z-50 transform transition-transform duration-300 border-l border-border ${
         isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Navigation</h2>
-              <p className="text-sm text-gray-500">{user?.firstName} {user?.lastName}</p>
+              <h2 className="text-lg font-bold text-foreground">Navigation</h2>
+              <p className="text-sm text-muted-foreground">{user?.firstName} {user?.lastName}</p>
             </div>
             <Button
               variant="ghost"
@@ -77,7 +77,7 @@ export default function Navigation() {
           <nav className="space-y-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location === item.href;
+              const isActive = location === item.href || (item.href === "/" && location === "/");
               
               return (
                 <Link key={item.href} href={item.href}>
@@ -85,8 +85,8 @@ export default function Navigation() {
                     variant={isActive ? "default" : "ghost"}
                     className={`w-full justify-start h-12 ${
                       isActive 
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                        : "text-foreground hover:bg-accent hover:text-accent-foreground"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -101,22 +101,22 @@ export default function Navigation() {
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 shadow-sm z-30">
+      <div className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border shadow-sm z-30">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-              <Home className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary/80 rounded-xl flex items-center justify-center">
+              <Home className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">fi.plus</h1>
-              <p className="text-xs text-gray-500">Cross-border payments</p>
+              <h1 className="text-xl font-bold text-foreground">fi.plus</h1>
+              <p className="text-xs text-muted-foreground">Cross-border payments</p>
             </div>
           </div>
 
           <nav className="space-y-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location === item.href;
+              const isActive = location === item.href || (item.href === "/" && location === "/");
               
               return (
                 <Link key={item.href} href={item.href}>
@@ -124,8 +124,8 @@ export default function Navigation() {
                     variant={isActive ? "default" : "ghost"}
                     className={`w-full justify-start h-12 ${
                       isActive 
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                        : "text-foreground hover:bg-accent hover:text-accent-foreground"
                     }`}
                   >
                     <Icon className="w-5 h-5 mr-3" />
@@ -140,13 +140,13 @@ export default function Navigation() {
           <Card className="mt-8">
             <CardContent className="p-4">
               <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold">
+                <div className="w-12 h-12 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-primary-foreground font-bold">
                     {user?.firstName?.[0]}{user?.lastName?.[0]}
                   </span>
                 </div>
-                <h3 className="font-semibold text-gray-900">{user?.firstName} {user?.lastName}</h3>
-                <p className="text-sm text-gray-500">{user?.email}</p>
+                <h3 className="font-semibold text-foreground">{user?.firstName} {user?.lastName}</h3>
+                <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
             </CardContent>
           </Card>

@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import MobileNavigation from "@/components/MobileNavigation";
+import Navigation from "@/components/Navigation";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
 // Services removed - using direct API calls
@@ -58,103 +59,15 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card backdrop-blur-md border-b border-border sticky top-0 z-50">
-        <div className="px-6 md:px-8 lg:px-10">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3 ml-4">
-              <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary via-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                  <Star className="w-5 h-5 text-white" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-card animate-pulse"></div>
-              </div>
-              <div className="flex items-center">
-                <h1 className="text-xl font-bold text-foreground">fi.plus</h1>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              {/* User Profile Section */}
-              <div className="hidden sm:flex items-center space-x-4">
-                <div className="text-right">
-                  <div className="text-sm font-semibold text-foreground">
-                    {user?.firstName} {user?.lastName}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {user?.email}
-                  </div>
-                </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-xl flex items-center justify-center border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer">
-                  <span className="text-sm font-semibold text-foreground">
-                    {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
-                  </span>
-                </div>
-              </div>
-              
-              {/* Mobile Avatar */}
-              <div className="sm:hidden">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-lg flex items-center justify-center border border-border/50">
-                  <span className="text-xs font-semibold text-foreground">
-                    {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
-                  </span>
-                </div>
-              </div>
-              
-              {/* Logout Button */}
-              <Button 
-                variant="ghost" 
-                onClick={logout} 
-                className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 hover:text-destructive transition-all duration-200 px-3 py-2 rounded-lg flex items-center space-x-2 border border-border/30"
-              >
-                <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline text-sm">Logout</span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-
-
-      {/* Left Navigation Sidebar - Hidden on mobile */}
-      <aside className="w-16 bg-card border-r border-border p-2 hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40">
-        <nav className="space-y-1">
-          <Link href="/">
-            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Home">
-              <Home className="w-5 h-5" />
-            </Button>
-          </Link>
-          <Link href="/send">
-            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Send Money">
-              <Send className="w-5 h-5" />
-            </Button>
-          </Link>
-          <Link href="/history">
-            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="History">
-              <History className="w-5 h-5" />
-            </Button>
-          </Link>
-          <Link href="/contacts">
-            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Contacts">
-              <Users className="w-5 h-5" />
-            </Button>
-          </Link>
-          <Link href="/settings">
-            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Settings">
-              <Settings className="w-5 h-5" />
-            </Button>
-          </Link>
-        </nav>
-      </aside>
-
-      <main className="flex-1">
+      <Navigation />
+      
+      <main className="lg:ml-64">
 
         {/* Mobile Bottom Navigation */}
         <MobileNavigation />
 
         {/* Main Content Area */}
-        <div className="p-4 md:p-6 pb-20 md:pb-6 md:ml-16">
+        <div className="p-4 md:p-6 pb-20 md:pb-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}

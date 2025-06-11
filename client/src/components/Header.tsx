@@ -21,10 +21,10 @@ export default function Header() {
               <h1 className="text-2xl font-bold text-primary">fi.plus</h1>
             </div>
             <nav className="hidden md:ml-8 md:flex md:space-x-8">
-              <Link href="/" className="text-foreground hover:text-primary px-3 py-2 text-sm font-medium">Send Money</Link>
-              <Link href="/history" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">History</Link>
-              <Link href="/convert" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">Convert</Link>
-              <Link href="/contacts" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">Contacts</Link>
+              <Link href="/" className="text-foreground hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Dashboard</Link>
+              <Link href="/send" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium transition-colors">Send Money</Link>
+              <Link href="/history" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium transition-colors">History</Link>
+              <Link href="/contacts" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium transition-colors">Contacts</Link>
             </nav>
           </div>
           <div className="flex items-center space-x-4">
