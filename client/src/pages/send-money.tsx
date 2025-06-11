@@ -313,7 +313,7 @@ export default function SendMoney() {
       <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         <div className="mb-8 text-left">
           <h1 className="font-bold text-foreground mb-4 text-[24px]">Send Money</h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-muted-foreground text-[16px]">
             Fast, secure cross-border payments via Stellar network
           </p>
         </div>
