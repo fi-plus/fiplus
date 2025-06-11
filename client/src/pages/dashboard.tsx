@@ -120,7 +120,7 @@ export default function Dashboard() {
       <aside className="w-16 bg-card border-r border-border p-2 hidden md:block flex-shrink-0 fixed left-0 top-16 bottom-0 z-40">
         <nav className="space-y-1">
           <Link href="/">
-            <Button variant="ghost" className="w-full justify-center h-10 bg-muted text-foreground" title="Home">
+            <Button variant="ghost" className="w-full justify-center h-10 hover:bg-muted" title="Home">
               <Home className="w-5 h-5" />
             </Button>
           </Link>

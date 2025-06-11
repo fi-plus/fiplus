@@ -44,7 +44,7 @@ export default function Navigation() {
           variant="outline"
           size="sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="bg-white/90 backdrop-blur-sm"
+          className="bg-background/90 backdrop-blur-sm"
         >
           {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </Button>
