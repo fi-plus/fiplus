@@ -201,7 +201,7 @@ export default function AddBankAccount() {
                   <Button 
                     onClick={handleBankConnect}
                     disabled={!selectedBank}
-                    className="w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                    className="w-full mt-6 minimal-button"
                   >
                     Connect to {selectedBank || 'Selected Bank'}
                   </Button>
@@ -210,9 +210,9 @@ export default function AddBankAccount() {
             )}
 
             {step === 'verify' && (
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b">
-                  <CardTitle className="text-xl font-bold text-gray-900">
+              <Card className="minimal-card">
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold text-foreground">
                     Verify Account Details - {selectedBank}
                   </CardTitle>
                 </CardHeader>
@@ -225,7 +225,7 @@ export default function AddBankAccount() {
                         placeholder="Enter full name as on bank account"
                         value={accountDetails.accountHolderName}
                         onChange={(e) => setAccountDetails({...accountDetails, accountHolderName: e.target.value})}
-                        className="mt-1"
+                        className="mt-1 minimal-input"
                       />
                     </div>
 
@@ -236,7 +236,7 @@ export default function AddBankAccount() {
                         placeholder="Enter your account number"
                         value={accountDetails.accountNumber}
                         onChange={(e) => setAccountDetails({...accountDetails, accountNumber: e.target.value})}
-                        className="mt-1"
+                        className="mt-1 minimal-input"
                       />
                     </div>
 
@@ -248,7 +248,7 @@ export default function AddBankAccount() {
                           placeholder="Enter 9-digit routing number"
                           value={accountDetails.routingNumber}
                           onChange={(e) => setAccountDetails({...accountDetails, routingNumber: e.target.value})}
-                          className="mt-1"
+                          className="mt-1 minimal-input"
                         />
                       </div>
                     )}
@@ -259,7 +259,7 @@ export default function AddBankAccount() {
                         value={accountDetails.accountType} 
                         onValueChange={(value) => setAccountDetails({...accountDetails, accountType: value})}
                       >
-                        <SelectTrigger className="mt-1">
+                        <SelectTrigger className="mt-1 minimal-input">
                           <SelectValue placeholder="Select account type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -272,7 +272,7 @@ export default function AddBankAccount() {
 
                   <Button 
                     onClick={handleAccountVerification}
-                    className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white"
+                    className="w-full minimal-button"
                   >
                     <Shield className="w-4 h-4 mr-2" />
                     Verify & Connect Account
@@ -285,43 +285,43 @@ export default function AddBankAccount() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Security Features */}
-            <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50 border-b">
-                <CardTitle className="text-lg font-bold text-gray-800">Bank-Level Security</CardTitle>
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle className="text-lg font-bold text-foreground">Bank-Level Security</CardTitle>
               </CardHeader>
               <CardContent className="p-4 space-y-3">
                 <div className="flex items-center space-x-3">
-                  <Shield className="w-5 h-5 text-green-600" />
-                  <span className="text-sm font-medium text-gray-700">256-bit SSL encryption</span>
+                  <Shield className="w-5 h-5 text-green-500" />
+                  <span className="text-sm font-medium text-foreground">256-bit SSL encryption</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
-                  <span className="text-sm font-medium text-gray-700">Read-only access</span>
+                  <CheckCircle2 className="w-5 h-5 text-green-500" />
+                  <span className="text-sm font-medium text-foreground">Read-only access</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Building2 className="w-5 h-5 text-green-600" />
-                  <span className="text-sm font-medium text-gray-700">Regulated by financial authorities</span>
+                  <Building2 className="w-5 h-5 text-green-500" />
+                  <span className="text-sm font-medium text-foreground">Regulated by financial authorities</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Supported Features */}
-            <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b">
-                <CardTitle className="text-lg font-bold text-gray-800">What You Get</CardTitle>
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle className="text-lg font-bold text-foreground">What You Get</CardTitle>
               </CardHeader>
               <CardContent className="p-4 space-y-3">
                 <div className="flex items-center space-x-3">
-                  <CreditCard className="w-5 h-5 text-purple-600" />
-                  <span className="text-sm font-medium text-gray-700">Instant balance checking</span>
+                  <CreditCard className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium text-foreground">Instant balance checking</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Globe className="w-5 h-5 text-purple-600" />
-                  <span className="text-sm font-medium text-gray-700">Send to 150+ countries</span>
+                  <Globe className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium text-foreground">Send to 150+ countries</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle2 className="w-5 h-5 text-purple-600" />
-                  <span className="text-sm font-medium text-gray-700">Real-time currency conversion</span>
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium text-foreground">Real-time currency conversion</span>
                 </div>
               </CardContent>
             </Card>
