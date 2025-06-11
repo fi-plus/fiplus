@@ -51,7 +51,7 @@ export default function WalletConnect() {
               Redirecting to dashboard...
             </div>
           </CardContent>
-        </Card>
+          </Card>
         </div>
       </div>
     );
@@ -75,7 +75,7 @@ export default function WalletConnect() {
               This may take a few moments
             </div>
           </CardContent>
-        </Card>
+          </Card>
         </div>
       </div>
     );
@@ -83,6 +83,7 @@ export default function WalletConnect() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       {/* Header */}
       <header className="bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
