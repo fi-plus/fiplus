@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Building2, Shield, CheckCircle2, ArrowLeft, Globe, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import MobileNavigation from "@/components/MobileNavigation";
 
 const SUPPORTED_COUNTRIES = [
   { code: 'IN', name: 'India', currency: 'INR', banks: ['HDFC Bank', 'ICICI Bank', 'State Bank of India', 'Axis Bank'] },
@@ -111,7 +112,7 @@ export default function AddBankAccount() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4">
+    <div className="min-h-screen bg-background p-4 pb-20">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -328,6 +329,7 @@ export default function AddBankAccount() {
           </div>
         </div>
       </div>
+      <MobileNavigation />
     </div>
   );
 }

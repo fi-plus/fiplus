@@ -68,7 +68,7 @@ export default function Settings() {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">Settings</h1>
           <p className="text-muted-foreground mt-2">Manage your account preferences and security</p>
@@ -306,6 +306,7 @@ export default function Settings() {
           </Card>
         </div>
       </main>
+      <MobileNavigation />
     </div>
   );
 }
