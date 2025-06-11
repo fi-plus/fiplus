@@ -60,7 +60,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="lg:ml-64">
+      <main className="md:ml-64">
 
         {/* Mobile Bottom Navigation */}
         <MobileNavigation />

@@ -256,7 +256,7 @@ export default function Cashout() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <main className="lg:ml-64 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+      <main className="md:ml-64 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">Cash Out</h1>
           <p className="text-muted-foreground mt-2">Convert your stablecoins to local currency</p>

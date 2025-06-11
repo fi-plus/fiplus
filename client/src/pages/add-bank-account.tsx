@@ -118,7 +118,7 @@ export default function AddBankAccount() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="lg:ml-64 max-w-4xl mx-auto p-4 pb-20 mt-[16px] mb-[16px] pl-[24px] pr-[24px]">
+      <div className="md:ml-64 max-w-4xl mx-auto p-4 pb-20 mt-[16px] mb-[16px] pl-[24px] pr-[24px]">
         {/* Header */}
         <div className="mb-8">
           

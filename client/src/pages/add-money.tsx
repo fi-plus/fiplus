@@ -243,7 +243,7 @@ export default function AddMoney() {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
+        <main className="md:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
           <div className="mb-8">
             <Button variant="ghost" onClick={() => setStep('select')} className="mb-4">
               ← Back

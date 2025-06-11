@@ -32,7 +32,7 @@ export default function Navigation() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border shadow-sm z-30">
+      <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border shadow-sm z-30">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-8">
             <img 
