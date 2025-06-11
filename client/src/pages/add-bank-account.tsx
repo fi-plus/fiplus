@@ -122,7 +122,7 @@ export default function AddBankAccount() {
         {/* Header */}
         <div className="mb-8">
           
-          <h1 className="text-3xl font-bold text-foreground mb-2">Connect Bank Account</h1>
+          <h1 className="font-bold text-foreground mb-2 text-[24px]">Connect Bank Account</h1>
           <p className="text-muted-foreground">
             Connect your bank account to send money instantly with real-time conversion
           </p>
