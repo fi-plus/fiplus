@@ -111,7 +111,7 @@ export default function Contacts() {
       <main className="lg:ml-64 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         <div className="mb-8 flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Contacts</h1>
+            <h1 className="font-bold text-foreground text-[24px]">Contacts</h1>
             <p className="text-muted-foreground mt-2">Manage your frequent recipients</p>
           </div>
           <Dialog open={isAddingContact} onOpenChange={setIsAddingContact}>
