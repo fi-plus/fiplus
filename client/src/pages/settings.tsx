@@ -64,20 +64,20 @@ export default function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Header />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-          <p className="text-gray-600 mt-2">Manage your account preferences and security</p>
+          <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+          <p className="text-muted-foreground mt-2">Manage your account preferences and security</p>
         </div>
 
         <div className="space-y-6">
           {/* Profile Section */}
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-foreground">
                 <User className="w-5 h-5" />
                 Profile Information
               </CardTitle>
@@ -85,13 +85,13 @@ export default function Settings() {
             <CardContent>
               <div className="flex items-center space-x-4 mb-6">
                 <Avatar className="w-20 h-20">
-                  <AvatarFallback className="bg-primary text-white text-lg font-medium">
+                  <AvatarFallback className="bg-primary text-primary-foreground text-lg font-medium">
                     {getUserInitials(user?.firstName, user?.lastName)}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-lg font-semibold">{user?.firstName} {user?.lastName}</h3>
-                  <p className="text-gray-600">{user?.email}</p>
+                  <h3 className="text-lg font-semibold text-foreground">{user?.firstName} {user?.lastName}</h3>
+                  <p className="text-muted-foreground">{user?.email}</p>
                   <Button variant="outline" size="sm" className="mt-2">
                     Change Photo
                   </Button>
@@ -104,20 +104,22 @@ export default function Settings() {
                     <Label htmlFor="firstName">First Name</Label>
                     <Input
                       id="firstName"
+                      className="minimal-input"
                       {...register("firstName", { required: "First name is required" })}
                     />
                     {errors.firstName && (
-                      <p className="text-sm text-red-600 mt-1">{errors.firstName.message as string}</p>
+                      <p className="text-sm text-destructive mt-1">{errors.firstName.message as string}</p>
                     )}
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name</Label>
                     <Input
                       id="lastName"
+                      className="minimal-input"
                       {...register("lastName", { required: "Last name is required" })}
                     />
                     {errors.lastName && (
-                      <p className="text-sm text-red-600 mt-1">{errors.lastName.message as string}</p>
+                      <p className="text-sm text-destructive mt-1">{errors.lastName.message as string}</p>
                     )}
                   </div>
                 </div>
@@ -127,10 +129,11 @@ export default function Settings() {
                   <Input
                     id="email"
                     type="email"
+                    className="minimal-input"
                     {...register("email", { required: "Email is required" })}
                   />
                   {errors.email && (
-                    <p className="text-sm text-red-600 mt-1">{errors.email.message as string}</p>
+                    <p className="text-sm text-destructive mt-1">{errors.email.message as string}</p>
                   )}
                 </div>
 
@@ -139,6 +142,7 @@ export default function Settings() {
                     <Label htmlFor="phone">Phone Number</Label>
                     <Input
                       id="phone"
+                      className="minimal-input"
                       {...register("phone")}
                       placeholder="+1 234 567 8900"
                     />
@@ -147,6 +151,7 @@ export default function Settings() {
                     <Label htmlFor="country">Country</Label>
                     <Input
                       id="country"
+                      className="minimal-input"
                       {...register("country")}
                       placeholder="United States"
                     />
@@ -155,6 +160,7 @@ export default function Settings() {
 
                 <Button
                   type="submit"
+                  className="minimal-button"
                   disabled={updateProfileMutation.isPending}
                 >
                   {updateProfileMutation.isPending ? "Updating..." : "Update Profile"}
@@ -164,9 +170,9 @@ export default function Settings() {
           </Card>
 
           {/* Security Section */}
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-foreground">
                 <Shield className="w-5 h-5" />
                 Security Settings
               </CardTitle>
@@ -175,7 +181,7 @@ export default function Settings() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-base">Two-Factor Authentication</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Add an extra layer of security to your account
                   </p>
                 </div>
@@ -191,7 +197,7 @@ export default function Settings() {
                 <Button variant="outline">
                   Change Password
                 </Button>
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-sm text-muted-foreground mt-2">
                   Last changed 3 months ago
                 </p>
               </div>
