@@ -345,7 +345,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="pt-2 border-t border-border">
-                    <Button variant="ghost" className="w-full justify-start h-7 text-left hover:bg-muted text-xs">
+                    <Button variant="ghost" className="w-full justify-start h-8 text-left hover:bg-muted text-xs">
                       <span>Help & Support</span>
                     </Button>
                   </div>

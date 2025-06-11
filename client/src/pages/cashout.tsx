@@ -255,48 +255,20 @@ export default function Cashout() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <Star className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  <span className="text-xs text-gray-500">Cash Out</span>
-                </div>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-sm font-medium text-gray-900">
-                {user?.firstName} {user?.lastName}
-              </div>
-              <div className="text-xs text-gray-500">
-                Available Balance: $0 ${fromAsset}
-              </div>
-            </div>
-          </div>
+      
+      <main className="lg:ml-64 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Cash Out</h1>
+          <p className="text-muted-foreground mt-2">Convert your stablecoins to local currency</p>
         </div>
-      </header>
-
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         {step === 'select' && (
           <div className="space-y-8">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">Cash Out Your Money</h1>
-              <p className="text-xl text-gray-600">
-                Convert your stablecoins to local currency and withdraw to your preferred method
-              </p>
-            </div>
+
 
             {/* Wallet Balances */}
-            <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-gray-50 to-green-50 border-b">
-                <CardTitle className="text-lg font-bold text-gray-800">Available Balances</CardTitle>
+            <Card className="minimal-card">
+              <CardHeader>
+                <CardTitle className="text-foreground">Available Balances</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -323,7 +295,7 @@ export default function Cashout() {
             </Card>
 
             {/* Conversion Settings */}
-            <Card className="shadow-lg border-0">
+            <Card className="minimal-card">
               <CardHeader>
                 <CardTitle>Conversion Settings</CardTitle>
               </CardHeader>

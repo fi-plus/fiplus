@@ -139,7 +139,7 @@ export default function Register() {
           <CardFooter className="flex flex-col space-y-4">
             <Button 
               type="submit" 
-              className="w-full minimal-button h-9" 
+              className="w-full minimal-button h-11" 
               disabled={isRegisterPending}
             >
               {isRegisterPending ? (

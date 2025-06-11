@@ -145,7 +145,7 @@ export default function SendMoney() {
   if (step === 'success') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+        <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-10 h-10 text-green-600" />
