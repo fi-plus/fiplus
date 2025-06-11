@@ -189,11 +189,11 @@ export default function SendMoney() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
-              <Button variant="outline" className="flex items-center space-x-2">
+              <Button variant="outline" className="flex items-center space-x-2 h-10">
                 <MessageSquare className="w-4 h-4" />
                 <span>WhatsApp</span>
               </Button>
-              <Button variant="outline" className="flex items-center space-x-2">
+              <Button variant="outline" className="flex items-center space-x-2 h-10">
                 <Share2 className="w-4 h-4" />
                 <span>SMS</span>
               </Button>

@@ -93,7 +93,7 @@ export default function Settings() {
                 <div>
                   <h3 className="text-lg font-semibold text-foreground">{user?.firstName} {user?.lastName}</h3>
                   <p className="text-muted-foreground">{user?.email}</p>
-                  <Button variant="outline" size="sm" className="mt-2">
+                  <Button variant="outline" size="sm" className="mt-2 h-9">
                     Change Photo
                   </Button>
                 </div>
@@ -161,7 +161,7 @@ export default function Settings() {
 
                 <Button
                   type="submit"
-                  className="minimal-button"
+                  className="minimal-button h-11"
                   disabled={updateProfileMutation.isPending}
                 >
                   {updateProfileMutation.isPending ? "Updating..." : "Update Profile"}

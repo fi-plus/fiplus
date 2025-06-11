@@ -304,7 +304,7 @@ export default function Cashout() {
                   <div>
                     <Label>From Asset</Label>
                     <Select value={fromAsset} onValueChange={setFromAsset}>
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -320,7 +320,7 @@ export default function Cashout() {
                   <div>
                     <Label>To Currency</Label>
                     <Select value={toCurrency} onValueChange={setToCurrency}>
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -344,7 +344,7 @@ export default function Cashout() {
                       placeholder="0.00"
                       value={amount}
                       onChange={(e) => handleAmountChange(e.target.value)}
-                      className="h-12 text-lg"
+                      className="h-11 text-lg minimal-input"
                     />
                   </div>
                 </div>
