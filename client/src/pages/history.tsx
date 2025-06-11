@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, AlertCircle, Download, Share2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
+import Navigation from "@/components/Navigation";
 import MobileNavigation from "@/components/MobileNavigation";
 
 export default function History() {
@@ -132,7 +133,8 @@ export default function History() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-4 sm:p-6 pb-20">
+      <Navigation />
+      <div className="lg:ml-64 max-w-4xl mx-auto p-4 sm:p-6 pb-20">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
           <div>
             <h1 className="text-2xl font-semibold text-foreground">Transaction History</h1>
