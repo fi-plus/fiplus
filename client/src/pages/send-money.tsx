@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Star, Send, Clock, DollarSign, Users, CheckCircle2, MessageSquare, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Navigation from "@/components/Navigation";
 import MobileNavigation from "@/components/MobileNavigation";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate, calculateFee } from "@/lib/constants";
@@ -322,7 +323,7 @@ export default function SendMoney() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
+      <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">Send Money</h1>
           <p className="text-xl text-muted-foreground">

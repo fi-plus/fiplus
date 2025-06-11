@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { CreditCard, Smartphone, Building2, ArrowRight, DollarSign, Star, CheckCircle2, Wallet } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Navigation from "@/components/Navigation";
 import MobileNavigation from "@/components/MobileNavigation";
 import { SUPPORTED_CURRENCIES, calculateFee, getStablecoinByCurrency } from "@/lib/constants";
 // Services removed - using backend API directly
@@ -249,7 +250,7 @@ export default function AddMoney() {
           </div>
         </header>
 
-        <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
+        <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -387,8 +388,9 @@ export default function AddMoney() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <header className="bg-card backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">

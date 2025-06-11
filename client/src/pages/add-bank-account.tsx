@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Building2, Shield, CheckCircle2, ArrowLeft, Globe, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import Navigation from "@/components/Navigation";
 import MobileNavigation from "@/components/MobileNavigation";
 
 const SUPPORTED_COUNTRIES = [
@@ -112,8 +113,9 @@ export default function AddBankAccount() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <div className="lg:ml-64 max-w-4xl mx-auto p-4 pb-20">
         {/* Header */}
         <div className="mb-8">
           <Link href="/">
