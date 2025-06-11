@@ -246,7 +246,7 @@ export default function History() {
                               <span>{transaction.fee} XLM</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-600">Status:</span>
+                              <span className="text-[#ffffff]">Status:</span>
                               <Badge className={getStatusColor(transaction.status)}>
                                 {transaction.status}
                               </Badge>
