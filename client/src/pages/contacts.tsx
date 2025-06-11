@@ -108,7 +108,7 @@ export default function Contacts() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="lg:ml-64 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+      <main className="lg:ml-64 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 mt-[16px] mb-[16px]">
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="font-bold text-foreground text-[24px]">Contacts</h1>
