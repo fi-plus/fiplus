@@ -228,7 +228,7 @@ export default function Contacts() {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{contact.name}</h3>
+                      <h3 className="font-semibold text-[#ffffff]">{contact.name}</h3>
                       <p className="text-sm text-gray-500">{contact.currency}</p>
                     </div>
                   </div>
