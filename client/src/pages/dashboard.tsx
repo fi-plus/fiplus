@@ -9,6 +9,7 @@ import { Star, Send, History, Users, Settings, ArrowUpRight, ArrowDownLeft, Copy
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import MobileNavigation from "@/components/MobileNavigation";
 
 import { SUPPORTED_CURRENCIES, getExchangeRate } from "@/lib/constants";
 // Services removed - using direct API calls
@@ -150,40 +151,7 @@ export default function Dashboard() {
       <main className="flex-1">
 
         {/* Mobile Bottom Navigation */}
-        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-2 md:hidden">
-          <nav className="flex justify-around items-center">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
-                <Home className="w-4 h-4" />
-                <span className="text-xs">Home</span>
-              </Button>
-            </Link>
-            <Link href="/send">
-              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
-                <Send className="w-4 h-4" />
-                <span className="text-xs">Send</span>
-              </Button>
-            </Link>
-            <Link href="/history">
-              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
-                <History className="w-4 h-4" />
-                <span className="text-xs">History</span>
-              </Button>
-            </Link>
-            <Link href="/contacts">
-              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
-                <Users className="w-4 h-4" />
-                <span className="text-xs">Contacts</span>
-              </Button>
-            </Link>
-            <Link href="/settings">
-              <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 h-auto py-2">
-                <Settings className="w-4 h-4" />
-                <span className="text-xs">Settings</span>
-              </Button>
-            </Link>
-          </nav>
-        </div>
+        <MobileNavigation />
 
         {/* Main Content Area */}
         <div className="p-4 md:p-6 pb-20 md:pb-6 md:ml-16">
