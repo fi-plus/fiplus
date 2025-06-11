@@ -245,7 +245,7 @@ export default function Contacts() {
                       </div>
                     )}
                     {contact.country && (
-                      <div className="flex items-center text-sm text-gray-600">
+                      <div className="flex items-center text-sm text-[#ffffff]">
                         <MapPin className="w-4 h-4 mr-2" />
                         {contact.country}
                       </div>
