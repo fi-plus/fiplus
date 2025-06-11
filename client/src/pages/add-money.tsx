@@ -181,7 +181,7 @@ export default function AddMoney() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="flex items-center justify-center p-4 min-h-screen">
-        <Card className="max-w-md w-full text-center">
+          <Card className="max-w-md w-full text-center">
           <CardContent className="pt-8 pb-8">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-10 h-10 text-green-600" />
@@ -208,14 +208,17 @@ export default function AddMoney() {
             </Button>
           </CardContent>
         </Card>
+        </div>
       </div>
     );
   }
 
   if (step === 'processing') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="flex items-center justify-center p-4 min-h-screen">
+          <Card className="max-w-md w-full text-center">
           <CardContent className="pt-8 pb-8">
             <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
               <DollarSign className="w-10 h-10 text-blue-600" />
@@ -229,6 +232,7 @@ export default function AddMoney() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
     );
   }
@@ -237,7 +241,8 @@ export default function AddMoney() {
     const method = FUNDING_METHODS[paymentMethod as keyof typeof FUNDING_METHODS];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen bg-background">
+        <Navigation />
         <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
