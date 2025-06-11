@@ -242,7 +242,7 @@ export default function History() {
                               </div>
                             )}
                             <div className="flex justify-between">
-                              <span className="text-gray-600">Fee:</span>
+                              <span className="text-[#ffffff]">Fee:</span>
                               <span>{transaction.fee} XLM</span>
                             </div>
                             <div className="flex justify-between">
