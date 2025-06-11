@@ -12,7 +12,7 @@ export default function MobileNavigation() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 border-t border-border p-2 md:hidden z-50 bg-[#2c0e45]">
+    <div className="fixed bottom-0 left-0 right-0 border-t border-border p-2 md:hidden z-50 bg-[#000000]">
       <nav className="flex justify-around items-center">
         <Link href="/">
           <Button 
