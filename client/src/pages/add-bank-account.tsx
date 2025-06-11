@@ -118,15 +118,10 @@ export default function AddBankAccount() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="lg:ml-64 max-w-4xl mx-auto p-4 pb-20">
+      <div className="lg:ml-64 max-w-4xl mx-auto p-4 pb-20 mt-[16px] mb-[16px]">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/">
-            <Button variant="ghost" className="mb-4 text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Button>
-          </Link>
+          
           <h1 className="text-3xl font-bold text-foreground mb-2">Connect Bank Account</h1>
           <p className="text-muted-foreground">
             Connect your bank account to send money instantly with real-time conversion
