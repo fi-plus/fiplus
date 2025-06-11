@@ -213,7 +213,7 @@ export default function History() {
                         variant="ghost"
                         size="sm"
                         onClick={() => toggleExpanded(transaction.id)}
-                        className="text-muted-foreground hover:text-foreground h-8"
+                        className="text-muted-foreground hover:text-foreground h-9"
                       >
                         {expandedTx === transaction.id ? "Hide" : "Details"}
                       </Button>

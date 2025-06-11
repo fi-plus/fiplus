@@ -201,7 +201,7 @@ export default function SendMoney() {
 
             <Button 
               onClick={() => window.location.href = '/'}
-              className="w-full minimal-button"
+              className="w-full minimal-button h-11"
             >
               Return to Dashboard
             </Button>

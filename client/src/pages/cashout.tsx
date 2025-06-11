@@ -522,7 +522,7 @@ export default function Cashout() {
                       <div>
                         <Label htmlFor="provider">Provider</Label>
                         <Select value={mobileDetails.provider} onValueChange={(value) => setMobileDetails({...mobileDetails, provider: value})}>
-                          <SelectTrigger className="h-12">
+                          <SelectTrigger className="h-11">
                             <SelectValue placeholder="Select provider" />
                           </SelectTrigger>
                           <SelectContent>
@@ -550,7 +550,7 @@ export default function Cashout() {
 
                 <Button 
                   onClick={handleContinue}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 text-lg"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold h-12 text-lg"
                 >
                   Continue to Confirmation
                 </Button>

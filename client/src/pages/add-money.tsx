@@ -243,25 +243,16 @@ export default function AddMoney() {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-2">
-                <Star className="w-8 h-8 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
-              </div>
-              <Button variant="ghost" onClick={() => setStep('select')}>
-                Back
-              </Button>
-            </div>
-          </div>
-        </header>
-
         <main className="lg:ml-64 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
-          <Card>
+          <div className="mb-8">
+            <Button variant="ghost" onClick={() => setStep('select')} className="mb-4">
+              ← Back
+            </Button>
+          </div>
+          <Card className="minimal-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <method.icon className="w-6 h-6 text-blue-600" />
+                <method.icon className="w-6 h-6 text-primary" />
                 <span>Complete Payment</span>
               </CardTitle>
             </CardHeader>
