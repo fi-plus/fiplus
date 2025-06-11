@@ -249,7 +249,7 @@ export default function AddMoney() {
           </div>
         </header>
 
-        <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -550,6 +550,7 @@ export default function AddMoney() {
           </CardContent>
         </Card>
       </main>
+      <MobileNavigation />
     </div>
   );
 }
