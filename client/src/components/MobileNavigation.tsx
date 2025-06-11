@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, Send, History, Users, Settings } from "lucide-react";
+import { Home, Send, History, Users, Settings, CreditCard } from "lucide-react";
 
 export default function MobileNavigation() {
   const [location] = useLocation();
@@ -38,6 +38,18 @@ export default function MobileNavigation() {
             <span className="text-xs">Send</span>
           </Button>
         </Link>
+        <Link href="/add-bank-account">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className={`flex flex-col items-center space-y-1 h-auto py-2 ${
+              isActive("/add-bank-account") ? "text-primary" : "text-muted-foreground"
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            <span className="text-xs">Bank</span>
+          </Button>
+        </Link>
         <Link href="/history">
           <Button 
             variant="ghost" 
@@ -48,18 +60,6 @@ export default function MobileNavigation() {
           >
             <History className="w-4 h-4" />
             <span className="text-xs">History</span>
-          </Button>
-        </Link>
-        <Link href="/contacts">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className={`flex flex-col items-center space-y-1 h-auto py-2 ${
-              isActive("/contacts") ? "text-primary" : "text-muted-foreground"
-            }`}
-          >
-            <Users className="w-4 h-4" />
-            <span className="text-xs">Contacts</span>
           </Button>
         </Link>
         <Link href="/settings">

@@ -9,7 +9,8 @@ import {
   Users, 
   Settings, 
   Shield,
-  LogOut
+  LogOut,
+  CreditCard
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logoPath from "@assets/ChatGPT Image Jun 9, 2025, 05_20_27 PM-photoaidcom-cropped_1749633633816.png";
@@ -17,6 +18,7 @@ import logoPath from "@assets/ChatGPT Image Jun 9, 2025, 05_20_27 PM-photoaidcom
 const navigationItems = [
   { href: "/", label: "Dashboard", icon: Home },
   { href: "/send", label: "Send Money", icon: Send },
+  { href: "/add-bank-account", label: "Add Bank Account", icon: CreditCard },
   { href: "/history", label: "History", icon: History },
   { href: "/contacts", label: "Contacts", icon: Users },
   { href: "/kyc", label: "KYC Verify", icon: Shield },
