@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Shield, Bell, CreditCard, Globe, Smartphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import MobileNavigation from "@/components/MobileNavigation";
 
 export default function Settings() {
   const { user } = useAuth();

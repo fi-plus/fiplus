@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Users, Plus, Mail, Phone, MapPin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import MobileNavigation from "@/components/MobileNavigation";
 
 interface Contact {
   id: number;
@@ -108,7 +109,7 @@ export default function Contacts() {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Contacts</h1>
@@ -266,6 +267,7 @@ export default function Contacts() {
           </div>
         )}
       </main>
+      <MobileNavigation />
     </div>
   );
 }
