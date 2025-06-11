@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, Shield, Bell, CreditCard, Globe, Smartphone } from "lucide-react";
+import { User, Shield, Bell, CreditCard, Globe, Smartphone, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import MobileNavigation from "@/components/MobileNavigation";
 
@@ -300,6 +300,34 @@ export default function Settings() {
                   <option value="PST">Pacific Time</option>
                   <option value="GMT">Greenwich Mean Time</option>
                 </select>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Logout Section */}
+          <Card className="minimal-card border-red-200 dark:border-red-800">
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <LogOut className="w-5 h-5 text-red-500" />
+                  <div>
+                    <h3 className="text-base font-semibold text-foreground">Sign Out</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Sign out of your fi.plus account on this device
+                    </p>
+                  </div>
+                </div>
+                <Button 
+                  variant="destructive" 
+                  className="w-full h-11"
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                    window.location.href = '/login';
+                  }}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
               </div>
             </CardContent>
           </Card>
