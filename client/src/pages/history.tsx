@@ -232,7 +232,7 @@ export default function History() {
                               <span className="font-mono">{transaction.id}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-600">Amount:</span>
+                              <span className="text-[#ffffff]">Amount:</span>
                               <span>{transaction.amount} {transaction.currency}</span>
                             </div>
                             {transaction.toCurrency && (
