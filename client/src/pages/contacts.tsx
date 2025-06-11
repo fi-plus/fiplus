@@ -234,7 +234,7 @@ export default function Contacts() {
                   </div>
                   
                   <div className="space-y-2 mb-4 text-[#ffffff]">
-                    <div className="flex items-center text-sm text-gray-600">
+                    <div className="flex items-center text-sm text-[#ffffff]">
                       <Mail className="w-4 h-4 mr-2" />
                       {contact.email}
                     </div>
