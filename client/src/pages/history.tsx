@@ -46,9 +46,17 @@ export default function History() {
     }
   };
 
-  const formatTime = (date: Date) => {
+  const formatTime = (date: Date | string) => {
+    if (!date) return 'Unknown time';
+    
     const now = new Date();
-    const diff = now.getTime() - date.getTime();
+    const transactionDate = typeof date === 'string' ? new Date(date) : date;
+    
+    if (isNaN(transactionDate.getTime())) {
+      return 'Unknown time';
+    }
+    
+    const diff = now.getTime() - transactionDate.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(hours / 24);
 

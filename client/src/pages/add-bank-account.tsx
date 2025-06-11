@@ -71,20 +71,20 @@ export default function AddBankAccount() {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="w-10 h-10 text-green-600" />
+            <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="w-10 h-10 text-green-500" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Account Connected!</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Account Connected!</h2>
+            <p className="text-muted-foreground mb-6">
               Your {selectedBank} account is now connected to fi.plus. You can now send money directly from this account.
             </p>
             
-            <div className="bg-green-50 rounded-lg p-4 mb-6 text-left">
-              <h3 className="font-semibold text-green-900 mb-2">Account Details:</h3>
-              <div className="text-sm text-green-700 space-y-1">
+            <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6 text-left">
+              <h3 className="font-semibold text-green-400 mb-2">Account Details:</h3>
+              <div className="text-sm text-green-400/80 space-y-1">
                 <div>Bank: {selectedBank}</div>
                 <div>Account: ••••{accountDetails.accountNumber.slice(-4)}</div>
                 <div>Currency: {country?.currency}</div>
@@ -94,12 +94,12 @@ export default function AddBankAccount() {
 
             <div className="flex flex-col space-y-3">
               <Link href="/">
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                <Button className="w-full minimal-button">
                   Return to Dashboard
                 </Button>
               </Link>
               <Link href="/send">
-                <Button variant="outline" className="w-full border-green-300 text-green-600 hover:bg-green-50">
+                <Button variant="outline" className="w-full">
                   Send Money Now
                 </Button>
               </Link>
@@ -111,18 +111,18 @@ export default function AddBankAccount() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <Link href="/">
-            <Button variant="ghost" className="mb-4 text-gray-600 hover:text-gray-900">
+            <Button variant="ghost" className="mb-4 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Connect Bank Account</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Connect Bank Account</h1>
+          <p className="text-muted-foreground">
             Connect your bank account to send money instantly with real-time conversion
           </p>
         </div>
@@ -131,9 +131,9 @@ export default function AddBankAccount() {
           {/* Main Content */}
           <div className="lg:col-span-2">
             {step === 'select' && (
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b">
-                  <CardTitle className="text-xl font-bold text-gray-900">Select Your Country</CardTitle>
+              <Card className="minimal-card">
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold text-foreground">Select Your Country</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
                   <div className="grid gap-4">
@@ -141,20 +141,20 @@ export default function AddBankAccount() {
                       <div
                         key={country.code}
                         onClick={() => handleCountrySelect(country.code)}
-                        className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                        className="border border-border rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-muted/50 transition-colors"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                              <Globe className="w-5 h-5 text-white" />
+                            <div className="w-10 h-10 bg-gradient-to-r from-primary to-purple-500 rounded-lg flex items-center justify-center">
+                              <Globe className="w-5 h-5 text-primary-foreground" />
                             </div>
                             <div>
-                              <div className="font-semibold text-gray-900">{country.name}</div>
-                              <div className="text-sm text-gray-600">{country.banks.length} supported banks</div>
+                              <div className="font-semibold text-foreground">{country.name}</div>
+                              <div className="text-sm text-muted-foreground">{country.banks.length} supported banks</div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <Badge variant="secondary" className="bg-green-100 text-green-800">
+                            <Badge variant="secondary" className="bg-green-500/20 text-green-400">
                               {country.currency}
                             </Badge>
                           </div>
@@ -167,9 +167,9 @@ export default function AddBankAccount() {
             )}
 
             {step === 'connect' && country && (
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b">
-                  <CardTitle className="text-xl font-bold text-gray-900">
+              <Card className="minimal-card">
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold text-foreground">
                     Select Your Bank in {country.name}
                   </CardTitle>
                 </CardHeader>
@@ -181,17 +181,17 @@ export default function AddBankAccount() {
                         onClick={() => setSelectedBank(bank)}
                         className={`border rounded-lg p-4 cursor-pointer transition-colors ${
                           selectedBank === bank
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-border hover:border-primary hover:bg-muted/50'
                         }`}
                       >
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                            <Building2 className="w-5 h-5 text-white" />
+                          <div className="w-10 h-10 bg-gradient-to-r from-primary to-blue-700 rounded-lg flex items-center justify-center">
+                            <Building2 className="w-5 h-5 text-primary-foreground" />
                           </div>
                           <div>
-                            <div className="font-semibold text-gray-900">{bank}</div>
-                            <div className="text-sm text-gray-600">Instant connection available</div>
+                            <div className="font-semibold text-foreground">{bank}</div>
+                            <div className="text-sm text-muted-foreground">Instant connection available</div>
                           </div>
                         </div>
                       </div>
