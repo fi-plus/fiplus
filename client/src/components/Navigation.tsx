@@ -36,7 +36,7 @@ export default function Navigation() {
             <img 
               src={logoPath} 
               alt="fi.plus logo" 
-              className="w-10 h-10 rounded-xl"
+              className="w-10 h-10 rounded-xl animate-pulse hover:animate-spin transition-all duration-300 cursor-pointer"
             />
             <div>
               <h1 className="text-xl font-bold text-foreground">fi.plus</h1>
