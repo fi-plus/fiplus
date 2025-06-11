@@ -239,7 +239,7 @@ export default function Contacts() {
                       {contact.email}
                     </div>
                     {contact.phone && (
-                      <div className="flex items-center text-sm text-gray-600">
+                      <div className="flex items-center text-sm text-[#ffffff]">
                         <Phone className="w-4 h-4 mr-2" />
                         {contact.phone}
                       </div>
