@@ -24,7 +24,7 @@ export default function Dashboard() {
 
 
   // Fetch real transaction data from database
-  const transactions = useQuery({
+  const transactions = useQuery<any[]>({
     queryKey: ['/api/transactions'],
     enabled: !!user
   });
@@ -295,23 +295,29 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  {transactions.data && Array.isArray(transactions.data) && transactions.data.length > 0 && (
-                    <div className="pt-3 border-t border-border">
-                      <div className="text-xs font-medium text-muted-foreground mb-2">Transaction Summary</div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Total Transactions</span>
-                          <span className="text-xs font-medium text-foreground">{transactions.data.length}</span>
+                  {(() => {
+                    const txData = transactions?.data;
+                    if (txData && Array.isArray(txData) && txData.length > 0) {
+                      return (
+                        <div className="pt-3 border-t border-border">
+                          <div className="text-xs font-medium text-muted-foreground mb-2">Transaction Summary</div>
+                          <div className="space-y-1">
+                            <div className="flex justify-between items-center">
+                              <span className="text-xs text-muted-foreground">Total Transactions</span>
+                              <span className="text-xs font-medium text-foreground">{txData.length}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-xs text-muted-foreground">Latest Amount</span>
+                              <span className="text-xs font-medium text-foreground">
+                                {(parseFloat(txData[0]?.fromAmount || '0') / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {txData[0]?.fromCurrency}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Latest Amount</span>
-                          <span className="text-xs font-medium text-foreground">
-                            {(parseFloat(transactions.data[0]?.fromAmount || '0') / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {transactions.data[0]?.fromCurrency}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                      );
+                    }
+                    return null;
+                  })()}
 
                 </CardContent>
               </Card>
