@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, UserPlus } from "lucide-react";
+import logoPath from "@assets/ChatGPT Image Jun 9, 2025, 05_20_27 PM-photoaidcom-cropped_1749633633816.png";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,12 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8">
       <Card className="w-full max-w-sm minimal-card">
         <CardHeader className="text-center pb-4">
-          <div className="mx-auto mb-3">
+          <div className="mx-auto mb-3 flex items-center justify-center space-x-2">
+            <img 
+              src={logoPath} 
+              alt="fi.plus logo" 
+              className="w-8 h-8 rounded-lg"
+            />
             <h1 className="text-2xl font-semibold text-foreground">fi.plus</h1>
           </div>
           <CardTitle className="text-xl font-medium">Create account</CardTitle>

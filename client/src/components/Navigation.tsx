@@ -12,6 +12,7 @@ import {
   LogOut
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import logoPath from "@assets/ChatGPT Image Jun 9, 2025, 05_20_27 PM-photoaidcom-cropped_1749633633816.png";
 
 const navigationItems = [
   { href: "/", label: "Dashboard", icon: Home },
@@ -32,9 +33,11 @@ export default function Navigation() {
       <div className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border shadow-sm z-30">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary/80 rounded-xl flex items-center justify-center">
-              <Home className="w-6 h-6 text-primary-foreground" />
-            </div>
+            <img 
+              src={logoPath} 
+              alt="fi.plus logo" 
+              className="w-10 h-10 rounded-xl"
+            />
             <div>
               <h1 className="text-xl font-bold text-foreground">fi.plus</h1>
               <p className="text-xs text-muted-foreground">Cross-border payments</p>
