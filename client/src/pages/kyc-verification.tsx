@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Camera, FileText, CheckCircle2, Clock, Star, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Navigation from "@/components/Navigation";
 import MobileNavigation from "@/components/MobileNavigation";
 
 export default function KYCVerification() {
@@ -51,7 +52,9 @@ export default function KYCVerification() {
 
   if (step === 'completed') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="flex items-center justify-center p-4 min-h-screen">
         <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
             <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
