@@ -35,7 +35,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8">
-      <Card className="w-full max-w-md minimal-card">
+      <Card className="w-full max-w-sm minimal-card">
         <CardHeader className="text-center pb-4">
           <div className="mx-auto mb-3">
             <h1 className="text-2xl font-semibold text-foreground">fi.plus</h1>
@@ -97,7 +97,7 @@ export default function Login() {
           <CardFooter className="flex flex-col space-y-4">
             <Button 
               type="submit" 
-              className="w-full minimal-button h-10" 
+              className="w-full minimal-button h-11" 
               disabled={isLoginPending}
             >
               {isLoginPending ? (

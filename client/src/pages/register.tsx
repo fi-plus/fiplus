@@ -62,7 +62,7 @@ export default function Register() {
                 <Input
                   id="firstName"
                   placeholder="John"
-                  className="minimal-input h-9"
+                  className="minimal-input h-10"
                   {...register("firstName")}
                 />
                 {errors.firstName && (
@@ -75,7 +75,7 @@ export default function Register() {
                 <Input
                   id="lastName"
                   placeholder="Doe"
-                  className="minimal-input h-9"
+                  className="minimal-input h-10"
                   {...register("lastName")}
                 />
                 {errors.lastName && (
@@ -90,7 +90,7 @@ export default function Register() {
                 id="email"
                 type="email"
                 placeholder="john.doe@example.com"
-                className="minimal-input h-9"
+                className="minimal-input h-10"
                 {...register("email")}
               />
               {errors.email && (
@@ -104,7 +104,7 @@ export default function Register() {
                 id="phoneNumber"
                 type="tel"
                 placeholder="+1234567890"
-                className="minimal-input h-9"
+                className="minimal-input h-10"
                 {...register("phoneNumber")}
               />
               {errors.phoneNumber && (
@@ -119,7 +119,7 @@ export default function Register() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a strong password"
-                  className="minimal-input h-9 pr-10"
+                  className="minimal-input h-10 pr-10"
                   {...register("password")}
                 />
                 <button
