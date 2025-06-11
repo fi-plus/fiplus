@@ -228,7 +228,7 @@ export default function History() {
                           <h4 className="font-medium mb-3 text-[#ffffff]">Transaction Details</h4>
                           <div className="space-y-2 text-sm">
                             <div className="flex justify-between">
-                              <span className="text-gray-600">Transaction ID:</span>
+                              <span className="text-[#ffffff]">Transaction ID:</span>
                               <span className="font-mono">{transaction.id}</span>
                             </div>
                             <div className="flex justify-between">
