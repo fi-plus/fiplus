@@ -66,87 +66,87 @@ export default function Dashboard() {
         <MobileNavigation />
 
         {/* Main Content Area */}
-        <div className="p-4 md:p-6 pb-20 md:pb-6 mt-[16px] mb-[16px]">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="max-w-7xl mx-auto p-4 md:p-6 pb-20 md:pb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Main Send Money Card */}
             <div className="lg:col-span-2 space-y-6">
-              <Card className="minimal-card overflow-hidden h-fit">
-              <div className="gradient-primary p-4 text-white">
-                <CardTitle className="text-lg sm:text-xl font-semibold mb-1">Send Money Globally</CardTitle>
-                <p className="text-white/80 text-sm">Fast, secure cross-border payments via Stellar network</p>
-              </div>
-              <CardContent className="p-4 space-y-4 pb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">From</label>
-                    <Select value={fromCurrency} onValueChange={setFromCurrency}>
-                      <SelectTrigger className="h-12 minimal-input">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {SUPPORTED_CURRENCIES.map((currency) => (
-                          <SelectItem key={currency.code} value={currency.code}>
-                            <span className="flex items-center space-x-2">
-                              <span>{currency.flag}</span>
-                              <span className="font-medium">{currency.code}</span>
-                              <span className="text-muted-foreground text-sm">{currency.name}</span>
-                            </span>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">To</label>
-                    <Select value={toCurrency} onValueChange={setToCurrency}>
-                      <SelectTrigger className="h-12 minimal-input">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {SUPPORTED_CURRENCIES.map((currency) => (
-                          <SelectItem key={currency.code} value={currency.code}>
-                            <span className="flex items-center space-x-2">
-                              <span>{currency.flag}</span>
-                              <span className="font-medium">{currency.code}</span>
-                              <span className="text-muted-foreground text-sm">{currency.name}</span>
-                            </span>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+              <Card className="minimal-card overflow-hidden">
+                <div className="gradient-primary p-6 text-white">
+                  <CardTitle className="text-xl font-bold mb-2">Send Money Globally</CardTitle>
+                  <p className="text-white/90 text-sm">Fast, secure cross-border payments via Stellar network</p>
                 </div>
-
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Amount</label>
-                  <div className="relative">
-                    <Input
-                      type="number"
-                      placeholder="0.00"
-                      value={sendAmount}
-                      onChange={(e) => setSendAmount(e.target.value)}
-                      className="h-12 text-lg sm:text-xl font-semibold minimal-input pr-16"
-                    />
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-medium text-muted-foreground">
-                      {fromCurrency}
+                <CardContent className="p-6 space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="text-sm font-semibold text-foreground mb-3 block">From</label>
+                      <Select value={fromCurrency} onValueChange={setFromCurrency}>
+                        <SelectTrigger className="h-12 minimal-input">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {SUPPORTED_CURRENCIES.map((currency) => (
+                            <SelectItem key={currency.code} value={currency.code}>
+                              <span className="flex items-center space-x-2">
+                                <span>{currency.flag}</span>
+                                <span className="font-medium">{currency.code}</span>
+                                <span className="text-muted-foreground text-sm">{currency.name}</span>
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-foreground mb-3 block">To</label>
+                      <Select value={toCurrency} onValueChange={setToCurrency}>
+                        <SelectTrigger className="h-12 minimal-input">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {SUPPORTED_CURRENCIES.map((currency) => (
+                            <SelectItem key={currency.code} value={currency.code}>
+                              <span className="flex items-center space-x-2">
+                                <span>{currency.flag}</span>
+                                <span className="font-medium">{currency.code}</span>
+                                <span className="text-muted-foreground text-sm">{currency.name}</span>
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
-                </div>
 
-                {sendAmount && parseFloat(sendAmount) > 0 && (
-                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-green-400 font-medium text-sm">Recipient receives:</span>
-                      <span className="text-lg font-semibold text-green-400">
-                        {(parseFloat(sendAmount) * getExchangeRate(fromCurrency, toCurrency)).toLocaleString()} {toCurrency}
-                      </span>
-                    </div>
-                    <div className="text-xs text-green-400/80 mt-1">
-                      Rate: 1 {fromCurrency} = {getExchangeRate(fromCurrency, toCurrency)} {toCurrency}
+                  <div>
+                    <label className="text-sm font-semibold text-foreground mb-3 block">Amount</label>
+                    <div className="relative">
+                      <Input
+                        type="number"
+                        placeholder="0.00"
+                        value={sendAmount}
+                        onChange={(e) => setSendAmount(e.target.value)}
+                        className="h-12 text-lg font-semibold minimal-input pr-16"
+                      />
+                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm font-medium text-muted-foreground">
+                        {fromCurrency}
+                      </div>
                     </div>
                   </div>
-                )}
+
+                  {sendAmount && parseFloat(sendAmount) > 0 && (
+                    <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-green-400 font-semibold text-sm">Recipient receives:</span>
+                        <span className="text-lg font-bold text-green-400">
+                          {(parseFloat(sendAmount) * getExchangeRate(fromCurrency, toCurrency)).toLocaleString()} {toCurrency}
+                        </span>
+                      </div>
+                      <div className="text-xs text-green-400/80 mt-2">
+                        Rate: 1 {fromCurrency} = {getExchangeRate(fromCurrency, toCurrency)} {toCurrency}
+                      </div>
+                    </div>
+                  )}
 
                 <Button 
                   onClick={handleSendMoney}
@@ -249,7 +249,7 @@ export default function Dashboard() {
                     </Link>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0 space-y-2">
+                <CardContent className="pt-0 space-y-2 mt-[8px] mb-[8px]">
                   <div className="border border-border rounded-lg p-2 bg-card">
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center space-x-2">
