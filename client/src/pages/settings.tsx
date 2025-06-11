@@ -205,9 +205,9 @@ export default function Settings() {
           </Card>
 
           {/* Notifications Section */}
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-foreground">
                 <Bell className="w-5 h-5" />
                 Notification Preferences
               </CardTitle>
@@ -216,7 +216,7 @@ export default function Settings() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-base">Email Notifications</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Receive updates about your transactions via email
                   </p>
                 </div>
@@ -231,7 +231,7 @@ export default function Settings() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-base">SMS Notifications</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Get text messages for important account updates
                   </p>
                 </div>
@@ -244,19 +244,19 @@ export default function Settings() {
           </Card>
 
           {/* Payment Methods Section */}
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-foreground">
                 <CreditCard className="w-5 h-5" />
                 Payment Methods
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8">
-                <CreditCard className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No payment methods</h3>
-                <p className="text-gray-600 mb-4">Add a payment method to fund your transfers</p>
-                <Button>
+                <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium text-foreground mb-2">No payment methods</h3>
+                <p className="text-muted-foreground mb-4">Add a payment method to fund your transfers</p>
+                <Button className="minimal-button">
                   Add Payment Method
                 </Button>
               </div>
@@ -264,9 +264,9 @@ export default function Settings() {
           </Card>
 
           {/* Preferences Section */}
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-foreground">
                 <Globe className="w-5 h-5" />
                 Preferences
               </CardTitle>
@@ -274,7 +274,7 @@ export default function Settings() {
             <CardContent className="space-y-4">
               <div>
                 <Label htmlFor="language">Language</Label>
-                <select className="w-full mt-1 p-2 border border-gray-300 rounded-md">
+                <select className="w-full mt-1 p-2 bg-background border border-border rounded-md text-foreground minimal-input">
                   <option value="en">English</option>
                   <option value="es">Español</option>
                   <option value="fr">Français</option>
@@ -284,7 +284,7 @@ export default function Settings() {
 
               <div>
                 <Label htmlFor="currency">Default Currency</Label>
-                <select className="w-full mt-1 p-2 border border-gray-300 rounded-md">
+                <select className="w-full mt-1 p-2 bg-background border border-border rounded-md text-foreground minimal-input">
                   <option value="USD">USD - US Dollar</option>
                   <option value="EUR">EUR - Euro</option>
                   <option value="GBP">GBP - British Pound</option>
@@ -294,7 +294,7 @@ export default function Settings() {
 
               <div>
                 <Label htmlFor="timezone">Timezone</Label>
-                <select className="w-full mt-1 p-2 border border-gray-300 rounded-md">
+                <select className="w-full mt-1 p-2 bg-background border border-border rounded-md text-foreground minimal-input">
                   <option value="UTC">UTC</option>
                   <option value="EST">Eastern Time</option>
                   <option value="PST">Pacific Time</option>

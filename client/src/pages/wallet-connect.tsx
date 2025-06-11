@@ -33,17 +33,17 @@ export default function WalletConnect() {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Wallet Connected!</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-2xl font-bold text-foreground mb-2">Wallet Connected!</h2>
+            <p className="text-muted-foreground mb-4">
               Your Stellar wallet is ready for cross-border payments with USDC and EURC.
             </p>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               Redirecting to dashboard...
             </div>
           </CardContent>
@@ -54,17 +54,17 @@ export default function WalletConnect() {
 
   if (step === 'connecting') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-              <Clock className="w-8 h-8 text-blue-600" />
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+              <Clock className="w-8 h-8 text-primary" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Creating Your Wallet</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-2xl font-bold text-foreground mb-2">Creating Your Wallet</h2>
+            <p className="text-muted-foreground mb-4">
               Setting up your Stellar wallet with USDC/EURC support...
             </p>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               This may take a few moments
             </div>
           </CardContent>
@@ -74,17 +74,17 @@ export default function WalletConnect() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
+      <header className="bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <Star className="w-8 h-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
-              <Badge className="bg-blue-100 text-blue-800">Stellar</Badge>
+              <Star className="w-8 h-8 text-primary" />
+              <h1 className="text-2xl font-bold text-foreground">fi.plus</h1>
+              <Badge className="bg-primary/20 text-primary">Stellar</Badge>
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-muted-foreground">
               Welcome, {user?.firstName}
             </div>
           </div>

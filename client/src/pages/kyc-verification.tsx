@@ -50,20 +50,20 @@ export default function KYCVerification() {
 
   if (step === 'completed') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="w-10 h-10 text-green-600" />
+            <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="w-10 h-10 text-green-500" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Identity Verified!</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Identity Verified!</h2>
+            <p className="text-muted-foreground mb-6">
               Your account is now fully verified. All transaction limits have been unlocked.
             </p>
             
-            <div className="bg-green-50 rounded-lg p-4 mb-6">
-              <h3 className="font-semibold text-green-900 mb-2">New Limits Available:</h3>
-              <div className="text-sm text-green-700 space-y-1">
+            <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
+              <h3 className="font-semibold text-green-400 mb-2">New Limits Available:</h3>
+              <div className="text-sm text-green-400/80 space-y-1">
                 <div>• Send up to $10,000 per transaction</div>
                 <div>• Monthly limit: $50,000</div>
                 <div>• Instant withdrawals to bank accounts</div>
@@ -72,7 +72,7 @@ export default function KYCVerification() {
 
             <Button 
               onClick={() => window.location.href = '/'}
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full minimal-button"
             >
               Continue to Dashboard
             </Button>
@@ -83,17 +83,17 @@ export default function KYCVerification() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
+      <header className="bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <Star className="w-8 h-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
+              <Star className="w-8 h-8 text-primary" />
+              <h1 className="text-2xl font-bold text-foreground">fi.plus</h1>
               {getStatusBadge()}
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-muted-foreground">
               {user?.firstName} {user?.lastName}
             </div>
           </div>

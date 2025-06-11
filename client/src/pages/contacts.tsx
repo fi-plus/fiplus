@@ -105,18 +105,18 @@ export default function Contacts() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Contacts</h1>
-            <p className="text-gray-600 mt-2">Manage your frequent recipients</p>
+            <h1 className="text-3xl font-bold text-foreground">Contacts</h1>
+            <p className="text-muted-foreground mt-2">Manage your frequent recipients</p>
           </div>
           <Dialog open={isAddingContact} onOpenChange={setIsAddingContact}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="minimal-button">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Contact
               </Button>
@@ -130,11 +130,12 @@ export default function Contacts() {
                   <Label htmlFor="name">Full Name</Label>
                   <Input
                     id="name"
+                    className="minimal-input"
                     {...register("name", { required: "Name is required" })}
                     placeholder="Enter full name"
                   />
                   {errors.name && (
-                    <p className="text-sm text-red-600 mt-1">{errors.name.message as string}</p>
+                    <p className="text-sm text-destructive mt-1">{errors.name.message as string}</p>
                   )}
                 </div>
                 <div>
@@ -142,6 +143,7 @@ export default function Contacts() {
                   <Input
                     id="email"
                     type="email"
+                    className="minimal-input"
                     {...register("email", { 
                       required: "Email is required",
                       pattern: {
@@ -152,13 +154,14 @@ export default function Contacts() {
                     placeholder="Enter email address"
                   />
                   {errors.email && (
-                    <p className="text-sm text-red-600 mt-1">{errors.email.message as string}</p>
+                    <p className="text-sm text-destructive mt-1">{errors.email.message as string}</p>
                   )}
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone Number (Optional)</Label>
                   <Input
                     id="phone"
+                    className="minimal-input"
                     {...register("phone")}
                     placeholder="Enter phone number"
                   />
@@ -167,27 +170,29 @@ export default function Contacts() {
                   <Label htmlFor="country">Country</Label>
                   <Input
                     id="country"
+                    className="minimal-input"
                     {...register("country", { required: "Country is required" })}
                     placeholder="Enter country"
                   />
                   {errors.country && (
-                    <p className="text-sm text-red-600 mt-1">{errors.country.message as string}</p>
+                    <p className="text-sm text-destructive mt-1">{errors.country.message as string}</p>
                   )}
                 </div>
                 <div>
                   <Label htmlFor="currency">Preferred Currency</Label>
                   <Input
                     id="currency"
+                    className="minimal-input"
                     {...register("currency", { required: "Currency is required" })}
                     placeholder="e.g., USD, EUR, INR"
                   />
                   {errors.currency && (
-                    <p className="text-sm text-red-600 mt-1">{errors.currency.message as string}</p>
+                    <p className="text-sm text-destructive mt-1">{errors.currency.message as string}</p>
                   )}
                 </div>
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full minimal-button"
                   disabled={addContactMutation.isPending}
                 >
                   {addContactMutation.isPending ? "Adding..." : "Add Contact"}
