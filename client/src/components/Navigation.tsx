@@ -7,7 +7,8 @@ import {
   History, 
   Users, 
   Settings, 
-  Shield
+  Shield,
+  LogOut
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -63,19 +64,31 @@ export default function Navigation() {
           </nav>
 
           {/* User Info */}
-          <Card className="mt-8">
-            <CardContent className="p-4">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-primary-foreground font-bold">
-                    {user?.firstName?.[0]}{user?.lastName?.[0]}
-                  </span>
-                </div>
-                <h3 className="font-semibold text-foreground">{user?.firstName} {user?.lastName}</h3>
-                <p className="text-sm text-muted-foreground">{user?.email}</p>
+          <div className="mt-6 pt-4 border-t border-border">
+            <div className="flex items-center space-x-3 mb-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-sm">
+                  {user?.firstName?.[0]}{user?.lastName?.[0]}
+                </span>
               </div>
-            </CardContent>
-          </Card>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">{user?.firstName} {user?.lastName}</p>
+                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              </div>
+            </div>
+            
+            <Button
+              variant="ghost"
+              className="w-full justify-start h-10 text-muted-foreground hover:text-foreground"
+              onClick={() => {
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+              }}
+            >
+              <LogOut className="w-4 h-4 mr-3" />
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
     </>
