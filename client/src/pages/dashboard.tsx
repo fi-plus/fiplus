@@ -251,51 +251,49 @@ export default function Dashboard() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0 space-y-2">
-                {/* Indian Bank Account */}
-                <div className="border border-border rounded-lg p-2 bg-card">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-md flex items-center justify-center">
-                        <Building2 className="w-3 h-3 text-white" />
+                  <div className="border border-border rounded-lg p-2 bg-card">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-md flex items-center justify-center">
+                          <Building2 className="w-3 h-3 text-white" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-foreground text-xs">HDFC Bank</div>
+                          <div className="text-xs text-muted-foreground">••••5678</div>
+                        </div>
                       </div>
+                      <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs h-5">Connected</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
                       <div>
-                        <div className="font-medium text-foreground text-xs">HDFC Bank</div>
-                        <div className="text-xs text-muted-foreground">••••5678</div>
+                        <div className="text-sm font-semibold text-foreground">₹2,45,000</div>
+                        <div className="text-xs text-muted-foreground">Available</div>
                       </div>
+                      <div className="text-xs font-medium text-foreground">INR</div>
                     </div>
-                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs h-5">Connected</Badge>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="text-sm font-semibold text-foreground">₹2,45,000</div>
-                      <div className="text-xs text-muted-foreground">Available</div>
-                    </div>
-                    <div className="text-xs font-medium text-foreground">INR</div>
-                  </div>
-                </div>
 
-                {/* ICICI Bank Account */}
-                <div className="border border-border rounded-lg p-2 bg-card">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-md flex items-center justify-center">
-                        <Building2 className="w-3 h-3 text-white" />
+                  <div className="border border-border rounded-lg p-2 bg-card">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-md flex items-center justify-center">
+                          <Building2 className="w-3 h-3 text-white" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-foreground text-xs">ICICI Bank</div>
+                          <div className="text-xs text-muted-foreground">••••9876</div>
+                        </div>
                       </div>
+                      <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs h-5">Connected</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
                       <div>
-                        <div className="font-medium text-foreground text-xs">ICICI Bank</div>
-                        <div className="text-xs text-muted-foreground">••••9876</div>
+                        <div className="text-sm font-semibold text-foreground">₹1,50,000</div>
+                        <div className="text-xs text-muted-foreground">Available</div>
                       </div>
+                      <div className="text-xs font-medium text-foreground">INR</div>
                     </div>
-                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs h-5">Connected</Badge>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="text-sm font-semibold text-foreground">₹1,50,000</div>
-                      <div className="text-xs text-muted-foreground">Available</div>
-                    </div>
-                    <div className="text-xs font-medium text-foreground">INR</div>
-                  </div>
-                </div>
 
 
 
