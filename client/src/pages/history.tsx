@@ -237,7 +237,7 @@ export default function History() {
                             </div>
                             {transaction.toCurrency && (
                               <div className="flex justify-between">
-                                <span className="text-gray-600">Converted Amount:</span>
+                                <span className="text-[#ffffff]">Converted Amount:</span>
                                 <span>{transaction.convertedAmount} {transaction.toCurrency}</span>
                               </div>
                             )}
