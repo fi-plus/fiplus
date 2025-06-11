@@ -94,50 +94,50 @@ export default function WalletConnect() {
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Wallet className="w-10 h-10 text-blue-600" />
+          <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Wallet className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
             Connect Your Stellar Wallet
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Create your Stellar wallet to access instant cross-border payments with USDC and EURC stablecoins
           </p>
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="text-center">
+          <Card className="text-center minimal-card">
             <CardContent className="pt-6">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-6 h-6 text-green-500" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">3-5 Second Settlement</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-foreground mb-2">3-5 Second Settlement</h3>
+              <p className="text-sm text-muted-foreground">
                 Lightning-fast transactions on the Stellar network
               </p>
             </CardContent>
           </Card>
 
-          <Card className="text-center">
+          <Card className="text-center minimal-card">
             <CardContent className="pt-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-6 h-6 text-purple-500" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">$0.000005 Fees</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-foreground mb-2">$0.000005 Fees</h3>
+              <p className="text-sm text-muted-foreground">
                 Minimal transaction costs for global transfers
               </p>
             </CardContent>
           </Card>
 
-          <Card className="text-center">
+          <Card className="text-center minimal-card">
             <CardContent className="pt-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">30+ Countries</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-semibold text-foreground mb-2">30+ Countries</h3>
+              <p className="text-sm text-muted-foreground">
                 Send money across global remittance corridors
               </p>
             </CardContent>
@@ -145,51 +145,51 @@ export default function WalletConnect() {
         </div>
 
         {/* Main Wallet Connection Card */}
-        <Card className="max-w-2xl mx-auto bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
+        <Card className="max-w-2xl mx-auto minimal-card">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-blue-900">Your Stellar Wallet</CardTitle>
-            <p className="text-blue-700">
+            <CardTitle className="text-2xl text-foreground">Your Stellar Wallet</CardTitle>
+            <p className="text-muted-foreground">
               Connect to access USDC, EURC, and XLM for cross-border payments
             </p>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Supported Assets */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center bg-white/60 rounded-lg p-4">
+              <div className="text-center bg-muted/50 rounded-lg p-4">
                 <div className="text-3xl mb-2">💵</div>
-                <div className="font-medium text-blue-900">USDC</div>
-                <div className="text-xs text-blue-600">USD Coin</div>
+                <div className="font-medium text-foreground">USDC</div>
+                <div className="text-xs text-muted-foreground">USD Coin</div>
               </div>
-              <div className="text-center bg-white/60 rounded-lg p-4">
+              <div className="text-center bg-muted/50 rounded-lg p-4">
                 <div className="text-3xl mb-2">💶</div>
-                <div className="font-medium text-blue-900">EURC</div>
-                <div className="text-xs text-blue-600">Euro Coin</div>
+                <div className="font-medium text-foreground">EURC</div>
+                <div className="text-xs text-muted-foreground">Euro Coin</div>
               </div>
-              <div className="text-center bg-white/60 rounded-lg p-4">
+              <div className="text-center bg-muted/50 rounded-lg p-4">
                 <div className="text-3xl mb-2">⭐</div>
-                <div className="font-medium text-blue-900">XLM</div>
-                <div className="text-xs text-blue-600">Stellar Lumens</div>
+                <div className="font-medium text-foreground">XLM</div>
+                <div className="text-xs text-muted-foreground">Stellar Lumens</div>
               </div>
             </div>
 
             {/* Benefits */}
-            <div className="bg-white/40 rounded-lg p-4 space-y-3">
-              <h4 className="font-medium text-blue-900">What you get:</h4>
-              <div className="space-y-2 text-sm text-blue-700">
+            <div className="bg-muted/30 rounded-lg p-4 space-y-3">
+              <h4 className="font-medium text-foreground">What you get:</h4>
+              <div className="space-y-2 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4" />
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
                   <span>Instant stablecoin transfers worldwide</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4" />
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
                   <span>SEP-24/31 compliant deposit/withdrawal</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4" />
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
                   <span>Integrated KYC and compliance</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4" />
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
                   <span>Multi-currency wallet management</span>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function WalletConnect() {
             <Button
               onClick={handleConnectWallet}
               disabled={isCreatingWallet}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg"
+              className="w-full minimal-button py-4 text-lg"
               size="lg"
             >
               {isCreatingWallet ? (
@@ -217,7 +217,7 @@ export default function WalletConnect() {
             </Button>
 
             {/* Security Notice */}
-            <div className="text-xs text-blue-600 bg-white/40 rounded p-3 text-center">
+            <div className="text-xs text-muted-foreground bg-muted/30 rounded p-3 text-center">
               <Shield className="w-4 h-4 inline mr-1" />
               Secured by Stellar blockchain and Onramp.money infrastructure
             </div>
