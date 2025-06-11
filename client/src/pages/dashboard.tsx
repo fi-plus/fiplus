@@ -60,14 +60,13 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
       <main className="lg:ml-64">
 
         {/* Mobile Bottom Navigation */}
         <MobileNavigation />
 
         {/* Main Content Area */}
-        <div className="p-4 md:p-6 pb-20 md:pb-6">
+        <div className="p-4 md:p-6 pb-20 md:pb-6 mt-[16px] mb-[16px]">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             
             {/* Main Send Money Card */}
