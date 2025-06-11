@@ -93,7 +93,7 @@ export default function KYCVerification() {
       <div className="lg:ml-64 ml-[275px] mr-[275px] mt-[-15px] mb-[-15px]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-4 text-left">Verify Your Identity</h1>
+            <h1 className="font-bold text-foreground mb-4 text-left text-[24px]">Verify Your Identity</h1>
             <p className="text-muted-foreground text-left text-[16px]">
               Complete KYC verification to unlock full sending limits and instant withdrawals
             </p>
