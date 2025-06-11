@@ -229,7 +229,7 @@ export default function Contacts() {
                     </Avatar>
                     <div>
                       <h3 className="font-semibold text-[#ffffff]">{contact.name}</h3>
-                      <p className="text-sm text-gray-500">{contact.currency}</p>
+                      <p className="text-sm text-[#ffffff]">{contact.currency}</p>
                     </div>
                   </div>
                   
