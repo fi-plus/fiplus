@@ -108,15 +108,15 @@ export default function KYCVerification() {
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-20">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Verify Your Identity</h1>
-          <p className="text-xl text-gray-600">
+          <h1 className="text-3xl font-bold text-foreground mb-4">Verify Your Identity</h1>
+          <p className="text-xl text-muted-foreground">
             Complete KYC verification to unlock full sending limits and instant withdrawals
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
+          <div className="flex justify-between text-sm text-muted-foreground mb-2">
             <span>Verification Progress</span>
             <span>{progress}% Complete</span>
           </div>
@@ -124,49 +124,49 @@ export default function KYCVerification() {
         </div>
 
         {step === 'intro' && (
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Camera className="w-6 h-6 text-blue-600" />
+                <Camera className="w-6 h-6 text-primary" />
                 <span>Quick Identity Verification</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="text-gray-600">
+              <div className="text-muted-foreground">
                 We need to verify your identity to comply with global financial regulations. 
                 This process takes less than 2 minutes.
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-blue-50 rounded-lg p-4">
+                <div className="bg-primary/10 rounded-lg p-4">
                   <div className="flex items-center space-x-3 mb-3">
-                    <Camera className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Selfie Verification</span>
+                    <Camera className="w-5 h-5 text-primary" />
+                    <span className="font-medium text-foreground">Selfie Verification</span>
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Take a quick selfie to verify your identity
                   </p>
                 </div>
 
-                <div className="bg-blue-50 rounded-lg p-4">
+                <div className="bg-primary/10 rounded-lg p-4">
                   <div className="flex items-center space-x-3 mb-3">
-                    <FileText className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Document Scan</span>
+                    <FileText className="w-5 h-5 text-primary" />
+                    <span className="font-medium text-foreground">Document Scan</span>
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Scan your government-issued ID or passport
                   </p>
                 </div>
               </div>
 
-              <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
+              <div className="bg-yellow-500/10 rounded-lg p-4 border border-yellow-500/20">
                 <div className="flex items-start space-x-3">
-                  <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5" />
                   <div>
-                    <div className="font-medium text-amber-900">Current Limits (Unverified)</div>
-                    <div className="text-sm text-amber-700 mt-1">
-                      • Send up to $100 per transaction
-                      • Monthly limit: $1,000
+                    <div className="font-medium text-foreground">Current Limits (Unverified)</div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      • Send up to $100 per transaction<br/>
+                      • Monthly limit: $1,000<br/>
                       • Standard withdrawal times
                     </div>
                   </div>
@@ -175,7 +175,7 @@ export default function KYCVerification() {
 
               <Button 
                 onClick={handleSelfieCapture}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full minimal-button"
                 size="lg"
               >
                 <Camera className="w-5 h-5 mr-2" />
@@ -186,20 +186,20 @@ export default function KYCVerification() {
         )}
 
         {step === 'selfie' && (
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
               <CardTitle>Take Your Selfie</CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-6">
-              <div className="w-64 h-64 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
-                <Camera className="w-16 h-16 text-gray-400" />
+              <div className="w-64 h-64 bg-muted rounded-lg mx-auto flex items-center justify-center">
+                <Camera className="w-16 h-16 text-muted-foreground" />
               </div>
-              <div className="text-gray-600">
+              <div className="text-muted-foreground">
                 Position your face within the frame and ensure good lighting
               </div>
               <Button 
                 onClick={handleDocumentScan}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full minimal-button"
               >
                 Capture Selfie
               </Button>
@@ -208,20 +208,20 @@ export default function KYCVerification() {
         )}
 
         {step === 'document' && (
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
               <CardTitle>Scan Your ID Document</CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-6">
-              <div className="w-64 h-40 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
-                <FileText className="w-16 h-16 text-gray-400" />
+              <div className="w-64 h-40 bg-muted rounded-lg mx-auto flex items-center justify-center">
+                <FileText className="w-16 h-16 text-muted-foreground" />
               </div>
-              <div className="text-gray-600">
+              <div className="text-muted-foreground">
                 Please scan the front of your government-issued ID, driver's license, or passport
               </div>
               <Button 
                 onClick={handleDocumentScan}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full minimal-button"
               >
                 Scan Document
               </Button>
@@ -230,18 +230,18 @@ export default function KYCVerification() {
         )}
 
         {step === 'processing' && (
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
               <CardTitle className="text-center">Processing Verification</CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-6">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <Clock className="w-10 h-10 text-blue-600 animate-pulse" />
+              <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
+                <Clock className="w-10 h-10 text-primary animate-pulse" />
               </div>
-              <div className="text-gray-600">
+              <div className="text-muted-foreground">
                 We're verifying your documents. This usually takes just a few seconds...
               </div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-muted-foreground">
                 Please don't close this page
               </div>
             </CardContent>
