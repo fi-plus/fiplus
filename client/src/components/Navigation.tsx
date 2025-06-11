@@ -63,29 +63,17 @@ export default function Navigation() {
             })}
           </nav>
 
-          {/* User Info */}
-          <div className="mt-6 pt-4 border-t border-border">
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">
-                  {user?.firstName?.[0]}{user?.lastName?.[0]}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">{user?.firstName} {user?.lastName}</p>
-                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
-              </div>
-            </div>
-            
+          {/* User Info & Logout */}
+          <div className="mt-auto pt-4 border-t border-border">
             <Button
               variant="ghost"
-              className="w-full justify-start h-10 text-muted-foreground hover:text-foreground"
+              className="w-full justify-start h-12 text-muted-foreground hover:text-foreground hover:bg-accent"
               onClick={() => {
                 localStorage.removeItem('token');
                 window.location.href = '/login';
               }}
             >
-              <LogOut className="w-4 h-4 mr-3" />
+              <LogOut className="w-5 h-5 mr-3" />
               Logout
             </Button>
           </div>
