@@ -165,20 +165,20 @@ export default function SendMoney() {
             </div>
 
             {/* Recipient Experience Status */}
-            <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
-              <h3 className="font-semibold text-blue-900 mb-2">Recipient Notification:</h3>
+            <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6 text-left">
+              <h3 className="font-semibold text-primary mb-2">Recipient Notification:</h3>
               {recipient.includes('@') ? (
-                <div className="flex items-center space-x-2 text-blue-700 text-sm">
+                <div className="flex items-center space-x-2 text-primary/80 text-sm">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Push notification sent to existing fi.plus user</span>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <div className="flex items-center space-x-2 text-blue-700 text-sm">
+                  <div className="flex items-center space-x-2 text-primary/80 text-sm">
                     <MessageSquare className="w-4 h-4" />
                     <span>SMS with claim link sent to {recipient}</span>
                   </div>
-                  <div className="text-xs text-blue-600 italic bg-blue-100 p-2 rounded">
+                  <div className="text-xs text-primary/70 italic bg-primary/5 p-2 rounded">
                     "You've received {getConvertedAmount()} {toCurrency} from {user?.firstName}. 
                     Claim at: fi.plus/claim?id=ABC123"
                   </div>
@@ -199,7 +199,7 @@ export default function SendMoney() {
 
             <Button 
               onClick={() => window.location.href = '/'}
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full minimal-button"
             >
               Return to Dashboard
             </Button>
@@ -211,17 +211,17 @@ export default function SendMoney() {
 
   if (step === 'processing') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center minimal-card">
           <CardContent className="pt-8 pb-8">
-            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-              <Send className="w-10 h-10 text-blue-600" />
+            <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+              <Send className="w-10 h-10 text-primary" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Sending Money</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Sending Money</h2>
+            <p className="text-muted-foreground mb-4">
               Processing your transfer via Stellar network...
             </p>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               Settlement in progress
             </div>
           </CardContent>
@@ -232,13 +232,13 @@ export default function SendMoney() {
 
   if (step === 'confirm') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
+      <div className="min-h-screen bg-background">
+        <header className="bg-card/80 backdrop-blur-sm border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center space-x-2">
-                <Star className="w-8 h-8 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">fi.plus</h1>
+                <Star className="w-8 h-8 text-primary" />
+                <h1 className="text-2xl font-bold text-foreground">fi.plus</h1>
               </div>
               <Button variant="ghost" onClick={() => setStep('form')}>
                 Back
@@ -248,52 +248,52 @@ export default function SendMoney() {
         </header>
 
         <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-          <Card>
+          <Card className="minimal-card">
             <CardHeader>
-              <CardTitle>Confirm Transfer</CardTitle>
+              <CardTitle className="text-foreground">Confirm Transfer</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">
+                <div className="text-3xl font-bold text-primary mb-2">
                   {amount} {fromCurrency}
                 </div>
-                <div className="text-lg text-gray-600">
+                <div className="text-lg text-muted-foreground">
                   → {getConvertedAmount()} {toCurrency}
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-lg p-4 space-y-3">
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Recipient:</span>
-                  <span className="font-medium">{recipientName}</span>
+                  <span className="text-muted-foreground">Recipient:</span>
+                  <span className="font-medium text-foreground">{recipientName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Contact:</span>
-                  <span className="font-medium">{recipient}</span>
+                  <span className="text-muted-foreground">Contact:</span>
+                  <span className="font-medium text-foreground">{recipient}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Exchange rate:</span>
-                  <span>1 {fromCurrency} = {calculateExchangeRate()} {toCurrency}</span>
+                  <span className="text-muted-foreground">Exchange rate:</span>
+                  <span className="text-foreground">1 {fromCurrency} = {calculateExchangeRate()} {toCurrency}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Fee:</span>
-                  <span>${getFee()} XLM</span>
+                  <span className="text-muted-foreground">Fee:</span>
+                  <span className="text-foreground">${getFee()} XLM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Delivery time:</span>
-                  <span>{getDeliveryTime()}</span>
+                  <span className="text-muted-foreground">Delivery time:</span>
+                  <span className="text-foreground">{getDeliveryTime()}</span>
                 </div>
                 {message && (
-                  <div className="pt-2 border-t">
-                    <span className="text-gray-600">Message:</span>
-                    <div className="text-sm mt-1">{message}</div>
+                  <div className="pt-2 border-t border-border">
+                    <span className="text-muted-foreground">Message:</span>
+                    <div className="text-sm mt-1 text-foreground">{message}</div>
                   </div>
                 )}
               </div>
 
               <Button 
                 onClick={confirmSend}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full minimal-button"
                 size="lg"
               >
                 Confirm & Send
@@ -306,13 +306,13 @@ export default function SendMoney() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
+    <div className="min-h-screen bg-background">
+      <header className="bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <Star className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">fi.plus</h1>
+              <Star className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">fi.plus</h1>
             </div>
             <Button variant="ghost" onClick={() => window.location.href = '/'}>
               Back to Dashboard
@@ -323,33 +323,33 @@ export default function SendMoney() {
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Send Money</h1>
-          <p className="text-xl text-gray-600">
+          <h1 className="text-3xl font-bold text-foreground mb-4">Send Money</h1>
+          <p className="text-xl text-muted-foreground">
             Fast, secure cross-border payments via Stellar network
           </p>
         </div>
 
-        <Card>
+        <Card className="minimal-card">
           <CardHeader>
-            <CardTitle>Transfer Details</CardTitle>
+            <CardTitle className="text-foreground">Transfer Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Amount and Currencies */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
               <div>
-                <label className="block text-sm font-medium mb-2">Amount</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">Amount</label>
                 <Input
                   type="number"
                   placeholder="0.00"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="text-lg sm:text-xl font-bold"
+                  className="text-lg sm:text-xl font-bold minimal-input"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">From</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">From</label>
                 <Select value={fromCurrency} onValueChange={setFromCurrency}>
-                  <SelectTrigger>
+                  <SelectTrigger className="minimal-input">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -365,9 +365,9 @@ export default function SendMoney() {
                 </Select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">To</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">To</label>
                 <Select value={toCurrency} onValueChange={setToCurrency}>
-                  <SelectTrigger>
+                  <SelectTrigger className="minimal-input">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -385,14 +385,14 @@ export default function SendMoney() {
             </div>
 
             {amount && (
-              <div className="bg-blue-50 rounded-lg p-4">
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-blue-700">Recipient will receive:</span>
-                  <span className="text-xl font-bold text-blue-900">
+                  <span className="text-primary">Recipient will receive:</span>
+                  <span className="text-xl font-bold text-primary">
                     {getConvertedAmount()} {toCurrency}
                   </span>
                 </div>
-                <div className="text-sm text-blue-600 mt-2">
+                <div className="text-sm text-primary/80 mt-2">
                   Rate: 1 {fromCurrency} = {calculateExchangeRate()} {toCurrency}
                 </div>
               </div>
@@ -401,26 +401,28 @@ export default function SendMoney() {
             {/* Recipient Information */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Recipient Name</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">Recipient Name</label>
                 <Input
                   placeholder="Full name of recipient"
                   value={recipientName}
                   onChange={(e) => setRecipientName(e.target.value)}
+                  className="minimal-input"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Recipient Contact</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">Recipient Contact</label>
                 <Input
                   placeholder="Phone number, email, or wallet address"
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
+                  className="minimal-input"
                 />
               </div>
             </div>
 
             {/* Delivery Method */}
             <div>
-              <label className="block text-sm font-medium mb-4">Delivery Method</label>
+              <label className="block text-sm font-medium mb-4 text-foreground">Delivery Method</label>
               <div className="space-y-3">
                 <div className="relative">
                   <input
@@ -436,14 +438,14 @@ export default function SendMoney() {
                     htmlFor="wallet"
                     className={`block p-4 border rounded-lg cursor-pointer ${
                       deliveryMethod === 'wallet'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border'
                     }`}
                   >
                     <div className="flex justify-between">
                       <div>
-                        <div className="font-medium">fi.plus Wallet</div>
-                        <div className="text-sm text-gray-600">Instant delivery to recipient's wallet</div>
+                        <div className="font-medium text-foreground">fi.plus Wallet</div>
+                        <div className="text-sm text-muted-foreground">Instant delivery to recipient's wallet</div>
                       </div>
                       <Badge variant="outline">3-5 seconds</Badge>
                     </div>
@@ -464,14 +466,14 @@ export default function SendMoney() {
                     htmlFor="bank"
                     className={`block p-4 border rounded-lg cursor-pointer ${
                       deliveryMethod === 'bank'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border'
                     }`}
                   >
                     <div className="flex justify-between">
                       <div>
-                        <div className="font-medium">Bank Account</div>
-                        <div className="text-sm text-gray-600">Direct deposit to bank account</div>
+                        <div className="font-medium text-foreground">Bank Account</div>
+                        <div className="text-sm text-muted-foreground">Direct deposit to bank account</div>
                       </div>
                       <Badge variant="outline">1-3 hours</Badge>
                     </div>
@@ -492,14 +494,14 @@ export default function SendMoney() {
                     htmlFor="mobile_money"
                     className={`block p-4 border rounded-lg cursor-pointer ${
                       deliveryMethod === 'mobile_money'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border'
                     }`}
                   >
                     <div className="flex justify-between">
                       <div>
-                        <div className="font-medium">Mobile Money</div>
-                        <div className="text-sm text-gray-600">M-Pesa, UPI, or other mobile payment</div>
+                        <div className="font-medium text-foreground">Mobile Money</div>
+                        <div className="text-sm text-muted-foreground">M-Pesa, UPI, or other mobile payment</div>
                       </div>
                       <Badge variant="outline">5-15 minutes</Badge>
                     </div>
@@ -510,19 +512,20 @@ export default function SendMoney() {
 
             {/* Optional Message */}
             <div>
-              <label className="block text-sm font-medium mb-2">Message (Optional)</label>
+              <label className="block text-sm font-medium mb-2 text-foreground">Message (Optional)</label>
               <Textarea
                 placeholder="Add a personal message for the recipient"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={3}
+                className="minimal-input"
               />
             </div>
 
             <Button 
               onClick={handleSendMoney}
               disabled={!amount || !recipient || !recipientName}
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full minimal-button"
               size="lg"
             >
               <Send className="w-5 h-5 mr-2" />
