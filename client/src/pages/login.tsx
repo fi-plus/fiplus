@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import logoPath from "@assets/ChatGPT Image Jun 9, 2025, 05_20_27 PM-photoaidcom-cropped_1749633633816.png";
+import logoPath from "@assets/icon.png";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);

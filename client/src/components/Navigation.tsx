@@ -13,7 +13,7 @@ import {
   CreditCard
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import logoPath from "@assets/ChatGPT Image Jun 9, 2025, 05_20_27 PM-photoaidcom-cropped_1749633633816.png";
+import logoPath from "@assets/icon.png";
 
 const navigationItems = [
   { href: "/", label: "Dashboard", icon: Home },
